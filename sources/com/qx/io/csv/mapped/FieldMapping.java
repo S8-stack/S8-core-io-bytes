@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import com.qx.io.units.Unit;
 
 
-public abstract class FieldMapping {
+public abstract class FieldMapping implements Getter, Setter {
 	
 	
 	/**
@@ -45,13 +45,9 @@ public abstract class FieldMapping {
 	protected Field field;
 	
 	private FieldMapping(Field field) {
+		super();
 		this.field = field;
 	}
-	
-	public abstract void set(String value, Object object, Unit unit)
-			throws NumberFormatException, IllegalArgumentException, IllegalAccessException;
-	
-	public abstract String get(Object object, Unit unit) throws IllegalArgumentException, IllegalAccessException;
 	
 	
 	public static class DoubleFieldMapping extends FieldMapping {

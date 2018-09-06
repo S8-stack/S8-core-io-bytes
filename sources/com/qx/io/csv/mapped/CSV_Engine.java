@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,7 +33,9 @@ public class CSV_Engine<T> {
 
 	private Constructor<T> constructor;
 
-	private Map<String, FieldMapping> fields;
+	private Map<String, Getter> getters;
+
+	private Map<String, Setter> setters;
 
 	/**
 	 * 
@@ -45,15 +48,33 @@ public class CSV_Engine<T> {
 		constructor = type.getConstructor(new Class<?>[]{});
 		CSV_Mapping mappingAnnotation;
 
-		fields = new HashMap<>();
+		
+		getters = new HashMap<>();
+		setters = new HashMap<>();
+		
+		// screen fields
 		for(Field field : type.getFields()){
 			mappingAnnotation = field.getAnnotation(CSV_Mapping.class);
 			if(mappingAnnotation!=null){
 				String column = mappingAnnotation.tag();
-				fields.put(column, FieldMapping.build(field));
+				FieldMapping mapping = FieldMapping.build(field); 
+				getters.put(column, mapping);
+				setters.put(column, mapping);
 			}
 		}
-
+		
+		// screen setters
+		for(Method method : type.getMethods()){
+			mappingAnnotation = method.getAnnotation(CSV_Mapping.class);
+			if(mappingAnnotation!=null){
+				String column = mappingAnnotation.tag();
+				MethodSetter setter = MethodSetter.build(method);
+				if(setter!=null){
+					setters.put(column, setter);
+				}
+				// TODO same things for getters
+			}
+		}
 		// compile tag regex in a pattern
 		tagPattern = Pattern.compile(TAG_REGEX);
 	}
@@ -80,7 +101,7 @@ public class CSV_Engine<T> {
 					String[] headers = headerLine.split(DELIMITERS);
 					int n = headers.length;
 
-					FieldMapping[] structure = new FieldMapping[n];
+					Setter[] structure = new Setter[n];
 					Unit[] units = new Unit[n];
 
 					String tag, unit;
@@ -89,7 +110,7 @@ public class CSV_Engine<T> {
 						matcher.find();
 						tag = matcher.group(1);
 						unit = matcher.group(3);
-						structure[i] = fields.get(tag);
+						structure[i] = setters.get(tag);
 						units[i] = Unit.get(unit);
 					}
 
@@ -135,9 +156,6 @@ public class CSV_Engine<T> {
 				}
 			}
 		};
-
 	}
-
-
 }
 
