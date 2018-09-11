@@ -24,7 +24,9 @@ public class HTML_Page {
 	}
 	
 	public void push(HTML_Block block){
-		blocks.add(block);
+		if(block!=null){
+			blocks.add(block);	
+		}
 	}
 
 	
