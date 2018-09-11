@@ -88,6 +88,7 @@ public enum Unit {
 	MicroPascalSecond(new ScalingConverter(1e-6), "uPa.s", new DecimalFormat("0.##E0")),
 	
 	// Mass 
+	Ton(new ScalingConverter(1e3), "T", new DecimalFormat("#,##0.##")),
 	Kilogram(new IdentityConverter(), "kg", new DecimalFormat("#,##0.##")),
 	Gram(new ScalingConverter(1e-3), "g", new DecimalFormat("#,##0.##")),
 	
