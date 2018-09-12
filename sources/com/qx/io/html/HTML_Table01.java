@@ -14,7 +14,7 @@ public class HTML_Table01 extends HTML_Block {
 	private String[] header;
 	private List<String[]> body;
 	
-	private static final DecimalFormat
+	public static final DecimalFormat
 	F01 = new DecimalFormat("0.00"),
 	F02 = new DecimalFormat("0.00E0");
 	
@@ -71,7 +71,8 @@ public class HTML_Table01 extends HTML_Block {
 	
 	@Override
 	public void print(Writer writer) throws IOException{
-		writer.write("<table>");
+		
+		writer.write("<table class=\"table01\">");
 		
 		// header
 		writer.write("<thead>");
