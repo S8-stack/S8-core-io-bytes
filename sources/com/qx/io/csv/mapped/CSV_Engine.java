@@ -110,7 +110,9 @@ public class CSV_Engine<T> {
 						tag = matcher.group(1);
 						unit = matcher.group(3);
 						structure[i] = setters.get(tag);
-						units[i] = new QxScientificUnit(unit);
+						if(unit!=null){
+							units[i] = new QxScientificUnit(unit);	
+						}
 					}
 
 
