@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.qx.io.units.Unit;
+import com.qx.io.units.QxScientificUnit;
 
 /**
  * 
@@ -101,7 +101,7 @@ public class CSV_Engine<T> {
 					int n = headers.length;
 
 					Setter[] structure = new Setter[n];
-					Unit[] units = new Unit[n];
+					QxScientificUnit[] units = new QxScientificUnit[n];
 
 					String tag, unit;
 					for(int i=0; i<n; i++){
@@ -110,7 +110,7 @@ public class CSV_Engine<T> {
 						tag = matcher.group(1);
 						unit = matcher.group(3);
 						structure[i] = setters.get(tag);
-						units[i] = Unit.get(unit);
+						units[i] = new QxScientificUnit(unit);
 					}
 
 

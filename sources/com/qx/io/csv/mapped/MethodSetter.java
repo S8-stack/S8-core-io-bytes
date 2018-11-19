@@ -4,12 +4,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
-import com.qx.io.units.Unit;
+import com.qx.io.units.QxScientificUnit;
 
 
 public abstract class MethodSetter implements Setter {
-	
-	
+
+
 	/**
 	 * 
 	 * @param field
@@ -49,16 +49,16 @@ public abstract class MethodSetter implements Setter {
 			return null;
 		}
 	}
-	
+
 
 	protected Method method;
-	
+
 	private MethodSetter(Method method) {
 		super();
 		this.method = method;
 	}
-	
-	
+
+
 	public static class DoubleMethodSetter extends MethodSetter {
 
 		public DoubleMethodSetter(Method method) {
@@ -66,12 +66,16 @@ public abstract class MethodSetter implements Setter {
 		}
 
 		@Override
-		public void set(String value, Object object, Unit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		public void set(String value, Object object, QxScientificUnit unit)
+				throws
+				NumberFormatException,
+				IllegalArgumentException,
+				IllegalAccessException,
+				InvocationTargetException {
 			method.invoke(object, unit.toIS(Double.valueOf(value)));
 		}
 	}
-	
+
 	public static class FloatMethodSetter extends MethodSetter {
 
 		public FloatMethodSetter(Method method) {
@@ -79,12 +83,15 @@ public abstract class MethodSetter implements Setter {
 		}
 
 		@Override
-		public void set(String value, Object object, Unit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		public void set(String value, Object object, QxScientificUnit unit)
+				throws NumberFormatException,
+				IllegalArgumentException,
+				IllegalAccessException,
+				InvocationTargetException {
 			method.invoke(object, (float) unit.toIS(Double.valueOf(value)));
 		}
 	}
-	
+
 	public static class ShortMethodSetter extends MethodSetter {
 
 		public ShortMethodSetter(Method method) {
@@ -92,12 +99,16 @@ public abstract class MethodSetter implements Setter {
 		}
 
 		@Override
-		public void set(String value, Object object, Unit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		public void set(String value, Object object, QxScientificUnit unit)
+				throws
+				NumberFormatException,
+				IllegalArgumentException,
+				IllegalAccessException,
+				InvocationTargetException {
 			method.invoke(object, Short.valueOf(value));
 		}
 	}
-	
+
 	public static class IntegerMethodSetter extends MethodSetter {
 
 		public IntegerMethodSetter(Method method) {
@@ -105,12 +116,16 @@ public abstract class MethodSetter implements Setter {
 		}
 
 		@Override
-		public void set(String value, Object object, Unit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		public void set(String value, Object object, QxScientificUnit unit)
+				throws
+				NumberFormatException,
+				IllegalArgumentException,
+				IllegalAccessException,
+				InvocationTargetException {
 			method.invoke(object, Integer.valueOf(value));
 		}
 	}
-	
+
 	public static class LongMethodSetter extends MethodSetter {
 
 		public LongMethodSetter(Method method) {
@@ -118,12 +133,16 @@ public abstract class MethodSetter implements Setter {
 		}
 
 		@Override
-		public void set(String value, Object object, Unit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		public void set(String value, Object object, QxScientificUnit unit)
+				throws
+				NumberFormatException,
+				IllegalArgumentException, 
+				IllegalAccessException,
+				InvocationTargetException {
 			method.invoke(object, Long.valueOf(value));
 		}
 	}
-	
+
 	public static class BooleanMethodSetter extends MethodSetter {
 
 		public BooleanMethodSetter(Method method) {
@@ -131,12 +150,16 @@ public abstract class MethodSetter implements Setter {
 		}
 
 		@Override
-		public void set(String value, Object object, Unit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		public void set(String value, Object object, QxScientificUnit unit)
+				throws
+				NumberFormatException,
+				IllegalArgumentException, 
+				IllegalAccessException,
+				InvocationTargetException {
 			method.invoke(object, Boolean.valueOf(value));
 		}
 	}
-	
+
 	public static class StringMethodSetter extends MethodSetter {
 
 		public StringMethodSetter(Method method) {
@@ -144,11 +167,15 @@ public abstract class MethodSetter implements Setter {
 		}
 
 		@Override
-		public void set(String value, Object object, Unit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		public void set(String value, Object object, QxScientificUnit unit)
+				throws 
+				NumberFormatException,
+				IllegalArgumentException,
+				IllegalAccessException,
+				InvocationTargetException {
 			method.invoke(object, value);
 		}
 	}
-	
-	
+
+
 }
