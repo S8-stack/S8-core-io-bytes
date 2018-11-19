@@ -69,6 +69,7 @@ public abstract class FieldMapping implements Getter, Setter {
 		}
 	}
 	
+	
 	public static class FloatFieldMapping extends FieldMapping {
 		
 		public FloatFieldMapping(Field field) {

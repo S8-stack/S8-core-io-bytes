@@ -48,10 +48,9 @@ public class CSV_Engine<T> {
 		constructor = type.getConstructor(new Class<?>[]{});
 		CSV_Mapping mappingAnnotation;
 
-		
 		getters = new HashMap<>();
 		setters = new HashMap<>();
-		
+
 		// screen fields
 		for(Field field : type.getFields()){
 			mappingAnnotation = field.getAnnotation(CSV_Mapping.class);
@@ -62,7 +61,7 @@ public class CSV_Engine<T> {
 				setters.put(column, mapping);
 			}
 		}
-		
+
 		// screen setters
 		for(Method method : type.getMethods()){
 			mappingAnnotation = method.getAnnotation(CSV_Mapping.class);
