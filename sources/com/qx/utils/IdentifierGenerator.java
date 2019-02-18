@@ -2,9 +2,9 @@ package com.qx.utils;
 
 import java.io.IOException;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import com.qx.lang.xml.annotation.XML_GetAttribute;
+import com.qx.lang.xml.annotation.XML_SetAttribute;
+import com.qx.lang.xml.annotation.XML_Type;
 
 
 
@@ -160,25 +160,45 @@ public class IdentifierGenerator {
 
 
 
-	@XmlRootElement(name="IdentifierGenerator")
-	@XmlType(name="IdentifierGenerator.Script")
+	@XML_Type(name="IdentifierGenerator")
 	public static class Script {
-
-		@XmlAttribute(name="index")
+		
 		public long index;
 
-		@XmlAttribute(name="prefix")
-		String prefix;
-
-		@XmlAttribute(name="length")
-		int length;
-
-		@XmlAttribute(name="path")
-		String path;
+		public String prefix;
+		
+		public int length;
+		
+		public String path;
 
 		public IdentifierGenerator deserialize() throws IOException{
 			return new IdentifierGenerator(this);
 		}
+
+		@XML_SetAttribute(name="index")
+		public void setIndex(long index) { this.index = index; }
+
+		@XML_SetAttribute(name="prefix")
+		public void setPrefix(String prefix) { this.prefix = prefix; }
+
+		@XML_SetAttribute(name="length")
+		public void setLength(int length) { this.length = length; }
+
+		@XML_GetAttribute(name="path")
+		public String getPath() { return path; }
+		
+		@XML_GetAttribute(name="index")
+		public long getIndex() { return index; }
+
+		@XML_GetAttribute(name="prefix")
+		public String getPrefix() { return prefix; }
+
+		@XML_SetAttribute(name="length")
+		public int setLength() { return length; }
+
+		@XML_SetAttribute(name="path")
+		public String setPath() { return path; }
+		
 	}
 
 
