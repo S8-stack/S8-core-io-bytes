@@ -224,8 +224,8 @@ public class QxOutflow {
 	}
 	
 	
-	public static QxOutflow debug(LinkedList<ByteBuffer> queue, int capacity) {
-		QxOutflowHead head = new DebugHead(capacity, queue);
+	public static QxOutflow debug(LinkedList<ByteBuffer> queue, int capacity, boolean isVerbose) {
+		QxOutflowHead head = new DebugHead(capacity, queue, isVerbose);
 		return head.getCurrent();
 	}
 	
