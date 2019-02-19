@@ -59,7 +59,7 @@ public class InputByteArray {
 	 * 
 	 * @param buffer
 	 */
-	public boolean push(ByteBuffer buffer) {
+	public boolean pull(ByteBuffer buffer) {
 		int nPushableBytes = Math.min(buffer.remaining(), length-index);
 		buffer.get(bytes, index, nPushableBytes);
 		return (index+nPushableBytes == length);

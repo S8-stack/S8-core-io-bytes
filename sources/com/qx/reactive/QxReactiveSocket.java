@@ -6,6 +6,8 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.util.concurrent.TimeUnit;
 
+import com.qx.reactive.input.QxInflow;
+
 
 /**
  * This class is intended for scenario presentation rather than actual use in prod.

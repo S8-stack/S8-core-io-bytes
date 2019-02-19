@@ -9,11 +9,11 @@ public class QxSocketChannelOutflower {
 	
 	private AsynchronousSocketChannel channel;
 	
-	private QxOutflow outflow;
+	private QxOutflowHead outflow;
 	
 	private long timeout;
 	
-	public QxSocketChannelOutflower(AsynchronousSocketChannel channel, QxOutflow outflow, long timeout) {
+	public QxSocketChannelOutflower(AsynchronousSocketChannel channel, QxOutflowHead outflow, long timeout) {
 		this.channel = channel;
 		this.outflow = outflow;
 		this.timeout = timeout;

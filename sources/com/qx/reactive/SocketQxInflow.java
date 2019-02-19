@@ -6,7 +6,10 @@ import java.nio.channels.CompletionHandler;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class SocketQxInflow<A> {
+import com.qx.reactive.input.QxInflow;
+import com.qx.reactive.input.QxInputReactive;
+
+public abstract class SocketQxInflow<A> extends QxInflow {
 
 
 	private long timeout;
@@ -19,20 +22,23 @@ public abstract class SocketQxInflow<A> {
 
 	private ByteBuffer buffer;
 
-	private QxInflow state;
-
-	private Object lock;
-
 	private A attachment;
 
-	public SocketQxInflow(AsynchronousSocketChannel channel, A attachment, int capacity, QxInflow state) {
+	public SocketQxInflow(
+			AsynchronousSocketChannel channel, 
+			A attachment, 
+			int capacity, 
+			QxInputReactive state) {
 		super();
 		this.channel = channel;
 		this.attachment = attachment;
-		lock = new Object();
 		this.buffer = ByteBuffer.allocate(capacity);
 		isReceiving = new AtomicBoolean(false);
-		this.state = state;
+		
+		// set state
+		setState(state);
+		
+		// start the reception
 		receive();
 	}
 
@@ -48,18 +54,21 @@ public abstract class SocketQxInflow<A> {
 				}
 				else if(result>0) {
 					buffer.flip();	
-					state.on(buffer);
-					
+					on(buffer);
+					receive();
 				}
-				
+				else {
+					receive();
+				}
 			}
 
 			@Override
 			public void failed(Throwable exc, A attachment) {
-				// TODO Auto-generated method stub
-
+				onFailed(exc, attachment);
 			}
 		});
 	}
+	
+	public abstract void onFailed(Throwable exc, A attachment);
 
 }

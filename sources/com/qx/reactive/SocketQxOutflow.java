@@ -47,14 +47,6 @@ public class SocketQxOutflow implements QxOutflow {
 	}
 
 
-	public void push(byte[] bytes) {
-		OutputByteArray outputByteArray = new OutputByteArray(bytes);
-		boolean isFullyPulled = outputByteArray.pull(tail.buffer);
-		while(!isFullyPulled) {
-			isFullyPulled = outputByteArray.pull(tail.buffer);
-		}
-	}
-
 	public void push(long value) {
 		ensure(8);
 	}

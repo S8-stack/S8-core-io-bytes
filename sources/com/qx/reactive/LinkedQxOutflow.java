@@ -60,9 +60,9 @@ public class LinkedQxOutflow {
 
 	public void push(byte[] bytes) {
 		OutputByteArray outputByteArray = new OutputByteArray(bytes);
-		boolean isFullyPulled = outputByteArray.pull(tail.buffer);
+		boolean isFullyPulled = outputByteArray.push(tail.buffer);
 		while(!isFullyPulled) {
-			isFullyPulled = outputByteArray.pull(tail.buffer);
+			isFullyPulled = outputByteArray.push(tail.buffer);
 		}
 	}
 

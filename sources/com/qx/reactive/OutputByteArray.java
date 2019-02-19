@@ -46,7 +46,7 @@ public class OutputByteArray {
 	 * write as much bytes as possible in the buffer 
 	 * @param buffer
 	 */
-	public boolean pull(ByteBuffer buffer) {
+	public boolean push(ByteBuffer buffer) {
 		int n = Math.min(buffer.remaining(), length-index);
 		buffer.put(bytes, index, n);
 		index+=n;

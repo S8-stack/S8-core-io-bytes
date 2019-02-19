@@ -1,9 +1,10 @@
-package com.qx.reactive;
+package com.qx.reactive.input;
 
 import java.nio.ByteBuffer;
 
+
 /**
- * <h1>QxInflow</h1>
+ * <h1>QxInflowReactive</h1>
  * <p>
  * This interface defines by itself an extremely efficient programming pattern. It builds on 
  * reactive programming and SAX parsing.
@@ -58,61 +59,24 @@ import java.nio.ByteBuffer;
  * 		}
  * }
  * </pre>
+ * 
  * @author pc
  *
  */
-public interface QxInflow {
+public interface QxInputReactive {
 	
-	
-	public interface Context {
-		
-		public void switchState(QxInflow inflow);
-		
-	}
-	
+
 	/**
 	 * <p>
 	 * Note that the returned flag IS NOT an error throwing pattern.
 	 * Errors must be thrown through the on<Type>Error() on the underlying
 	 * parser/composer.
 	 * </p>
-	 * @param inflow: the input buffer submitted to this reactive.
-	 * @return a flag indicating if the reading/writing has been aborted and 
-	 * cannot be further resumed with the same parsing/composing state as <code>
-	 * this</code> one.
+	 * @param input: the input buffer submitted to this reactive.
+	 * @return the next reactive to be called on the next ByteBuffer (if any).
+	 * return null to stop pulling on source.
 	 * 
 	 */
-	public boolean on(ByteBuffer buffer);
-	
-	
-	/**
-	 * 
-	 * @author pc
-	 *
-	 */
-	public abstract class PullInteger implements QxInflow {
-		
-		public PullInteger(int value, QxInflow callback) {
-			super();
-		}
-		
-		private InputByteArray bytes = new InputByteArray(4);
+	public abstract QxInputReactive on(ByteBuffer input);
 
-		@Override
-		public boolean on(ByteBuffer buffer) {
-			
-			if(bytes.push(buffer)) {
-				onRead(ByteBuffer.wrap(bytes.getArray()).getInt());
-			}
-			return false;
-		}
-		
-		
-		/**
-		 * Do state switching here.
-		 * @param value
-		 */
-		public abstract void onRead(int value);
-	}
-	
 }
