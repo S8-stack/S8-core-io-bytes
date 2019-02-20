@@ -7,12 +7,11 @@ public class DebugHead implements QxOutflowHead {
 	
 	private boolean isVerbose;
 	
-	private QxOutflow current;
+	private LinkedByteBuffer current;
 	
 	private LinkedList<ByteBuffer> queue;
 	
-	public DebugHead(int capacity, LinkedList<ByteBuffer> queue, boolean isVerbose) {
-		this.current = new QxOutflow(this, 0, capacity);
+	public DebugHead(LinkedList<ByteBuffer> queue, boolean isVerbose) {
 		this.queue = queue;
 		this.isVerbose = isVerbose;
 	}
@@ -24,14 +23,13 @@ public class DebugHead implements QxOutflowHead {
 			if(isVerbose) {
 				System.out.println("\n -> [DebugHead] Appending buffer "+current.getIndex());	
 			}
-			current = current.next();
+			current = current.getNext();
 		}
 	}
 
 	@Override
-	public QxOutflow getCurrent() {
-		return current;
+	public LinkedByteBuffer initialize(int capacity) {
+		return current = new LinkedByteBuffer(this, 0, capacity);
 	}
 	
-
 }

@@ -8,7 +8,7 @@ public class WritingWithIOReactive_UseCase01 {
 
 		
 		QxOutflow buffer = QxOutflow.createSocketOutflow(null, 1024, 1000);
-		buffer.push(12.3).push(1265436).push();
+		buffer.push(12.3).push(1265436).append();
 		
 
 	}

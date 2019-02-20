@@ -4,6 +4,6 @@ public interface QxOutflowHead {
 	
 	public abstract void send();
 	
-	public abstract QxOutflow getCurrent();
+	public abstract LinkedByteBuffer initialize(int capacity);
 	
 }

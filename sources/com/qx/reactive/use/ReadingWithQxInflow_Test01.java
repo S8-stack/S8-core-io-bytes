@@ -1,6 +1,6 @@
 package com.qx.reactive.use;
 
-import com.qx.reactive.input.QxInflow;
+import com.qx.reactive.input2.QxInflow2;
 
 public class ReadingWithQxInflow_Test01 {
 
@@ -10,36 +10,23 @@ public class ReadingWithQxInflow_Test01 {
 
 	public static void main(String[] args) {
 
-		QxInflow inflow = new QxInflow() {
-
-		};
 
 
 	}
-	
-	public class MyFrameHeader {
-		
-		// 32bits id
-		public int identifier;
-		
-		// 8bits flags
-		public boolean flag1;
-		public boolean flag2;
-		
-		// if flag1, 16bits length
-		public int length;
-		
-		
-		public void on(QxInflow inflow) {
-			inflow.
-			readInt32(val -> identifier).
-			readFlags( b -> { flag1&0x01==0x01; if(flag1) {
-				return 2;
-			})
-			
+
+
+	public static class Reader {
+
+		private int a, b;
+
+		public void read(QxInflow2 inflow2) {
+
+			QxInflow2 inflow = new QxInflow2();
+			inflow.pullInteger(i -> { 
+				a = i;
+				inflow.pullInteger(i2 -> { 
+					b = i2;});
+			});
 		}
-		
-		
 	}
-
 }
