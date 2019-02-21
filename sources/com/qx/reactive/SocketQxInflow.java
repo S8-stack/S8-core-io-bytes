@@ -6,10 +6,9 @@ import java.nio.channels.CompletionHandler;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.qx.reactive.input.QxInflow;
-import com.qx.reactive.input.QxInputReactive;
+import com.qx.reactive.input.QxIOFlow;
 
-public abstract class SocketQxInflow<A> extends QxInflow {
+public abstract class SocketQxInflow<A> extends QxIOFlow {
 
 
 	private long timeout;
@@ -28,7 +27,7 @@ public abstract class SocketQxInflow<A> extends QxInflow {
 			AsynchronousSocketChannel channel, 
 			A attachment, 
 			int capacity, 
-			QxInputReactive state) {
+			QxIOReactive state) {
 		super();
 		this.channel = channel;
 		this.attachment = attachment;

@@ -8,7 +8,7 @@ import java.util.LinkedList;
 /**
  * @author pc
  */
-public class QxOutflow {
+public class OldStyleQxOutflow {
 
 
 	private QxOutflowHead head;
@@ -19,7 +19,7 @@ public class QxOutflow {
 	 * 
 	 * @param capacity
 	 */
-	public QxOutflow(QxOutflowHead head, int capacity) {
+	public OldStyleQxOutflow(QxOutflowHead head, int capacity) {
 		super();
 		this.head = head;
 		this.current = head.initialize(capacity);
@@ -116,16 +116,16 @@ public class QxOutflow {
 
 
 
-	public static QxOutflow socket(
+	public static OldStyleQxOutflow socket(
 			AsynchronousSocketChannel channel, 
 			int capacity, 
 			long timeout) {
-		return new QxOutflow(new SocketHead(channel, timeout), capacity);
+		return new OldStyleQxOutflow(new SocketHead(channel, timeout), capacity);
 	}
 
 
-	public static QxOutflow debug(LinkedList<ByteBuffer> queue, int capacity, boolean isVerbose) {
-		return new QxOutflow(new DebugHead(queue, isVerbose), capacity);
+	public static OldStyleQxOutflow debug(LinkedList<ByteBuffer> queue, int capacity, boolean isVerbose) {
+		return new OldStyleQxOutflow(new DebugHead(queue, isVerbose), capacity);
 	}
 
 

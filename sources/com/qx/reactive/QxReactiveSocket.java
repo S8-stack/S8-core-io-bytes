@@ -6,7 +6,7 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.util.concurrent.TimeUnit;
 
-import com.qx.reactive.input.QxInflow;
+import com.qx.reactive.input.QxIOFlow;
 
 
 /**
@@ -21,7 +21,7 @@ public abstract class QxReactiveSocket {
 
 	private long timeout;
 
-	private QxInflow state;
+	private QxIOFlow state;
 
 	private ByteBuffer inputBuffer;
 
@@ -29,7 +29,7 @@ public abstract class QxReactiveSocket {
 			AsynchronousSocketChannel channel, 
 			int bufferLength,
 			long timeout,
-			QxInflow start) {
+			QxIOFlow start) {
 		super();
 		this.channel = channel;
 		this.timeout = timeout;

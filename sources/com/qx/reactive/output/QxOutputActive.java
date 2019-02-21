@@ -10,7 +10,7 @@ public interface QxOutputActive {
 	 * chaining on node
 	 * </p>
 	 */
-	public QxOutflow on(QxOutflow output);
+	public OldStyleQxOutflow on(OldStyleQxOutflow output);
 	
 	
 	
