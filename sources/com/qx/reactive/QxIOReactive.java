@@ -65,52 +65,6 @@ import java.nio.ByteBuffer;
  */
 public interface QxIOReactive {
 	
-	
-	public enum NextMove {
-		
-		/**
-		 * Zero move return. Use this mode when <code>QxIOReactive.this</code> has 
-		 * performed its parsing and no more moves are required. In normal case, 
-		 * a callback would have overriden this result 
-		 */
-		NONE,
-		
-		/**
-		 * Feed the same <code>ByteBuffer</code> to a changed <code>QxIOReactive</code> (internal
-		 * QxInflow state) if <code>it.hasreamaining()</code>, or 
-		 * supply next one to <code>QxIOReactive</code>.
-		 */
-		FEED,
-		
-		/**
-		 * Stack this flow
-		 */
-		STACK,
-		
-		/**
-		 * Rewind to last marked <code>ByteBuffer</code> in Flow
-		 */
-		REWIND,
-		
-		/**
-		 * Move to tail of <code>ByteBuffer</code> flow
-		 */
-		FAST_FORWARD,
-		
-		/**
-		 * Stop feeding (Might be resumed earlier since no error has
-		 * compromised transmission state integrity).
-		 */
-		STOP,
-		
-		/**
-		 * Error has been thrown that compromises transmission integrity, 
-		 * so further communication will be corrupted.
-		 */
-		ERROR;
-		
-	}
-	
 
 	/**
 	 * <p>
@@ -119,9 +73,10 @@ public interface QxIOReactive {
 	 * parser/composer.
 	 * </p>
 	 * @param input: the input buffer submitted to this reactive.
-	 * @return isTerminated (for error handling)
+	 * @return hasError: the parsing/composing of ByteBuffer has been successful
+	 *  (Use for error handling)
 	 * 
 	 */
-	public abstract NextMove on(ByteBuffer buffer);
+	public abstract boolean on(ByteBuffer buffer);
 
 }

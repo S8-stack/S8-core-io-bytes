@@ -37,7 +37,7 @@ public class QxInflow2 {
 		public boolean on(ByteBuffer buffer) {
 			boolean isFilled = array.pull(buffer);
 			if(isFilled) {
-				int value = ByteBuffer.wrap(array.getArray()).getInt();
+				int value = ByteBuffer.wrap(array.getBytes()).getInt();
 				callback.consume(value);
 			}
 			return false;

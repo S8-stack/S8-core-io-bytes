@@ -148,7 +148,7 @@ public abstract class QxIOFlow implements QxIOReactive {
 		public QxIOReactive.NextMove on(ByteBuffer buffer) {
 			bytes.pull(buffer);
 			if(bytes.isFilled()) {
-				return callback.onPulled(bytes.getArray());
+				return callback.onPulled(bytes.getBytes());
 			}
 			else {
 				return NextMove.FEED;	

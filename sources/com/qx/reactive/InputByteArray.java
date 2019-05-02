@@ -8,6 +8,7 @@ import java.nio.ByteBuffer;
  * @author pc
  *
  */
+@Deprecated
 public class InputByteArray {
 
 	private byte[] bytes;
@@ -32,7 +33,7 @@ public class InputByteArray {
 		this.bytes = new byte[length];
 		this.index = 0;
 	}
-
+	
 
 	/**
 	 * 
@@ -113,13 +114,23 @@ public class InputByteArray {
 		return bytes[offset];
 	}
 	
+	
 	public byte getByte(int offset) {
 		return bytes[offset];
 	}
 	
 	
-	public byte[] getArray() {
+	public byte[] getBytes() {
 		return bytes;
+	}
+
+	public byte[] trim(int i0, int i1) {
+		int length = i1-i0;
+		byte[] trimmedBytes = new byte[length];
+		for(int i=i0; i<i1; i++) {
+			trimmedBytes[i-i0] = bytes[i];
+		}
+		return trimmedBytes;
 	}
 	
 
