@@ -211,6 +211,7 @@ public class QxIndexMap {
 				else {
 					previous.next = node.next;
 				}
+				size--;
 				update();
 				isRemoved = true;
 			}
@@ -263,5 +264,24 @@ public class QxIndexMap {
 			mask = (mask << 1) | 0x1;
 		}
 		return mask;
+	}
+	
+	
+	public interface PairConsumer {
+		public boolean consume(QxIndex index, Object object);
+	}
+	
+	public boolean traverse(PairConsumer consumer) {
+		int nBuckets = buckets.length, bucketIndex=0;
+		boolean isContinuing = true;
+		while(isContinuing && bucketIndex<nBuckets) {
+			Node node = buckets[bucketIndex];
+			while(isContinuing && node!=null) {
+				isContinuing = consumer.consume(node.index, node.object);
+				node = node.next;
+			}
+			bucketIndex++;
+		}
+		return isContinuing;
 	}
 }
