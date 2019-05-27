@@ -137,14 +137,14 @@ public class FileByteInflow implements ByteInflow {
 				(bytes[3] & 0xff));
 	}
 
-	public long getUInt32(int index) throws IOException {
+	public int getUInt32() throws IOException {
 		ensure(4);
 		byte[] bytes = getByteArray(4);
-		return (long) (
-				(bytes[index+0] & 0xff) << 24 | 
-				(bytes[index+1] & 0xff) << 16 | 
-				(bytes[index+2] & 0xff) << 8 | 
-				(bytes[index+3] & 0xff));
+		return  (
+				(bytes[0] & 0xff) << 24 | 
+				(bytes[1] & 0xff) << 16 | 
+				(bytes[2] & 0xff) << 8 | 
+				(bytes[3] & 0xff));
 	}
 
 	/*
@@ -166,7 +166,7 @@ public class FileByteInflow implements ByteInflow {
 	@Override
 	public int[] getInt32Array() throws IOException {
 		// retrieve length
-		int length = getUInt16();
+		int length = getUInt32();
 
 		ensure(4*length);
 		int[] array = new int[length];
@@ -187,7 +187,7 @@ public class FileByteInflow implements ByteInflow {
 	@Override
 	public long[] getInt64Array() throws IOException {
 		// retrieve length
-		int length = getUInt16();
+		int length = getUInt32();
 
 		ensure(8*length);
 		long[] array = new long[length];
@@ -206,7 +206,7 @@ public class FileByteInflow implements ByteInflow {
 
 	@Override
 	public float[] getFloat32Array() throws IOException {
-		int length = getUInt16();
+		int length = getUInt32();
 
 		ensure(4*length);
 		float[] array = new float[length];
@@ -226,7 +226,7 @@ public class FileByteInflow implements ByteInflow {
 	
 	@Override
 	public double[] getFloat64Array() throws IOException {
-		int length = getUInt16();
+		int length = getUInt32();
 
 		ensure(8*length);
 		double[] array = new double[length];
@@ -246,7 +246,7 @@ public class FileByteInflow implements ByteInflow {
 	public String getString() throws IOException {
 
 		// read unsigned int
-		int length = getUInt16();
+		int length = getUInt32();
 
 		// retrieve all bytes
 		byte[] bytes = getByteArray(length);

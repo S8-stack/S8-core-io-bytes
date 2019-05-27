@@ -1,4 +1,4 @@
-package com.qx.struct;
+package com.qx.index;
 
 
 
@@ -164,6 +164,7 @@ public class QxIndexMap {
 		while(node!=null && !isStored) {
 			if(node.index.equals(index)) {
 				node.object = object;
+				isStored = true;
 			}
 			else {
 				node = node.next;
@@ -268,10 +269,17 @@ public class QxIndexMap {
 	
 	
 	public interface PairConsumer {
+		
+		/**
+		 * 
+		 * @param index
+		 * @param object
+		 * @return a flag indicating if traverse operation must be continued or not
+		 */
 		public boolean consume(QxIndex index, Object object);
 	}
 	
-	public boolean traverse(PairConsumer consumer) {
+	public synchronized boolean traverse(PairConsumer consumer) {
 		int nBuckets = buckets.length, bucketIndex=0;
 		boolean isContinuing = true;
 		while(isContinuing && bucketIndex<nBuckets) {

@@ -1,4 +1,7 @@
-package com.qx.struct;
+package com.qx.index;
+
+import com.qx.index.QxIndex;
+import com.qx.index.QxIndexMap;
 
 public class TestIndexMap01 {
 

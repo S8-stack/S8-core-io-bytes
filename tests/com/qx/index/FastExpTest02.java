@@ -1,4 +1,6 @@
-package com.qx.struct;
+package com.qx.index;
+
+import com.qx.index.QxIndexMap;
 
 public class FastExpTest02 {
 

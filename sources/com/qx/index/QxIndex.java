@@ -1,8 +1,12 @@
-package com.qx.struct;
+package com.qx.index;
+
+import java.io.IOException;
+
+import com.qx.io.bytes.FileByteOutflow;
 
 /**
  * 
- * General purpose index. Fully adaptable in size.
+ * General purpose index. Fully adaptable size.
  * <p>
  * Index is based on a bytes array, with the following structure:
  * </p>
@@ -18,7 +22,7 @@ package com.qx.struct;
  */
 public class QxIndex {
 
-	private byte[] bytes;
+	public byte[] bytes;
 
 
 	/**
@@ -65,6 +69,10 @@ public class QxIndex {
 		}
 	}
 
+	public void compose(FileByteOutflow outflow) throws IOException {
+		outflow.putByteArray(bytes);
+	}
+
 
 	@Override
 	public String toString(){
@@ -92,11 +100,23 @@ public class QxIndex {
 		}
 		return true;
 	}
+	
 
 
+
+	/**
+	 * 
+	 * @return a copy of underlying bytes array
+	 */
 	public byte[] getBytes() {
-		return bytes;
+		int nBytes=bytes.length;
+		byte[] bytesCopy = new byte[nBytes];
+		for(int i=0; i<nBytes; i++) {
+			bytesCopy[i] = bytes[i];
+		}
+		return bytesCopy;
 	}
+
 
 	/**
 	 * The multiplier of this function is 31 and it has its own rationale: Joshua
@@ -144,6 +164,17 @@ public class QxIndex {
 		int length = bytes.length;
 		for(int i=0; i<length; i++) {
 			if(bytes[i]!=right.bytes[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
+	public boolean isGreaterThan(QxIndex right) {
+		int length = bytes.length;
+		for(int i=0; i<length; i++) {
+			if(bytes[i] < right.bytes[i]) {
 				return false;
 			}
 		}
