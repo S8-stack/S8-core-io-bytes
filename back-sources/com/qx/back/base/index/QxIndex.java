@@ -2,6 +2,8 @@ package com.qx.back.base.index;
 
 import java.io.IOException;
 
+import com.qx.back.base.io.bytes.ByteInflow;
+import com.qx.back.base.io.bytes.ByteOutflow;
 import com.qx.back.base.io.bytes.FileByteOutflow;
 
 /**
@@ -211,6 +213,26 @@ public class QxIndex {
 			shift+=8;
 		}
 		return result;
+	}
+	
+	
+	/**
+	 * Shuffle all bytes at random
+	 */
+	public void randomize(){
+		int n = bytes.length;
+		for(int i=0; i<n; i++) {
+			bytes[i] = (byte) (((int) (Math.random()*256)) & 0xff);
+		}
+	}
+	
+	
+	public void read(ByteInflow inflow) throws IOException {
+		bytes = inflow.getByteArray(bytes.length);
+	}
+	
+	public void write(ByteOutflow outflow) throws IOException {
+		outflow.putByteArray(bytes);
 	}
 
 }

@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompilableOutputStream implements ByteOutflow {
+public class CompilableByteOutflow implements ByteOutflow {
 
 	public final static int CAPACITY = 1024;
 
@@ -16,14 +16,14 @@ public class CompilableOutputStream implements ByteOutflow {
 	private int capacity;
 
 
-	public CompilableOutputStream() {
+	public CompilableByteOutflow() {
 		super();
 		capacity = CAPACITY;
 		filled = new ArrayList<>();
 		feed();
 	}
 
-	public CompilableOutputStream(int capacity) {
+	public CompilableByteOutflow(int capacity) {
 		super();
 		this.capacity = capacity;
 		filled = new ArrayList<>();

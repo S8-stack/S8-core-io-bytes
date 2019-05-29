@@ -9,8 +9,8 @@ package com.qx.front.base;
 public class BaseFront {
 
 	public final static FrontResourceLoader LOADER = 
-			new FrontResourceLoader(BaseFront.class, "/base/", new FrontResourceDescriptor[] {
-					new FrontFile("test.css")
+			new FrontResourceLoader(BaseFront.class, "/base", new FrontResourceDescriptor[] {
+					new FrontFolder("")
 			});
 
 }

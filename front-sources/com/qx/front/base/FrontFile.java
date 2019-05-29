@@ -16,7 +16,7 @@ public class FrontFile extends FrontResourceDescriptor {
 	@Override
 	public void register(FrontResourceLoader loader, List<FrontResourceHandle> list) {
 		Path resolvedPath = loader.rootPath.resolve(path);
-		String resolvedKey = loader.rootKey.concat(path);
+		String resolvedKey = loader.rootKey+'/'+path;
 		list.add(new FrontResourceHandle(resolvedKey, resolvedPath));
 	}
 }
