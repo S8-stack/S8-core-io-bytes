@@ -3,9 +3,9 @@
  * CAD_Engine
  * 
  */
-function ByteOutflow(arraybuffer){
-	this.arraybuffer = arraybuffer;
-	this.view = new DataView(this.arraybuffer);
+function ByteOutflow(arrayBuffer){
+	this.arrayBuffer = arrayBuffer;
+	this.view = new DataView(this.arrayBuffer);
 	this.offset = 0;
 	
 	this.textEncoder = new TextEncoder("utf-8");
@@ -105,7 +105,7 @@ ByteOutflow.prototype = {
 				// read string
 				let encoded = this.textEncoder.encode(value);
 				for(var i=0; i<length; i++){
-					this.arraybuffer[this.offset]=encoded[i];
+					this.arrayBuffer[this.offset]=encoded[i];
 					this.offset++;
 				}
 			}

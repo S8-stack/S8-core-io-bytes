@@ -1,6 +1,7 @@
 package com.qx.back.base.io.bytes;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +72,13 @@ public class CompilableByteOutflow implements ByteOutflow {
 
 
 	/*
-	public void sendBytes(byte[] bytes) throws IOException{
+	public void sendBytes(byte[] bytes) {
 		allocate(bytes.length);
 
 	}
 	 */
 
-	public void sendBoolean(boolean b) throws IOException{
+	public void sendBoolean(boolean b) {
 		allocate(1);
 		if(b){
 			buffer.put((byte) 32);	
@@ -105,7 +106,7 @@ public class CompilableByteOutflow implements ByteOutflow {
 	}
 
 	@Override
-	public void putUInt8(int value) throws IOException{
+	public void putUInt8(int value) {
 		allocate(1);
 		buffer.put((byte) (value & 0xff));
 	}
@@ -118,7 +119,7 @@ public class CompilableByteOutflow implements ByteOutflow {
 
 
 	@Override
-	public void putInt16(short value) throws IOException {
+	public void putInt16(short value) {
 		allocate(2);
 		buffer.putShort(value);
 	}
@@ -132,31 +133,31 @@ public class CompilableByteOutflow implements ByteOutflow {
 
 
 	@Override
-	public void putInt32(int value) throws IOException {
+	public void putInt32(int value) {
 		allocate(4);
 		buffer.putInt((int) (value & 0x7fffffff));	
 	}
 
 
 	@Override
-	public void putInt64(long value){
+	public void putInt64(long value) {
 		allocate(8);
 		buffer.putLong(value);
 	}
 
 
-	public void putFloat32(double value){
+	public void putFloat32(double value) {
 		putFloat32((float) value); 
 	}
 
 	@Override
-	public void putFloat32(float value){
+	public void putFloat32(float value) {
 		allocate(4);
 		buffer.putFloat(value);
 	}
 
 	@Override
-	public void putFloat64(double value){
+	public void putFloat64(double value) {
 		allocate(8);
 		buffer.putDouble(value);
 	}
@@ -168,15 +169,24 @@ public class CompilableByteOutflow implements ByteOutflow {
 	 * @throws IOException
 	 */
 	@Override
-	public void putStringUTF8(String value) throws IOException{
+	public void putStringUTF8(String value) {
 		if(value!=null){
-			byte[] bytes = value.getBytes("UTF-8");
+			byte[] bytes = null;
+			try {
+				bytes = value.getBytes("UTF-8");
+			} 
+			catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+				bytes = value.getBytes();
+			}
 
 			// we skip the first two bytes, but add to pass our own length
 			int length = bytes.length;
+			/*
 			if(length>2147483647){
 				throw new IOException("String arg size is exceeding 2^31-1 (length is encoded in 4 bytes).");
 			}
+			*/
 			putUInt32(length);
 
 			putByteArray(bytes);
@@ -189,7 +199,7 @@ public class CompilableByteOutflow implements ByteOutflow {
 
 
 	@Override
-	public void putByteArray(byte[] bytes) throws IOException {
+	public void putByteArray(byte[] bytes) {
 		// /!\ No block allocation
 		int offset = 0, length = bytes.length, space;
 		while(length>0) {
