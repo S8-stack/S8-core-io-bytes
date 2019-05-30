@@ -22,7 +22,7 @@ import com.qx.back.base.io.bytes.FileByteOutflow;
  * @author pc
  *
  */
-public class QxIndex {
+public class UnsignedInteger {
 
 	public byte[] bytes;
 
@@ -30,24 +30,35 @@ public class QxIndex {
 	/**
 	 * ZERO constructor
 	 */
-	public QxIndex(int length) {
+	public UnsignedInteger(int length) {
 		super();
 		bytes = new byte[length];
 	}
 
-	public QxIndex(byte[] bytes) {
+	public UnsignedInteger(byte[] bytes) {
 		super();
 		this.bytes = bytes;
 	}
+	
+	public UnsignedInteger(String hexadecimalEncoding) {
+		super();
+		int length = hexadecimalEncoding.length()/2;
+		bytes = new byte[length];
+		int offset=0;
+		for(int i=0; i<length; i++) {
+			bytes[i] = (byte) Integer.parseUnsignedInt(hexadecimalEncoding.substring(offset, offset+2), 16);
+			offset+=2;
+		}
+	}
 
 
-	public QxIndex copy() {
+	public UnsignedInteger copy() {
 		int nBytes=bytes.length;
 		byte[] nextBytes = new byte[nBytes];
 		for(int i=0; i<nBytes; i++) {
 			nextBytes[i] = bytes[i];
 		}
-		return new QxIndex(nextBytes);
+		return new UnsignedInteger(nextBytes);
 	}
 
 
@@ -141,8 +152,8 @@ public class QxIndex {
 
 	@Override
 	public boolean equals(Object object) {
-		if(object instanceof QxIndex) {
-			QxIndex right = (QxIndex) object;
+		if(object instanceof UnsignedInteger) {
+			UnsignedInteger right = (UnsignedInteger) object;
 			for(int i=bytes.length-1; i>=0; i--) {
 				if(bytes[i]!=right.bytes[i]) {
 					return false;
@@ -162,7 +173,7 @@ public class QxIndex {
 	 * @param right
 	 * @return
 	 */
-	public boolean equals(QxIndex right) {
+	public boolean equals(UnsignedInteger right) {
 		int length = bytes.length;
 		for(int i=0; i<length; i++) {
 			if(bytes[i]!=right.bytes[i]) {
@@ -173,7 +184,7 @@ public class QxIndex {
 	}
 	
 	
-	public boolean isGreaterThan(QxIndex right) {
+	public boolean isGreaterThan(UnsignedInteger right) {
 		int length = bytes.length;
 		for(int i=0; i<length; i++) {
 			if(bytes[i] < right.bytes[i]) {

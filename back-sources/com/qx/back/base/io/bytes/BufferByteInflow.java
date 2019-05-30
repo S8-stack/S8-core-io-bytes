@@ -55,10 +55,9 @@ public class BufferByteInflow implements ByteInflow {
 
 	@Override
 	public int getUInt16() throws IOException {
-		
 		byte b0 = buffer.get();
 		byte b1 = buffer.get();
-		return (b1 << 8 & 0xff) | (b0 & 0xff);
+		return ((b0 & 0xff) << 8 ) | (b1 & 0xff);
 	}
 
 	

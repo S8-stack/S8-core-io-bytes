@@ -20,25 +20,25 @@ package com.qx.back.base.index;
  * @author pc
  *
  */
-public class QxIndexMap {
+public class UIntMap {
 
 	public final static boolean IS_DEBUG_ACTIVE = true;
 
 	private class Node {
 
-		public QxIndex index;
+		public UnsignedInteger index;
 
 		public Object object;
 
 		public Node next;
 
-		public Node(QxIndex index, Object object) {
+		public Node(UnsignedInteger index, Object object) {
 			super();
 			this.index = index;
 			this.object = object;
 		}
 		
-		public Node(QxIndex index, Object object, Node next) {
+		public Node(UnsignedInteger index, Object object, Node next) {
 			super();
 			this.index = index;
 			this.object = object;
@@ -60,7 +60,7 @@ public class QxIndexMap {
 
 	private int exponent;
 
-	public QxIndexMap() {
+	public UIntMap() {
 		super();
 		size = 0;
 		this.exponent = 6;
@@ -156,7 +156,7 @@ public class QxIndexMap {
 	 * @param index: the index used to store the object.
 	 * @param object
 	 */
-	public void put(QxIndex index, Object object) {
+	public void put(UnsignedInteger index, Object object) {
 		int hascode = mask & index.toInt32();
 		Node head = buckets[hascode];
 		Node node = head;
@@ -179,12 +179,12 @@ public class QxIndexMap {
 
 
 
-	public boolean contains(QxIndex index) {
+	public boolean contains(UnsignedInteger index) {
 		return get(index)!=null;
 	}
 
 
-	public Object get(QxIndex index) {
+	public Object get(UnsignedInteger index) {
 		int hascode = mask & index.toInt32();
 		Node node = buckets[hascode];
 		while(node!=null) {
@@ -199,7 +199,7 @@ public class QxIndexMap {
 	}
 
 
-	public void remove(QxIndex index) {
+	public void remove(UnsignedInteger index) {
 		int hascode = mask & index.toInt32();
 		Node node = buckets[hascode];
 		Node previous = null;
@@ -276,7 +276,7 @@ public class QxIndexMap {
 		 * @param object
 		 * @return a flag indicating if traverse operation must be continued or not
 		 */
-		public boolean consume(QxIndex index, Object object);
+		public boolean consume(UnsignedInteger index, Object object);
 	}
 	
 	public synchronized boolean traverse(PairConsumer consumer) {

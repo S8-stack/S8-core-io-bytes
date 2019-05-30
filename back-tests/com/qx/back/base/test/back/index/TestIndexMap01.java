@@ -1,7 +1,7 @@
 package com.qx.back.base.test.back.index;
 
-import com.qx.back.base.index.QxIndex;
-import com.qx.back.base.index.QxIndexMap;
+import com.qx.back.base.index.UnsignedInteger;
+import com.qx.back.base.index.UIntMap;
 
 public class TestIndexMap01 {
 
@@ -9,9 +9,9 @@ public class TestIndexMap01 {
 		
 		int nElements = 1000000;
 	
-		QxIndexMap map = new QxIndexMap();
+		UIntMap map = new UIntMap();
 		
-		QxIndex index = new QxIndex(new byte[]{ 
+		UnsignedInteger index = new UnsignedInteger(new byte[]{ 
 				(byte) 0xaf, (byte) 0x01, (byte) 0x02, (byte) 0x04, 
 				(byte) 0xaa, (byte) 0x00, (byte) 0x00, (byte) 0x00 });
 		for(int i=0; i<nElements; i++) {
@@ -20,7 +20,7 @@ public class TestIndexMap01 {
 		}
 		
 		
-		index = new QxIndex(new byte[]{ 
+		index = new UnsignedInteger(new byte[]{ 
 				(byte) 0xaf, (byte) 0x01, (byte) 0x02, (byte) 0x04, 
 				(byte) 0xaa, (byte) 0x00, (byte) 0x00, (byte) 0x00 });
 		Integer object;
@@ -32,7 +32,7 @@ public class TestIndexMap01 {
 			index.increment();
 		}
 		
-		index = new QxIndex(new byte[]{ 
+		index = new UnsignedInteger(new byte[]{ 
 				(byte) 0xaf, (byte) 0x01, (byte) 0x02, (byte) 0x04, 
 				(byte) 0xaa, (byte) 0x00, (byte) 0x00, (byte) 0x00 });
 		
