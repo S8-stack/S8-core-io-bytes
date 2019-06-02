@@ -24,6 +24,7 @@ public interface ByteOutflow {
 	public void putByteArray(byte[] bytes) throws IOException;
 
 
+
 	/**
 	 * Auto-feed underlying ByteBuffer as necessary.
 	 * @param flags
@@ -32,6 +33,15 @@ public interface ByteOutflow {
 	public void putFlags(boolean[] flags) throws IOException;
 
 
+	/**
+	 * Hack for js part
+	 * 
+	 * @param value
+	 * @throws IOException
+	 */
+	public default void putBoolean(boolean value) throws IOException {
+		putUInt8(value?((byte) 32):((byte) 33));
+	}
 
 	/**
 	 * Auto-feed underlying ByteBuffer as necessary.
