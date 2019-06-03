@@ -144,7 +144,7 @@ public interface ByteInflow {
 	 * @return the next String.
 	 * @throws IOException
 	 */
-	public String getString() throws IOException;
+	public String getStringUTF8() throws IOException;
 
 
 }

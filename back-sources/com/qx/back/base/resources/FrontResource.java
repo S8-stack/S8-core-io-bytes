@@ -180,4 +180,13 @@ public class FrontResource {
 		return head;
 	}
 
+	@Override
+	public String toString() {
+		return pathname;
+	}
+
+
+	public Path getPath() {
+		return path;
+	}
 }

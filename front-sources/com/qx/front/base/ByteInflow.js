@@ -20,14 +20,14 @@ ByteInflow.prototype = {
 			return value;
 		},
 		
-		getUint8 : function(){
+		getUInt8 : function(){
 			var value = this.view.getUint8(this.offset);
 			this.offset+=1;
 			return value;
 		},
 		
-		getUint8Array : function(length){
-			var array = Uint8Array(length);
+		getUInt8Array : function(length){
+			var array = UInt8Array(length);
 			for(let i=0; i<length; i++){
 				array[i] = this.view.getUint8(this.offset);
 				this.offset+=1;
@@ -41,7 +41,7 @@ ByteInflow.prototype = {
 			return value;
 		},
 		
-		getUint16 : function(){
+		getUInt16 : function(){
 			var value = this.view.getUint16(this.offset);
 			this.offset+=2;
 			return value;
@@ -53,7 +53,7 @@ ByteInflow.prototype = {
 			return value;
 		},
 		
-		getUint32 : function(){
+		getUInt32 : function(){
 			var value = this.view.getUint32(this.offset);
 			this.offset+=4;
 			return value;

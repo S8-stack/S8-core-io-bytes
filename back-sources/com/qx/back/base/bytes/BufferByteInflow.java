@@ -156,7 +156,7 @@ public class BufferByteInflow implements ByteInflow {
 	 * @throws IOException 
 	 */
 	@Override
-	public String getString() throws IOException {
+	public String getStringUTF8() throws IOException {
 
 		// read unsigned int
 		int length = getUInt16();

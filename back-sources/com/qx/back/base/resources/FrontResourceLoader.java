@@ -22,7 +22,7 @@ public class FrontResourceLoader {
 	}
 	
 	
-	public void acquire(FrontResourceBase base) {
+	public void load(FrontResourceBase base) {
 		for(FrontResourceDescriptor descriptor : descriptors) {
 			descriptor.register(base, rootPath, rootPathname);
 		}

@@ -19,6 +19,13 @@ public class FrontFolder extends FrontResourceDescriptor {
 		this.fragmentLength = fragmentLength;
 		this.isCaching = isCaching;
 	}
+	
+	public FrontFolder(String path) {
+		super();
+		this.path = path;
+		this.fragmentLength = 8192;
+		this.isCaching = true;
+	}
 
 	@Override
 	public void register(FrontResourceBase base, Path rootPath, String rootPathname) {

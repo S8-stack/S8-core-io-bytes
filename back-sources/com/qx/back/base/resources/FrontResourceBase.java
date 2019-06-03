@@ -15,13 +15,14 @@ public class FrontResourceBase {
 
 	public FrontResourceBase() {
 		super();
+		this.resources = new HashMap<>();
 	}
 	
 	
 	public void initialize(FrontResourceLoader... loaders) {
-		this.resources = new HashMap<>();
+		
 		for(FrontResourceLoader loader : loaders) {
-			loader.acquire(this);
+			loader.load(this);
 		}
 	}
 	

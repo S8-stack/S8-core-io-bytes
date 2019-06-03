@@ -7,7 +7,6 @@ function ByteOutflow(arrayBuffer){
 	this.arrayBuffer = arrayBuffer;
 	this.view = new DataView(this.arrayBuffer);
 	this.offset = 0;
-	
 	this.textEncoder = new TextEncoder("utf-8");
 }
 
@@ -20,15 +19,15 @@ ByteOutflow.prototype = {
 			this.offset+=1;
 		},
 		
-		putUint8 : function(value){
+		putUInt8 : function(value){
 			this.view.setUint8(this.offset, value);
 			this.offset+=1;
 		},
 		
-		putUint8Array : function(value){
+		putUInt8Array : function(value){
 			var length = value.length;
 			for(let i=0; i<length; i++){
-				this.putUint8(value[i]);
+				this.putUInt8(value[i]);
 			}
 		},
 		
@@ -38,7 +37,7 @@ ByteOutflow.prototype = {
 		},
 		
 		
-		putUint16 : function(value){
+		putUInt16 : function(value){
 			this.view.setUint16(this.offset, value);
 			this.offset+=2;
 		},
@@ -50,7 +49,7 @@ ByteOutflow.prototype = {
 		},
 		
 		
-		putUint32 : function(value){
+		putUInt32 : function(value){
 			this.view.setUint32(this.offset, value);
 			this.offset+=4;
 		},

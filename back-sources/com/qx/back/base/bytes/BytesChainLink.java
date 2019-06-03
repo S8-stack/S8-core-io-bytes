@@ -27,6 +27,13 @@ public class BytesChainLink {
 
 	public BytesChainLink next;
 
+	public BytesChainLink(int capacity) {
+		super();
+		this.bytes = new byte[capacity];
+		this.offset = 0;
+		this.length = bytes.length;
+	}
+	
 	public BytesChainLink(byte[] bytes) {
 		super();
 		this.bytes = bytes;
