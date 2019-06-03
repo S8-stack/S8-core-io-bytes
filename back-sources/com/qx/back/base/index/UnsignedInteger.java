@@ -2,9 +2,9 @@ package com.qx.back.base.index;
 
 import java.io.IOException;
 
-import com.qx.back.base.io.bytes.ByteInflow;
-import com.qx.back.base.io.bytes.ByteOutflow;
-import com.qx.back.base.io.bytes.FileByteOutflow;
+import com.qx.back.base.bytes.ByteInflow;
+import com.qx.back.base.bytes.ByteOutflow;
+import com.qx.back.base.bytes.FileByteOutflow;
 
 /**
  * 

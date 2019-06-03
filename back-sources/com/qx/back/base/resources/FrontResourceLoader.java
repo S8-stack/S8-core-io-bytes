@@ -1,28 +1,30 @@
-package com.qx.front.base;
+package com.qx.back.base.resources;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
 public class FrontResourceLoader {
 	
 	public Path rootPath;
 	
-	public String rootKey;
+	public String rootPathname;
 	
 	private FrontResourceDescriptor[] descriptors;
 	
-	public FrontResourceLoader(Class<?> type, String rootKey, FrontResourceDescriptor[] descriptors) {
+	public FrontResourceLoader(
+			Class<?> type,
+			String rootPathname, 
+			FrontResourceDescriptor[] descriptors) {
 		super();
 		this.rootPath = Paths.get(type.getResource("").getPath());
-		this.rootKey = rootKey;
+		this.rootPathname = rootPathname;
 		this.descriptors = descriptors;
 	}
 	
 	
-	public void register(List<FrontResourceHandle> list) {
+	public void acquire(FrontResourceBase base) {
 		for(FrontResourceDescriptor descriptor : descriptors) {
-			descriptor.register(this, list);
+			descriptor.register(base, rootPath, rootPathname);
 		}
 	}
 	

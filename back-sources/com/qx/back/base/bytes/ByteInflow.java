@@ -1,4 +1,4 @@
-package com.qx.back.base.io.bytes;
+package com.qx.back.base.bytes;
 
 import java.io.IOException;
 
