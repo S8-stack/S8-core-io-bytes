@@ -3,7 +3,7 @@ package com.qx.back.base.bytes;
 import java.nio.ByteBuffer;
 
 
-public class ChainByteOutflow extends AutoByteOutflow {
+public class ChainByteOutput extends AutoByteOutput {
 
 	private BytesChainLink head;
 
@@ -13,7 +13,7 @@ public class ChainByteOutflow extends AutoByteOutflow {
 
 	private int bytecount;
 	
-	public ChainByteOutflow(int capacity) {
+	public ChainByteOutput(int capacity) {
 		super();
 		this.capacity = capacity;
 		bytecount = 0;

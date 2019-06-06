@@ -10,13 +10,13 @@ import java.nio.channels.FileChannel;
  * @author pc
  *
  */
-public class FileByteOutflow implements ByteOutflow {
+public class FileByteOutput implements ByteOutput {
 
 	private FileChannel channel;
 
 	private ByteBuffer buffer;
 
-	public FileByteOutflow(FileChannel channel, int bufferingSize) {
+	public FileByteOutput(FileChannel channel, int bufferingSize) {
 		super();
 		this.channel = channel;
 		buffer = ByteBuffer.allocate(bufferingSize);

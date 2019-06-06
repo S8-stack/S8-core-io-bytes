@@ -8,11 +8,11 @@ import java.nio.ByteBuffer;
  * @author pc
  *
  */
-public class BufferByteInflow implements ByteInflow {
+public class BufferByteInput implements ByteInput {
 
 	private ByteBuffer buffer;
 	
-	public BufferByteInflow(ByteBuffer buffer) {
+	public BufferByteInput(ByteBuffer buffer) {
 		super();
 		this.buffer = buffer;
 	}
@@ -87,13 +87,23 @@ public class BufferByteInflow implements ByteInflow {
 	@Override
 	public int[] getInt32Array() throws IOException {
 		// retrieve length
-		int length = getUInt16();
+		int length = getUInt32();
 
 		int[] array = new int[length];
 		for(int i=0; i<length; i++) {
 			array[i] = buffer.getInt();
 		}
 		return array;
+	}
+	
+	@Override
+	public int getUInt32() throws IOException {
+		byte[] bytes = getByteArray(4);
+		return (int) (
+				(bytes[0] & 0x7f) << 24 | 
+				(bytes[1] & 0xff) << 16 | 
+				(bytes[2] & 0xff) << 8 | 
+				(bytes[3] & 0xff));
 	}
 	
 	
@@ -106,7 +116,7 @@ public class BufferByteInflow implements ByteInflow {
 	@Override
 	public long[] getInt64Array() throws IOException {
 		// retrieve length
-		int length = getUInt16();
+		int length = getUInt32();
 
 		long[] array = new long[length];
 		for(int i=0; i<length; i++) {
@@ -124,7 +134,7 @@ public class BufferByteInflow implements ByteInflow {
 
 	@Override
 	public float[] getFloat32Array() throws IOException {
-		int length = getUInt16();
+		int length = getUInt32();
 		float[] array = new float[length];
 		for(int i=0; i<length; i++) {
 			array[i] = buffer.getFloat();
@@ -141,7 +151,7 @@ public class BufferByteInflow implements ByteInflow {
 
 	@Override
 	public double[] getFloat64Array() throws IOException {
-		int length = getUInt16();
+		int length = getUInt32();
 		double[] array = new double[length];
 		for(int i=0; i<length; i++) {
 			array[i] = buffer.getDouble();
@@ -159,7 +169,7 @@ public class BufferByteInflow implements ByteInflow {
 	public String getStringUTF8() throws IOException {
 
 		// read unsigned int
-		int length = getUInt16();
+		int length = getUInt32();
 
 		// retrieve all bytes
 		byte[] bytes = getByteArray(length);

@@ -10,7 +10,7 @@ import java.util.List;
  * @author pc
  *
  */
-public class CompilableByteOutflow extends AutoByteOutflow {
+public class CompilableByteOutput extends AutoByteOutput {
 
 	public final static int CAPACITY = 1024;
 	
@@ -19,14 +19,14 @@ public class CompilableByteOutflow extends AutoByteOutflow {
 	private List<ByteBuffer> filled;
 
 
-	public CompilableByteOutflow() {
+	public CompilableByteOutput() {
 		super();
 		this.capacity = CAPACITY;
 		filled = new ArrayList<>();
 	}
 
 	
-	public CompilableByteOutflow(int capacity) {
+	public CompilableByteOutput(int capacity) {
 		super();
 		this.capacity = capacity;
 		filled = new ArrayList<>();

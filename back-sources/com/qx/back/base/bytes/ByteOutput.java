@@ -13,7 +13,7 @@ import java.io.IOException;
  * @author pc
  *
  */
-public interface ByteOutflow {
+public interface ByteOutput {
 
 
 	/**

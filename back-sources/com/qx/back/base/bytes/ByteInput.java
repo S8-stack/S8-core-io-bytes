@@ -16,7 +16,7 @@ import java.io.IOException;
  * @author pc
  *
  */
-public interface ByteInflow {
+public interface ByteInput {
 
 
 	/**
@@ -70,6 +70,14 @@ public interface ByteInflow {
 	 */
 	public int getUInt31() throws IOException;
 
+
+
+	/**
+	 * Curretly doing the same as <code>getUInt31</code>
+	 * @return
+	 * @throws IOException
+	 */
+	public int getUInt32() throws IOException;
 
 	/**
 	 * @return the next Signed Integer 32 bits (4 bytes)
@@ -145,6 +153,7 @@ public interface ByteInflow {
 	 * @throws IOException
 	 */
 	public String getStringUTF8() throws IOException;
+
 
 
 }

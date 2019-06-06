@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 
-public class FileByteInflow implements ByteInflow {
+public class FileByteInput implements ByteInput {
 
 	private FileChannel channel;
 
@@ -13,7 +13,7 @@ public class FileByteInflow implements ByteInflow {
 
 	private boolean isEndOfFileReached;
 
-	public FileByteInflow(FileChannel channel,  int bufferingSize) throws IOException {
+	public FileByteInput(FileChannel channel,  int bufferingSize) throws IOException {
 		super();
 		this.channel = channel;
 		buffer = ByteBuffer.allocate(bufferingSize);

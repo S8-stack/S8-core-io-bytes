@@ -2,9 +2,9 @@ package com.qx.back.base.index;
 
 import java.io.IOException;
 
-import com.qx.back.base.bytes.ByteInflow;
-import com.qx.back.base.bytes.ByteOutflow;
-import com.qx.back.base.bytes.FileByteOutflow;
+import com.qx.back.base.bytes.ByteInput;
+import com.qx.back.base.bytes.ByteOutput;
+import com.qx.back.base.bytes.FileByteOutput;
 
 /**
  * 
@@ -82,7 +82,7 @@ public class UnsignedInteger {
 		}
 	}
 
-	public void compose(FileByteOutflow outflow) throws IOException {
+	public void compose(FileByteOutput outflow) throws IOException {
 		outflow.putByteArray(bytes);
 	}
 
@@ -238,11 +238,11 @@ public class UnsignedInteger {
 	}
 	
 	
-	public void read(ByteInflow inflow) throws IOException {
+	public void read(ByteInput inflow) throws IOException {
 		bytes = inflow.getByteArray(bytes.length);
 	}
 	
-	public void write(ByteOutflow outflow) throws IOException {
+	public void write(ByteOutput outflow) throws IOException {
 		outflow.putByteArray(bytes);
 	}
 
