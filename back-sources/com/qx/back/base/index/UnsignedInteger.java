@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.qx.back.base.bytes.ByteInput;
 import com.qx.back.base.bytes.ByteOutput;
-import com.qx.back.base.bytes.FileByteOutput;
 
 /**
  * 
@@ -82,7 +81,7 @@ public class UnsignedInteger {
 		}
 	}
 
-	public void compose(FileByteOutput outflow) throws IOException {
+	public void compose(ByteOutput outflow) throws IOException {
 		outflow.putByteArray(bytes);
 	}
 

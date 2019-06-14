@@ -19,10 +19,20 @@ import java.nio.ByteBuffer;
 public class BytesChainLink {
 
 
+	/**
+	 * the underlying bytes array of this link
+	 */
 	public byte[] bytes;
 
+	
+	/**
+	 * Filled part bytes start at <code>offset</code>
+	 */
 	public int offset;
 
+	/**
+	 * Filled part of bytes is <code>length</code> long.
+	 */
 	public int length;
 
 	public BytesChainLink next;

@@ -30,6 +30,7 @@ public class FileByteInput implements ByteInput {
 		}
 		buffer.flip();
 	}
+	
 
 	private void ensure(int nBytes) throws IOException {
 		if(nBytes>buffer.remaining()) {
@@ -122,19 +123,22 @@ public class FileByteInput implements ByteInput {
 		ensure(2);
 		byte b0 = buffer.get();
 		byte b1 = buffer.get();
-		return (b1 << 8 & 0xff) | (b0 & 0xff);
+		return ((b0 & 0xff) << 8 ) | (b1 & 0xff);
 	}
 
 
 	@Override
 	public int getUInt31() throws IOException {
-		
-		byte[] bytes = getByteArray(4);
+		ensure(4);
+		byte b0 = buffer.get();
+		byte b1 = buffer.get();
+		byte b2 = buffer.get();
+		byte b3 = buffer.get();
 		return (int) (
-				(bytes[0] & 0x7f) << 24 | 
-				(bytes[1] & 0xff) << 16 | 
-				(bytes[2] & 0xff) << 8 | 
-				(bytes[3] & 0xff));
+				(b0 & 0x7f) << 24 | 
+				(b1 & 0xff) << 16 | 
+				(b2 & 0xff) << 8 | 
+				(b3 & 0xff));
 	}
 
 	public int getUInt32() throws IOException {

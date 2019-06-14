@@ -100,22 +100,30 @@ public class FrontResource {
 							head = block;
 							boolean isDone = false;
 							int nBytes;
+							int capacity = block.bytes.length, position = block.offset;
 							while(!isDone){
 
-								nBytes = inputStream.read(block.bytes, block.length, block.bytes.length-block.length);
-
+								nBytes = inputStream.read(block.bytes, position, capacity-position);
 								// end of stream reached
 								if(nBytes==-1){ 
 									isDone = true;
 								}
 								else {
-									fileSize+=nBytes;
+									position+=nBytes;
 									block.length+=nBytes;
 
-									if(block.offset==block.length){ // full loading of block
+									if(position==capacity){ // full loading of block
+										
+										// create next block
 										nextBlock = createFragment();
+										
+										// link next block
 										block.next = nextBlock;
+										
+										// reset scope vars
 										block = nextBlock;
+										capacity = block.bytes.length;
+										position = block.offset;
 									}
 									// else{ : incomplete reading of block
 								}
