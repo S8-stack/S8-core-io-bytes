@@ -50,6 +50,39 @@ public class UnsignedInteger {
 		}
 	}
 
+	
+	public UnsignedInteger(int length, long value) {
+		super();
+		bytes = new byte[length];
+		int shift = 0;
+		for(int i=0; i<length; i++) {
+			bytes[length-1-i] = (byte) (0xff & (value >> shift));
+			shift+=8;
+		}
+	}
+	
+	public UnsignedInteger(int length, int value) {
+		super();
+		bytes = new byte[length];
+		int shift = 0;
+		for(int i=0; i<length; i++) {
+			bytes[length-1-i] = (byte) (0xff & (value >> shift));
+			shift+=8;
+		}
+	}
+
+	public UnsignedInteger(UnsignedInteger ui0, UnsignedInteger ui1) {
+		super();
+		int n0 = ui0.bytes.length , n1 = ui1.bytes.length;
+		int nBytes = n0+n1;
+		bytes = new byte[nBytes];
+		for(int i=0; i<n0; i++) {
+			bytes[i] = ui0.bytes[i];
+		}
+		for(int i=0; i<n1; i++) {
+			bytes[n0+i] = ui1.bytes[i];
+		}
+	}
 
 	public UnsignedInteger copy() {
 		int nBytes=bytes.length;
