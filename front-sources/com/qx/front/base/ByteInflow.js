@@ -103,8 +103,8 @@ ByteInflow.prototype = {
 		getStringUTF8 : function(){
 			
 			// retrieve length
-			var length = this.view.getUint8(this.offset);
-			this.offset+=1;
+			var length = this.view.getUint32(this.offset);
+			this.offset+=4;
 			
 			if(length>0){
 				// read string

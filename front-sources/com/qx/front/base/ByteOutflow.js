@@ -97,14 +97,13 @@ ByteOutflow.prototype = {
 			
 			// retrieve length
 			var length = value.length;
-			var length = this.view.setUint8(this.offset, length);
-			this.offset+=1;
+			this.putUint32(length);
 			
 			if(length>0){
 				// read string
 				let encoded = this.textEncoder.encode(value);
 				for(var i=0; i<length; i++){
-					this.arrayBuffer[this.offset]=encoded[i];
+					this.view.setUint8(this.offset, encoded[i]);
 					this.offset++;
 				}
 			}

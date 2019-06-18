@@ -104,14 +104,15 @@ public class BufferByteOutput implements ByteOutput {
 			// we skip the first two bytes, but add to pass our own length
 			int length = bytes.length;
 			if(length>2147483647){
-				throw new IOException("String arg size is exceeding 2^31-1 (length is encoded in 4 bytes).");
+				throw new IOException("String arg size is exceeding 2^31-1 "
+						+ "(length is encoded in 4 bytes).");
 			}
 			putUInt32(length);
-
+			
 			putByteArray(bytes);
 		}
 		else{ // null
-			putUInt16(0); // empty string
+			putUInt32(0); // empty string
 		}
 	}
 
