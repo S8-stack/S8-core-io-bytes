@@ -47,7 +47,7 @@ public class UIntMap {
 
 		
 		public int getBucketIndex() {
-			return index.toInt32() & mask;
+			return index.hashCode() & mask;
 		}
 	}
 
@@ -157,8 +157,8 @@ public class UIntMap {
 	 * @param object
 	 */
 	public void put(UnsignedInteger index, Object object) {
-		int hascode = mask & index.toInt32();
-		Node head = buckets[hascode];
+		int hashcode = mask & index.hashCode();
+		Node head = buckets[hashcode];
 		Node node = head;
 		boolean isStored = false;
 		while(node!=null && !isStored) {
@@ -171,7 +171,7 @@ public class UIntMap {
 			}
 		}
 		if(!isStored) {
-			buckets[hascode] = new Node(index.copy(), object, head);
+			buckets[hashcode] = new Node(index.copy(), object, head);
 			size++;
 			update();
 		}
@@ -185,8 +185,8 @@ public class UIntMap {
 
 
 	public Object get(UnsignedInteger index) {
-		int hascode = mask & index.toInt32();
-		Node node = buckets[hascode];
+		int hashcode = mask & index.hashCode();
+		Node node = buckets[hashcode];
 		while(node!=null) {
 			if(node.index.equals(index)) {
 				return node.object;
@@ -200,14 +200,14 @@ public class UIntMap {
 
 
 	public void remove(UnsignedInteger index) {
-		int hascode = mask & index.toInt32();
-		Node node = buckets[hascode];
+		int hashcode = mask & index.hashCode();
+		Node node = buckets[hashcode];
 		Node previous = null;
 		boolean isRemoved = false;
 		while(node!=null && !isRemoved) {
 			if(node.index.equals(index)) {
 				if(previous==null) { // is head
-					buckets[hascode] = node.next;
+					buckets[hashcode] = node.next;
 				}
 				else {
 					previous.next = node.next;

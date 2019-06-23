@@ -1,13 +1,15 @@
 package com.qx.back.base.io.csv.mapped;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.qx.back.base.io.units.QxScientificUnit;
 
 
 public abstract class FieldMapping implements Getter, Setter {
-	
-	
+
+
 	/**
 	 * 
 	 * @param field
@@ -36,23 +38,26 @@ public abstract class FieldMapping implements Getter, Setter {
 		else if(type==String.class){
 			return new StringFieldMapping(field);
 		}
+		else if(type.isEnum()){
+			return new EnumFieldMapping(field);
+		}
 		else {
 			throw new RuntimeException("Type is not primitive : "+type.getName());
 		}
 	}
-	
+
 
 	protected Field field;
-	
+
 	private FieldMapping(Field field) {
 		super();
 		this.field = field;
 	}
-	
-	
+
+
 	public static class DoubleFieldMapping extends FieldMapping {
 
-		
+
 		public DoubleFieldMapping(Field field) {
 			super(field);
 		}
@@ -69,10 +74,10 @@ public abstract class FieldMapping implements Getter, Setter {
 			return Double.toString(unit.fromIS(field.getDouble(object)));
 		}
 	}
-	
-	
+
+
 	public static class FloatFieldMapping extends FieldMapping {
-		
+
 		public FloatFieldMapping(Field field) {
 			super(field);
 		}
@@ -89,7 +94,7 @@ public abstract class FieldMapping implements Getter, Setter {
 			return Double.toString(unit.fromIS(field.getFloat(object)));
 		}
 	}
-	
+
 	public static class IntegerFieldMapping extends FieldMapping {
 
 		public IntegerFieldMapping(Field field) {
@@ -108,7 +113,7 @@ public abstract class FieldMapping implements Getter, Setter {
 			return Integer.toString(field.getInt(object));
 		}
 	}
-	
+
 	public static class LongFieldMapping extends FieldMapping {
 
 		public LongFieldMapping(Field field) {
@@ -127,7 +132,7 @@ public abstract class FieldMapping implements Getter, Setter {
 			return Long.toString(field.getLong(object));
 		}
 	}
-	
+
 	public static class ShortFieldMapping extends FieldMapping {
 
 		public ShortFieldMapping(Field field) {
@@ -146,7 +151,7 @@ public abstract class FieldMapping implements Getter, Setter {
 			return Short.toString(field.getShort(object));
 		}
 	}
-	
+
 	public static class BooleanFieldMapping extends FieldMapping {
 
 		public BooleanFieldMapping(Field field) {
@@ -165,7 +170,7 @@ public abstract class FieldMapping implements Getter, Setter {
 			return Boolean.toString(field.getBoolean(object));
 		}
 	}
-	
+
 	public static class StringFieldMapping extends FieldMapping {
 
 		public StringFieldMapping(Field field) {
@@ -184,4 +189,41 @@ public abstract class FieldMapping implements Getter, Setter {
 			return (String) field.get(object);
 		}
 	}
+
+	public static class EnumFieldMapping extends FieldMapping {
+
+		private Class<?> enumType;
+
+		private Map<String, Object> enumConstants;
+
+		public EnumFieldMapping(Field field) {
+			super(field);
+			this.enumType = field.getType();
+			Object[] constantsArray = enumType.getEnumConstants();
+			enumConstants = new HashMap<String, Object>(constantsArray.length);
+			for(Object value : constantsArray) {
+				enumConstants.put(((Enum<?>) value).name(), value);
+			}
+		}
+
+		@Override
+		public void set(String value, Object object, QxScientificUnit unit)
+				throws NumberFormatException, IllegalArgumentException, IllegalAccessException {
+			Object enumConstant = enumConstants.get(value);
+			if(enumConstant==null) {
+				throw new IllegalArgumentException(value+" is not a valid enum value for: "
+						+enumType.getName());
+			}
+			field.set(enumConstant, value);
+		}
+
+		@Override
+		public String get(Object object, QxScientificUnit unit)
+				throws IllegalArgumentException, IllegalAccessException {
+			Object enumConstant = field.get(object);
+			return ((Enum<?>) enumConstant).name();
+		}
+	}
+	
+	
 }

@@ -22,7 +22,7 @@ public class FrontResource {
 
 	private Status status;
 
-	private long fileSize;
+	private long bytecount;
 
 	/**
 	 * pathanme, acts as id
@@ -92,7 +92,7 @@ public class FrontResource {
 					}
 					else {
 						try {
-							fileSize = 0;
+							bytecount = 0;
 							BytesChainLink block = createFragment(), nextBlock;
 
 							InputStream inputStream = Files.newInputStream(path);
@@ -111,6 +111,7 @@ public class FrontResource {
 								else {
 									position+=nBytes;
 									block.length+=nBytes;
+									bytecount+=nBytes;
 
 									if(position==capacity){ // full loading of block
 										
@@ -167,7 +168,7 @@ public class FrontResource {
 	 */
 	public long getLength() {
 		ensureLoaded();
-		return fileSize;
+		return bytecount;
 	}
 
 	public MIME_Type getType() {

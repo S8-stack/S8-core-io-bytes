@@ -154,7 +154,7 @@ public abstract class AutoByteOutput implements ByteOutput {
 			putByteArray(bytes);
 		}
 		else{ // null
-			putUInt16(0); // empty string
+			putUInt32(0); // empty string
 		}
 	}
 
