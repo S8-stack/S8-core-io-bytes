@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,6 +80,24 @@ public class CSV_Engine<T> {
 		// compile tag regex in a pattern
 		tagPattern = Pattern.compile(TAG_REGEX);
 	}
+	
+	
+	
+	
+	
+	public T[] toArray(Class<?> type, InputStream inputStream) throws IOException {
+		List<T> list = new ArrayList<T>();
+		for(T object : read(inputStream)) {
+			list.add(object);
+		}
+		int length = list.size();
+		
+		@SuppressWarnings("unchecked")
+		T[] array = (T[]) Array.newInstance(type, length);
+		list.toArray(array);
+		return array;
+	}
+	
 
 	/**
 	 * 
