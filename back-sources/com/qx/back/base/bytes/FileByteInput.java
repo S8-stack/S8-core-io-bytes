@@ -70,9 +70,8 @@ public class FileByteInput implements ByteInput {
 		while(!isRetrieved && !isEndOfFileReached && tryIndex<N_RETRIEVE_TRYOUTS) {
 			n = Math.min(buffer.remaining(), length-index);
 			for(int i=0; i<n; i++) {
-				bytes[i] = buffer.get();
+				bytes[index++] = buffer.get();
 			}
-			index+=n;
 			isRetrieved = (index==length);
 			if(!isRetrieved) {
 				buffer.clear();
@@ -250,12 +249,19 @@ public class FileByteInput implements ByteInput {
 	public String getStringUTF8() throws IOException {
 
 		// read unsigned int
-		int length = getUInt32();
+		int length = getInt32();
 
-		// retrieve all bytes
-		byte[] bytes = getByteArray(length);
+		if(length>=0) {
+			// retrieve all bytes
+			byte[] bytes = getByteArray(length);	
+			return new String(bytes);
+		}
+		else {
+			return null;
+		}
+		
 
-		return new String(bytes);
+		
 	}
 
 

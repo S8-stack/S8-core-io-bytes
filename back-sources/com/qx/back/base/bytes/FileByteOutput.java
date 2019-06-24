@@ -67,7 +67,6 @@ public class FileByteOutput implements ByteOutput {
 				push();
 			}
 		}
-		
 	}
 
 
@@ -208,13 +207,14 @@ public class FileByteOutput implements ByteOutput {
 	public void putStringUTF8(String str) throws IOException {
 
 		// write byte
-		int length = str.length();
-		putUInt32(length);
-
-		// put all bytes
-		ensure(length);
-		byte[] bytes = str.getBytes();
-		buffer.put(bytes);
+		if(str!=null) {
+			byte[] bytes = str.getBytes();
+			putInt32(bytes.length);
+			putByteArray(bytes);
+		}
+		else {
+			putInt32(-1);
+		}
 	}
 
 
