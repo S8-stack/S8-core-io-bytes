@@ -87,11 +87,19 @@ public class FileByteOutput implements ByteOutput {
 	
 
 	@Override
+	public void putByte(byte b) throws IOException {
+		ensure(1);
+		buffer.put(b);
+	}
+	
+	
+	@Override
 	public void putUInt8(int value) throws IOException {
 		ensure(1);
 		buffer.put((byte) (0xff & value));
 	}
 
+	
 	@Override
 	public void putInt16(short value) throws IOException {
 		ensure(2);
@@ -105,6 +113,7 @@ public class FileByteOutput implements ByteOutput {
 		buffer.put((byte) (0xff & (value >> 8)));
 		buffer.put((byte) (0xff & value));
 	}
+	
 	
 	@Override
 	public void putUInt32(int value) throws IOException {

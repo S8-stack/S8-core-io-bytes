@@ -42,6 +42,11 @@ public class BufferByteOutput implements ByteOutput {
 	}
 
 	@Override
+	public void putByte(byte b) throws IOException{
+		buffer.put(b);
+	}
+	
+	@Override
 	public void putUInt8(int value) throws IOException{
 		buffer.put((byte) (value & 0xff));
 	}

@@ -19,6 +19,8 @@ public class QxScientificUnit {
 	public QxScientificUnit(String abbreviation){
 		super();
 		
+		this.abbreviation = abbreviation;
+		
 		scaling = 1.0;
 		
 		Matcher matcher = PATTERN.matcher(abbreviation);
@@ -59,6 +61,7 @@ public class QxScientificUnit {
 	public String getAbbreviation(){
 		return abbreviation;
 	}
+	
 	
 	public double toIS(double value){
 		return value*scaling;

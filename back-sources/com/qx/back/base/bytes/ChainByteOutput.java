@@ -55,4 +55,5 @@ public class ChainByteOutput extends AutoByteOutput {
 		return bytecount;
 	}
 
+
 }

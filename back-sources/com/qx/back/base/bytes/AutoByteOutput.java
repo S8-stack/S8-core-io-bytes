@@ -66,6 +66,13 @@ public abstract class AutoByteOutput implements ByteOutput {
 		}
 		buffer.put((byte) b);
 	}
+	
+
+	@Override
+	public void putByte(byte b) throws IOException {
+		check(1);
+		buffer.put(b);
+	}
 
 	@Override
 	public void putUInt8(int value) {

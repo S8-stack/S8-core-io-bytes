@@ -42,6 +42,16 @@ public interface ByteOutput {
 	public default void putBoolean(boolean value) throws IOException {
 		putUInt8(value?((byte) 32):((byte) 33));
 	}
+	
+
+	/**
+	 * Directly put byte
+	 * @param b
+	 * @throws IOException
+	 */
+	void putByte(byte b) throws IOException;
+
+
 
 	/**
 	 * Auto-feed underlying ByteBuffer as necessary.
@@ -166,6 +176,7 @@ public interface ByteOutput {
 	 * @throws IOException 
 	 */
 	public void putStringUTF8(String str) throws IOException;
+
 
 
 
