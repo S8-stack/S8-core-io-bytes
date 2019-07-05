@@ -1,0 +1,24 @@
+package com.qx.back.base.io.csv.mapped;
+
+import java.lang.reflect.Field;
+
+import com.qx.back.base.io.units.QxScientificUnit;
+
+public class BooleanFieldMapping extends FieldMapping {
+
+	public BooleanFieldMapping(Field field) {
+		super(field);
+	}
+
+	@Override
+	public void set(String value, Object object, QxScientificUnit unit)
+			throws NumberFormatException, IllegalArgumentException, IllegalAccessException {
+		field.setBoolean(object, Boolean.valueOf(value));
+	}
+
+	@Override
+	public String get(Object object, QxScientificUnit unit)
+			throws IllegalArgumentException, IllegalAccessException {
+		return Boolean.toString(field.getBoolean(object));
+	}
+}

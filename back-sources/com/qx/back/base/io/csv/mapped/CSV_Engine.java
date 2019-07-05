@@ -45,9 +45,20 @@ public class CSV_Engine<T> {
 	 * @param type
 	 * @throws SecurityException 
 	 * @throws NoSuchMethodException 
+	 * @throws IllegalAccessException 
+	 * @throws IllegalArgumentException 
+	 * @throws NoSuchFieldException 
 	 */
-	public CSV_Engine(Class<T> type) throws NoSuchMethodException, SecurityException {
+	public CSV_Engine(Class<T> type) 
+			throws 
+			NoSuchMethodException, 
+			SecurityException, 
+			NoSuchFieldException, 
+			IllegalArgumentException, 
+			IllegalAccessException 
+	{
 		super();
+		
 		constructor = type.getConstructor(new Class<?>[]{});
 		CSV_Mapping mappingAnnotation;
 
@@ -80,24 +91,24 @@ public class CSV_Engine<T> {
 		// compile tag regex in a pattern
 		tagPattern = Pattern.compile(TAG_REGEX);
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	public T[] toArray(Class<?> type, InputStream inputStream) throws IOException {
 		List<T> list = new ArrayList<T>();
 		for(T object : read(inputStream)) {
 			list.add(object);
 		}
 		int length = list.size();
-		
+
 		@SuppressWarnings("unchecked")
 		T[] array = (T[]) Array.newInstance(type, length);
 		list.toArray(array);
 		return array;
 	}
-	
+
 
 	/**
 	 * 

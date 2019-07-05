@@ -1,10 +1,8 @@
 package com.qx.back.base.io.csv.mapped;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
-import com.qx.back.base.io.units.QxScientificUnit;
+import com.qx.back.base.enumerables.QxEnumerable;
 
 
 public abstract class FieldMapping implements Getter, Setter {
@@ -14,8 +12,13 @@ public abstract class FieldMapping implements Getter, Setter {
 	 * 
 	 * @param field
 	 * @return
+	 * @throws IllegalAccessException 
+	 * @throws IllegalArgumentException 
+	 * @throws SecurityException 
+	 * @throws NoSuchFieldException 
 	 */
-	public static FieldMapping build(Field field){
+	public static FieldMapping build(Field field) 
+			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
 		Class<?> type = field.getType();
 		if(type==boolean.class){
 			return new BooleanFieldMapping(field);
@@ -41,6 +44,9 @@ public abstract class FieldMapping implements Getter, Setter {
 		else if(type.isEnum()){
 			return new EnumFieldMapping(field);
 		}
+		else if(QxEnumerable.class.isAssignableFrom(type)) {
+			return new QxEnumerableFieldMapping(field);
+		}
 		else {
 			throw new RuntimeException("Type is not primitive : "+type.getName());
 		}
@@ -49,180 +55,9 @@ public abstract class FieldMapping implements Getter, Setter {
 
 	protected Field field;
 
-	private FieldMapping(Field field) {
+	public FieldMapping(Field field) {
 		super();
 		this.field = field;
-	}
-
-
-	public static class DoubleFieldMapping extends FieldMapping {
-
-
-		public DoubleFieldMapping(Field field) {
-			super(field);
-		}
-
-		@Override
-		public void set(String value, Object object, QxScientificUnit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException {
-			field.setDouble(object, unit.toIS(Double.valueOf(value)));
-		}
-
-		@Override
-		public String get(Object object, QxScientificUnit unit)
-				throws IllegalArgumentException, IllegalAccessException {
-			return Double.toString(unit.fromIS(field.getDouble(object)));
-		}
-	}
-
-
-	public static class FloatFieldMapping extends FieldMapping {
-
-		public FloatFieldMapping(Field field) {
-			super(field);
-		}
-
-		@Override
-		public void set(String value, Object object, QxScientificUnit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException {
-			field.setFloat(object, (float) unit.toIS(Float.valueOf(value)));
-		}
-
-		@Override
-		public String get(Object object, QxScientificUnit unit)
-				throws IllegalArgumentException, IllegalAccessException {
-			return Double.toString(unit.fromIS(field.getFloat(object)));
-		}
-	}
-
-	public static class IntegerFieldMapping extends FieldMapping {
-
-		public IntegerFieldMapping(Field field) {
-			super(field);
-		}
-
-		@Override
-		public void set(String value, Object object, QxScientificUnit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException {
-			field.setInt(object, Integer.valueOf(value));
-		}
-
-		@Override
-		public String get(Object object, QxScientificUnit unit)
-				throws IllegalArgumentException, IllegalAccessException {
-			return Integer.toString(field.getInt(object));
-		}
-	}
-
-	public static class LongFieldMapping extends FieldMapping {
-
-		public LongFieldMapping(Field field) {
-			super(field);
-		}
-
-		@Override
-		public void set(String value, Object object, QxScientificUnit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException {
-			field.setLong(object, Long.valueOf(value));
-		}
-
-		@Override
-		public String get(Object object, QxScientificUnit unit)
-				throws IllegalArgumentException, IllegalAccessException {
-			return Long.toString(field.getLong(object));
-		}
-	}
-
-	public static class ShortFieldMapping extends FieldMapping {
-
-		public ShortFieldMapping(Field field) {
-			super(field);
-		}
-
-		@Override
-		public void set(String value, Object object, QxScientificUnit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException {
-			field.setShort(object, Short.valueOf(value));
-		}
-
-		@Override
-		public String get(Object object, QxScientificUnit unit)
-				throws IllegalArgumentException, IllegalAccessException {
-			return Short.toString(field.getShort(object));
-		}
-	}
-
-	public static class BooleanFieldMapping extends FieldMapping {
-
-		public BooleanFieldMapping(Field field) {
-			super(field);
-		}
-
-		@Override
-		public void set(String value, Object object, QxScientificUnit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException {
-			field.setBoolean(object, Boolean.valueOf(value));
-		}
-
-		@Override
-		public String get(Object object, QxScientificUnit unit)
-				throws IllegalArgumentException, IllegalAccessException {
-			return Boolean.toString(field.getBoolean(object));
-		}
-	}
-
-	public static class StringFieldMapping extends FieldMapping {
-
-		public StringFieldMapping(Field field) {
-			super(field);
-		}
-
-		@Override
-		public void set(String value, Object object, QxScientificUnit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException {
-			field.set(object, value);
-		}
-
-		@Override
-		public String get(Object object, QxScientificUnit unit)
-				throws IllegalArgumentException, IllegalAccessException {
-			return (String) field.get(object);
-		}
-	}
-
-	public static class EnumFieldMapping extends FieldMapping {
-
-		private Class<?> enumType;
-
-		private Map<String, Object> enumConstants;
-
-		public EnumFieldMapping(Field field) {
-			super(field);
-			this.enumType = field.getType();
-			Object[] constantsArray = enumType.getEnumConstants();
-			enumConstants = new HashMap<String, Object>(constantsArray.length);
-			for(Object value : constantsArray) {
-				enumConstants.put(((Enum<?>) value).name(), value);
-			}
-		}
-
-		@Override
-		public void set(String value, Object object, QxScientificUnit unit)
-				throws NumberFormatException, IllegalArgumentException, IllegalAccessException {
-			Object enumConstant = enumConstants.get(value);
-			if(enumConstant==null) {
-				throw new IllegalArgumentException(value+" is not a valid enum value for: "
-						+enumType.getName());
-			}
-			field.set(enumConstant, value);
-		}
-
-		@Override
-		public String get(Object object, QxScientificUnit unit)
-				throws IllegalArgumentException, IllegalAccessException {
-			Object enumConstant = field.get(object);
-			return ((Enum<?>) enumConstant).name();
-		}
 	}
 	
 	

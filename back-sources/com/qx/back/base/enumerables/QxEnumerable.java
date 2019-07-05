@@ -87,12 +87,26 @@ public abstract class QxEnumerable {
 			} 
 			catch (IOException e) {
 				e.printStackTrace();
+			} 
+			catch (NoSuchFieldException e) {
+				e.printStackTrace();
+			} 
+			catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} 
+			catch (IllegalAccessException e) {
+				e.printStackTrace();
 			}
 		}
-
 	}
 
 	public abstract int getCode();
+	
+	/**
+	 * 
+	 * @return preferred name
+	 */
+	public abstract String getName();
 	
 	public abstract String[] getNames();
 
