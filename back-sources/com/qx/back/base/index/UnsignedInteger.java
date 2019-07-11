@@ -49,6 +49,17 @@ public class UnsignedInteger {
 			offset+=2;
 		}
 	}
+	
+	public UnsignedInteger(int length, String hexadecimalEncoding) {
+		super();
+		bytes = new byte[length];
+		int l = Math.min(hexadecimalEncoding.length()/2, length);
+		int offset=0;
+		for(int i=length-l; i<length; i++) {
+			bytes[i] = (byte) Integer.parseUnsignedInt(hexadecimalEncoding.substring(offset, offset+2), 16);
+			offset+=2;
+		}
+	}
 
 	
 	public UnsignedInteger(int length, long value) {

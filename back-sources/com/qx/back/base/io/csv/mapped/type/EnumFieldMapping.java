@@ -1,4 +1,4 @@
-package com.qx.back.base.io.csv.mapped;
+package com.qx.back.base.io.csv.mapped.type;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

@@ -6,17 +6,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.qx.back.base.io.csv.mapped.type.CSV_TypeHandler;
+import com.qx.back.base.io.csv.mapped.type.Setter;
 import com.qx.back.base.io.units.QxScientificUnit;
 
 /**
@@ -36,9 +34,7 @@ public class CSV_Engine<T> {
 
 	private Constructor<T> constructor;
 
-	private Map<String, Getter> getters;
-
-	private Map<String, Setter> setters;
+	private CSV_TypeHandler typeHandler;
 
 	/**
 	 * 
@@ -58,36 +54,11 @@ public class CSV_Engine<T> {
 			IllegalAccessException 
 	{
 		super();
-		
+
 		constructor = type.getConstructor(new Class<?>[]{});
-		CSV_Mapping mappingAnnotation;
 
-		getters = new HashMap<>();
-		setters = new HashMap<>();
+		typeHandler = new CSV_TypeHandler(type);
 
-		// screen fields
-		for(Field field : type.getFields()){
-			mappingAnnotation = field.getAnnotation(CSV_Mapping.class);
-			if(mappingAnnotation!=null){
-				String column = mappingAnnotation.tag();
-				FieldMapping mapping = FieldMapping.build(field); 
-				getters.put(column, mapping);
-				setters.put(column, mapping);
-			}
-		}
-
-		// screen setters
-		for(Method method : type.getMethods()){
-			mappingAnnotation = method.getAnnotation(CSV_Mapping.class);
-			if(mappingAnnotation!=null){
-				String column = mappingAnnotation.tag();
-				MethodSetter setter = MethodSetter.build(method);
-				if(setter!=null){
-					setters.put(column, setter);
-				}
-				// TODO same things for getters
-			}
-		}
 		// compile tag regex in a pattern
 		tagPattern = Pattern.compile(TAG_REGEX);
 	}
@@ -116,7 +87,7 @@ public class CSV_Engine<T> {
 	 * @return
 	 * @throws IOException
 	 */
-	public Iterable<T> read(InputStream inputStream) throws IOException{
+	public Iterable<T> read(InputStream inputStream, Object... nonSerializedParameters) throws IOException{
 
 		return new Iterable<T>() {
 
@@ -141,7 +112,7 @@ public class CSV_Engine<T> {
 						matcher.find();
 						tag = matcher.group(1);
 						unit = matcher.group(3);
-						structure[i] = setters.get(tag);
+						structure[i] = typeHandler.getSetter(tag);
 						if(unit!=null){
 							units[i] = new QxScientificUnit(unit);	
 						}
