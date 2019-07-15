@@ -8,7 +8,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.qx.back.base.io.csv.mapped.CSV_Engine;
@@ -22,15 +24,17 @@ public abstract class QxEnumerable {
 		private E[] mapByCode;
 
 		private Map<String, E> mapByName;
-
-		public Prototype(Class<E> type, String docFilename, String tableFilename) {
+		
+		public Prototype(Class<E> type, String commonFilename) {
 			
 			// load documentation
+			String docFilename = commonFilename+".html";
 			if(docFilename!=null) {
 				loadDoc(type, docFilename, StandardCharsets.UTF_8);	
 			}
 			
 			// load table
+			String tableFilename = commonFilename+".csv";
 			loadTable(type, tableFilename);
 			
 		}
@@ -67,20 +71,34 @@ public abstract class QxEnumerable {
 
 		@SuppressWarnings("unchecked")
 		private void loadTable(Class<E> type, String tableFilename) {
-			mapByCode = (E[]) Array.newInstance(type, 256);
-
-			mapByName = new HashMap<String, E>();
 			
 			try {
 				InputStream inputStream = type.getResourceAsStream(tableFilename);
 
 				CSV_Engine<E> engine = new CSV_Engine<E>(type);
+				List<E> enumerables = new ArrayList<E>();
+				int maxCode = 0;
 				for(E item : engine.read(inputStream)){
-					mapByCode[item.getCode()] = item;
+					enumerables.add(item);
+					maxCode = Math.max(maxCode, item.getCode());
+				}
+				
+				// build maps
+				int nEnumerables = enumerables.size();
+				int length = maxCode+8;
+				mapByCode = (E[]) Array.newInstance(type, length);
+				for(E item : enumerables) {
+					mapByCode[item.getCode()] = item;	
+				}
+				
+				// build name-indexed map
+				mapByName = new HashMap<String, E>(nEnumerables);
+				for(E item : enumerables) {
 					for(String name : item.getNames()) {
 						mapByName.put(name, item);	
-					}
+					}	
 				}
+				
 			} 
 			catch (NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();

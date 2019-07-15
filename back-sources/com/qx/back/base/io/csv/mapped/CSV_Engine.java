@@ -27,7 +27,7 @@ public class CSV_Engine<T> {
 
 	public final static String DELIMITERS = "[ ]*,[ ]*";
 
-	public final static String TAG_REGEX = "([a-zA-Z0-0\\-_]+) *(\\[([a-zA-Z0-9\\.\\-]+)\\])?";
+	public final static String TAG_REGEX = "([a-zA-Z0-0\\-_#\\?]+) *(\\[([a-zA-Z0-9\\.\\-]+)\\])?";
 
 	private Pattern tagPattern;
 
