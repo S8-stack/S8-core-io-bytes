@@ -1,4 +1,4 @@
-package com.qx.web;
+package com.qx.base.resources;
 
 import java.util.HashMap;
 import java.util.Map;

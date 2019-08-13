@@ -1,4 +1,4 @@
-package com.qx.web;
+package com.qx.base.resources;
 
 import java.io.IOException;
 import java.io.InputStream;

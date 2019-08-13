@@ -1,4 +1,4 @@
-package com.qx.web;
+package com.qx.base.resources;
 
 import java.nio.file.Path;
 
@@ -45,7 +45,7 @@ public abstract class WebResourceDescriptor {
 	 * @param verbosity flag
 	 */
 	public abstract void load(
-			WebResourceBase base, 
+			WebResourcesBase base, 
 			Path moduleRootPath, 
 			String moduleWebPathname, 
 			boolean isVerbose);

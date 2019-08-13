@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root:web-loader>
+	<package></package>
+	<web>/base/</web>
+	<resources>
+		<filtered>
+			<package>bytes/</package>
+			<web></web>
+			<filter>$.js</filter>
+		</filtered>
+	</resources>
+</root:web-loader>

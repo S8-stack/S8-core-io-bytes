@@ -1,4 +1,4 @@
-package com.qx.web;
+package com.qx.base.resources;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,7 +44,7 @@ public class WebResourceFilter extends WebResourceDescriptor {
 
 
 	@Override
-	public void load(WebResourceBase base, Path rootPath, String moduleWebPathname, boolean isVerbose) {
+	public void load(WebResourcesBase base, Path rootPath, String moduleWebPathname, boolean isVerbose) {
 		// pattern
 		String preprocessedRegex = preprocessRegex(filter);
 		pattern = Pattern.compile(preprocessedRegex);	
@@ -61,7 +61,7 @@ public class WebResourceFilter extends WebResourceDescriptor {
 	 * @param verbosity
 	 */
 	private void loadFolderContent(
-			WebResourceBase base, 
+			WebResourcesBase base, 
 			Path folderPath, 
 			String localFolderPathname, 
 			String webFolderPathname, 

@@ -1,13 +1,12 @@
-package com.qx.web;
+package com.qx.base.resources;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import com.qx.lang.xml.annotation.XML_SetElement;
 import com.qx.lang.xml.annotation.XML_Type;
 
 @XML_Type(name="web-loader", sub={})
-public class WebLoader {
+public class WebResourcesBundle {
 
 	private String rootPathname;
 	
@@ -40,9 +39,8 @@ public class WebLoader {
 	}
 
 
-	public void load(WebResourceBase base, Class<?> type, boolean isVerbose) {
-		
-		this.rootPath = Paths.get(type.getResource(rootPathname).getPath());
+	public void load(WebResourcesBase base, QxModuleResourceLoader loader, boolean isVerbose) {
+		this.rootPath = loader.getResourcePath(rootPathname);
 		for(WebResourceDescriptor descriptor : descriptors) {
 			descriptor.load(base, rootPath, webRootPathname, isVerbose);
 		}

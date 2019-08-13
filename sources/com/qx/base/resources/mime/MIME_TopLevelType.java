@@ -1,4 +1,4 @@
-package com.qx.web.mime;
+package com.qx.base.resources.mime;
 
 
 

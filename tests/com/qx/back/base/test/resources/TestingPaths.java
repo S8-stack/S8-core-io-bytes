@@ -4,7 +4,7 @@ import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.qx.web.WebResourceFilter;
+import com.qx.base.resources.WebResourceFilter;
 
 
 public class TestingPaths {

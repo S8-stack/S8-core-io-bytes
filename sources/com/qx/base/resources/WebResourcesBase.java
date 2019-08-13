@@ -1,23 +1,48 @@
-package com.qx.web;
+package com.qx.base.resources;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
+
+import com.qx.lang.xml.XML_Context;
 
 /**
  * 
  * @author pc
  *
  */
-public class WebResourceBase {
+public class WebResourcesBase {
+
+	public final static String WEB_RESOURCES_FILENAME = "web-resources.xml";
 
 	private Map<String, WebResource> resources;
 
-	public WebResourceBase() {
+	public WebResourcesBase() {
 		super();
 		this.resources = new HashMap<>();
 	}
 
+
+
+	public void load(QxModuleResourceLoader[] accesses, boolean isVerbose) throws Exception {
+		XML_Context context = new XML_Context(WebResourcesBundle.class);
+		for(QxModuleResourceLoader access : accesses) {
+			Path path = access.getResourcePath(WEB_RESOURCES_FILENAME);
+
+			try(InputStream inputStream = new FileInputStream(path.toFile())){
+				WebResourcesBundle loader = (WebResourcesBundle) context.deserialize(inputStream);
+				inputStream.close();
+				loader.load(this, access, isVerbose);	
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("[WebResourcesBase] Failed to load: "+path.toString());
+			}
+		}
+	}
 
 	/**
 	 * If resource has already been defined, the action is discarded
@@ -26,7 +51,7 @@ public class WebResourceBase {
 	 */
 	public void add(WebResource resource, boolean isVerbose) {
 		String key = resource.getWebPathname();
-		
+
 		if(!resource.isServerSideSource()) {
 			if(!resources.containsKey(key)) {
 				if(isVerbose) {
