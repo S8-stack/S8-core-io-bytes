@@ -3,13 +3,26 @@ package com.qx.back.base.test.async;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousChannelGroup;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class AsyncPerformanceTest {
+
+/**
+ * 
+ * @author pc
+ * <ul>
+ * <li> buffering size = 65536: -> 1.12 GB/s</li>
+ * <li> buffering size = 32768: -> 0.99 GB/s</li>
+ * <li> buffering size = 16384: -> 0.75 GB/s</li>
+ * <ul>
+ */
+public class AsyncThroughputTest {
 
 	/**
 	 * serie length
@@ -148,7 +161,9 @@ public class AsyncPerformanceTest {
 		public Server(int port) throws IOException {
 			super();
 			isRunning = new AtomicBoolean(false);
-			serverSocketChannel = AsynchronousServerSocketChannel.open().bind(new InetSocketAddress(port));
+			ExecutorService pool = Executors.newSingleThreadExecutor();
+			AsynchronousChannelGroup group = AsynchronousChannelGroup.withThreadPool(pool);
+			serverSocketChannel = AsynchronousServerSocketChannel.open(group).bind(new InetSocketAddress(port));
 			System.out.println("Server listening on " + port);
 		}
 
