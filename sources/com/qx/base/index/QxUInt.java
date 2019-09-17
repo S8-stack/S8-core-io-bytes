@@ -21,7 +21,7 @@ import com.qx.base.bytes.ByteOutput;
  * @author pc
  *
  */
-public class UnsignedInteger {
+public class QxUInt {
 
 	public byte[] bytes;
 
@@ -29,17 +29,17 @@ public class UnsignedInteger {
 	/**
 	 * ZERO constructor
 	 */
-	public UnsignedInteger(int length) {
+	public QxUInt(int length) {
 		super();
 		bytes = new byte[length];
 	}
 
-	public UnsignedInteger(byte[] bytes) {
+	public QxUInt(byte[] bytes) {
 		super();
 		this.bytes = bytes;
 	}
 	
-	public UnsignedInteger(String hexadecimalEncoding) {
+	public QxUInt(String hexadecimalEncoding) {
 		super();
 		int length = hexadecimalEncoding.length()/2;
 		bytes = new byte[length];
@@ -50,7 +50,7 @@ public class UnsignedInteger {
 		}
 	}
 	
-	public UnsignedInteger(int length, String hexadecimalEncoding) {
+	public QxUInt(int length, String hexadecimalEncoding) {
 		super();
 		bytes = new byte[length];
 		int l = Math.min(hexadecimalEncoding.length()/2, length);
@@ -62,7 +62,7 @@ public class UnsignedInteger {
 	}
 
 	
-	public UnsignedInteger(int length, long value) {
+	public QxUInt(int length, long value) {
 		super();
 		bytes = new byte[length];
 		int shift = 0;
@@ -72,7 +72,7 @@ public class UnsignedInteger {
 		}
 	}
 	
-	public UnsignedInteger(int length, int value) {
+	public QxUInt(int length, int value) {
 		super();
 		bytes = new byte[length];
 		int shift = 0;
@@ -82,7 +82,7 @@ public class UnsignedInteger {
 		}
 	}
 
-	public UnsignedInteger(UnsignedInteger ui0, UnsignedInteger ui1) {
+	public QxUInt(QxUInt ui0, QxUInt ui1) {
 		super();
 		int n0 = ui0.bytes.length , n1 = ui1.bytes.length;
 		int nBytes = n0+n1;
@@ -95,13 +95,13 @@ public class UnsignedInteger {
 		}
 	}
 
-	public UnsignedInteger copy() {
+	public QxUInt copy() {
 		int nBytes=bytes.length;
 		byte[] nextBytes = new byte[nBytes];
 		for(int i=0; i<nBytes; i++) {
 			nextBytes[i] = bytes[i];
 		}
-		return new UnsignedInteger(nextBytes);
+		return new QxUInt(nextBytes);
 	}
 
 
@@ -195,8 +195,8 @@ public class UnsignedInteger {
 
 	@Override
 	public boolean equals(Object object) {
-		if(object instanceof UnsignedInteger) {
-			UnsignedInteger right = (UnsignedInteger) object;
+		if(object instanceof QxUInt) {
+			QxUInt right = (QxUInt) object;
 			for(int i=bytes.length-1; i>=0; i--) {
 				if(bytes[i]!=right.bytes[i]) {
 					return false;
@@ -216,7 +216,7 @@ public class UnsignedInteger {
 	 * @param right
 	 * @return
 	 */
-	public boolean equals(UnsignedInteger right) {
+	public boolean equals(QxUInt right) {
 		int length = bytes.length;
 		for(int i=0; i<length; i++) {
 			if(bytes[i]!=right.bytes[i]) {
@@ -227,7 +227,7 @@ public class UnsignedInteger {
 	}
 	
 	
-	public boolean isGreaterThan(UnsignedInteger right) {
+	public boolean isGreaterThan(QxUInt right) {
 		int length = bytes.length;
 		for(int i=0; i<length; i++) {
 			if(bytes[i] < right.bytes[i]) {

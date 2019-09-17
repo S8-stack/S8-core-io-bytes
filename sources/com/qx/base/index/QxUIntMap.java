@@ -20,32 +20,32 @@ package com.qx.base.index;
  * @author pc
  *
  */
-public class UIntMap {
+public class QxUIntMap {
 
 	public final static boolean IS_DEBUG_ACTIVE = true;
 
 	private class Node {
 
-		public UnsignedInteger index;
+		public QxUInt index;
 
 		public Object object;
 
 		public Node next;
 
-		public Node(UnsignedInteger index, Object object) {
+		public Node(QxUInt index, Object object) {
 			super();
 			this.index = index;
 			this.object = object;
 		}
-		
-		public Node(UnsignedInteger index, Object object, Node next) {
+
+		public Node(QxUInt index, Object object, Node next) {
 			super();
 			this.index = index;
 			this.object = object;
 			this.next = next;
 		}
 
-		
+
 		public int getBucketIndex() {
 			return index.hashCode() & mask;
 		}
@@ -60,7 +60,7 @@ public class UIntMap {
 
 	private int exponent;
 
-	public UIntMap() {
+	public QxUIntMap() {
 		super();
 		size = 0;
 		this.exponent = 6;
@@ -82,29 +82,29 @@ public class UIntMap {
 
 	private void expand() {
 		if(exponent<24) {
-		
+
 
 			exponent++;
 			mask = mask(exponent);
 			if(IS_DEBUG_ACTIVE) {
 				System.out.println("[QxIndexMap] index map is expanded to exp="+exponent);
 			}
-			
+
 			int nBuckets = buckets.length;
 			Node[] expandedBuckets = new Node[2*nBuckets];
-			
+
 			int expandedBucketIndex;
 			Node node, expandedNode;
 			for(int bucketIndex=0; bucketIndex<nBuckets; bucketIndex++) {
 				node = buckets[bucketIndex];
 				while(node!=null) {
 					expandedNode = new Node(node.index, node.object);
-					
+
 					// store
 					expandedBucketIndex = expandedNode.getBucketIndex();
 					expandedNode.next = expandedBuckets[expandedBucketIndex];
 					expandedBuckets[expandedBucketIndex] = expandedNode;
-				
+
 					// move to next
 					node = node.next;
 				}
@@ -115,7 +115,7 @@ public class UIntMap {
 
 	private void collapse() {
 		if(exponent>6) {
-			
+
 			exponent--;
 			mask = mask(exponent);
 			if(IS_DEBUG_ACTIVE) {
@@ -123,19 +123,19 @@ public class UIntMap {
 			}
 			int nBuckets = buckets.length;
 			Node[] collapsedBuckets = new Node[nBuckets/2];
-			
+
 			int collapsedBucketIndex;
 			Node node, collapsedNode;
 			for(int bucketIndex=0; bucketIndex<nBuckets; bucketIndex++) {
 				node = buckets[bucketIndex];
 				while(node!=null) {
 					collapsedNode = new Node(node.index, node.object);
-					
+
 					// store
 					collapsedBucketIndex = collapsedNode.getBucketIndex();
 					collapsedNode.next = collapsedBuckets[collapsedBucketIndex];
 					collapsedBuckets[collapsedBucketIndex] = collapsedNode;
-				
+
 					// move to next
 					node = node.next;
 				}
@@ -149,14 +149,14 @@ public class UIntMap {
 		return (int) size;
 	}
 
-	
+
 	/**
 	 * /!\ Index is copied to avoid messing all things up with external
 	 * incrementation of index.
 	 * @param index: the index used to store the object.
 	 * @param object
 	 */
-	public void put(UnsignedInteger index, Object object) {
+	public void put(QxUInt index, Object object) {
 		int hashcode = mask & index.hashCode();
 		Node head = buckets[hashcode];
 		Node node = head;
@@ -179,12 +179,12 @@ public class UIntMap {
 
 
 
-	public boolean contains(UnsignedInteger index) {
+	public boolean contains(QxUInt index) {
 		return get(index)!=null;
 	}
 
 
-	public Object get(UnsignedInteger index) {
+	public Object get(QxUInt index) {
 		int hashcode = mask & index.hashCode();
 		Node node = buckets[hashcode];
 		while(node!=null) {
@@ -199,7 +199,7 @@ public class UIntMap {
 	}
 
 
-	public void remove(UnsignedInteger index) {
+	public void remove(QxUInt index) {
 		int hashcode = mask & index.hashCode();
 		Node node = buckets[hashcode];
 		Node previous = null;
@@ -266,20 +266,27 @@ public class UIntMap {
 		}
 		return mask;
 	}
-	
-	
+
+
 	public interface PairConsumer {
-		
+
 		/**
 		 * 
 		 * @param index
 		 * @param object
 		 * @return a flag indicating if traverse operation must be continued or not
 		 */
-		public boolean consume(UnsignedInteger index, Object object);
+		public boolean consume(QxUInt index, Object object);
 	}
-	
-	public synchronized boolean traverse(PairConsumer consumer) {
+
+
+	/**
+	 * <p><b>NOT Thread-safe</b>: must be externally protected</b>
+	 * </p>
+	 * @param consumer
+	 * @return
+	 */
+	public boolean traverse(PairConsumer consumer) {
 		int nBuckets = buckets.length, bucketIndex=0;
 		boolean isContinuing = true;
 		while(isContinuing && bucketIndex<nBuckets) {

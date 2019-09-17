@@ -2,6 +2,7 @@ package com.qx.base.bytes;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 public class BufferByteOutput implements ByteOutput {
 
@@ -104,7 +105,7 @@ public class BufferByteOutput implements ByteOutput {
 	@Override
 	public void putStringUTF8(String value) throws IOException{
 		if(value!=null){
-			byte[] bytes = value.getBytes("UTF-8");
+			byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
 
 			// we skip the first two bytes, but add to pass our own length
 			int length = bytes.length;

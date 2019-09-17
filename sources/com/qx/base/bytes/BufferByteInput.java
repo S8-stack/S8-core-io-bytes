@@ -2,6 +2,7 @@ package com.qx.base.bytes;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * <code>ByteBuffer</code>-based <code>ByteInflow</code>
@@ -173,7 +174,7 @@ public class BufferByteInput implements ByteInput {
 
 		// retrieve all bytes
 		byte[] bytes = getByteArray(length);
-		return new String(bytes);
+		return new String(bytes, StandardCharsets.UTF_8);
 	}
 	
 
