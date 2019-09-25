@@ -1,4 +1,4 @@
-package com.qx.base.root;
+package com.qx.base.run;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -13,8 +13,8 @@ import com.qx.lang.xml.annotation.XML_SetElement;
 import com.qx.lang.xml.annotation.XML_Type;
 
 
-@XML_Type(name="QxRoot")
-public class QxRoot {
+@XML_Type(name="QxRunMode")
+public class QxRunMode {
 
 	/**
 	 * config name
@@ -24,6 +24,8 @@ public class QxRoot {
 	private String name;
 	
 	private Path path;
+	
+	private boolean isDebugEnabled;
 
 
 	@XML_SetAttribute(name="name")
@@ -34,6 +36,11 @@ public class QxRoot {
 	@XML_SetElement(name="path")
 	public void setPath(String pathname) {
 		this.path = Paths.get(pathname);
+	}
+	
+	@XML_SetElement(name="debug")
+	public void setDebug(boolean flag) {
+		this.isDebugEnabled = flag;
 	}
 
 
@@ -49,42 +56,46 @@ public class QxRoot {
 		return path.resolve(continuation);
 	}
 
-	@XML_Type(name="QxRootPresets")
+	public boolean isDebugEnabled() {
+		return isDebugEnabled;
+	}
+	
+	@XML_Type(name="QxRunModes")
 	public static class Presets {
 
-		private Map<String, QxRoot> map;
+		private Map<String, QxRunMode> map;
 
 		public Presets() {
 			super();
 		}
 
 		@XML_SetElement(name="fork")
-		public void setEnvironments(QxRoot[] envs) {
-			this.map = new HashMap<String, QxRoot>();
+		public void setEnvironments(QxRunMode[] envs) {
+			this.map = new HashMap<String, QxRunMode>();
 			if(envs!=null) {
-				for(QxRoot environment : envs) {
+				for(QxRunMode environment : envs) {
 					map.put(environment.name, environment);
 				}
 			}
 		}
 		
-		public QxRoot get(String name) {
+		public QxRunMode get(String name) {
 			return map.get(name);
 		}
 	}
 
 	private static Presets presets;
 
-	public final static String PRESETS_FILENAME = "roots.xml";
+	public final static String PRESETS_FILENAME = "run-modes.xml";
 
 	private static InputStream openInputStream() {
-		return new BufferedInputStream(QxRoot.class.getResourceAsStream(PRESETS_FILENAME));
+		return new BufferedInputStream(QxRunMode.class.getResourceAsStream(PRESETS_FILENAME));
 	}
 
-	public static QxRoot get(String name) {
+	public static QxRunMode get(String name) {
 		if(presets==null) {
 			try (InputStream inputStream = openInputStream()){
-				XML_Context context = new XML_Context(QxRoot.Presets.class);
+				XML_Context context = new XML_Context(QxRunMode.Presets.class);
 				presets = (Presets) context.deserialize(inputStream);
 				inputStream.close();
 			} 

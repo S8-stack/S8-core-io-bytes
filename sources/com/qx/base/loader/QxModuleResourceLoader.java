@@ -1,13 +1,6 @@
 package com.qx.base.loader;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 
 
@@ -24,40 +17,10 @@ public abstract class QxModuleResourceLoader {
 	}
 	
 	
-	public abstract URL getResource(String pathname);
+	public abstract InputStream getResource(String pathname);
+
+
+	public abstract String getTargetName();
 	
-	
-	public Path getResourcePath(String pathname) {
-		try {
-			URL url = getResource(pathname);
-			if(url!=null) {
-				return Paths.get(url.toURI());	
-			}
-			else {
-				return null;
-			}
-		} 
-		catch (URISyntaxException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	
-	public InputStream getResourceAsStream(String pathname) {
-		try {
-			File file = new File(getResource(pathname).toURI());
-			return new FileInputStream(file);
-		} 
-		catch (URISyntaxException e) {
-			e.printStackTrace();
-			return null;
-		} 
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-		
-	}
 	
 }

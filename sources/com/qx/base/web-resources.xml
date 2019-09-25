@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root:web-loader>
-	<package></package>
-	<web>/base/</web>
+<root:bundle>
+	<package>/com/qx/base</package>
+	<web>/base</web>
 	<resources>
-		<filtered>
-			<package>bytes/</package>
+		<bundle>
+			<package>bytes</package>
 			<web></web>
-			<filter>$.js</filter>
-		</filtered>
-		<filtered>
-			<package>web/</package>
+			<resources>
+				<file>ByteInflow.js</file>
+				<file>ByteOutflow.js</file>
+			</resources>
+		</bundle>
+		<bundle>
+			<package>web</package>
 			<web></web>
-			<filter>$.js</filter>
-		</filtered>
+			<resources>
+				<file>QxContext.js</file>
+			</resources>
+		</bundle>
 	</resources>
-</root:web-loader>
+</root:bundle>
