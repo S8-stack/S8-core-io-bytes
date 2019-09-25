@@ -1,4 +1,4 @@
-package com.qx.base.resources;
+package com.qx.base.loader;
 
 import java.io.InputStream;
 

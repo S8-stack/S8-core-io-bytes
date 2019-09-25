@@ -14,8 +14,8 @@ module com.qx.base {
 	exports com.qx.base.reactive;
 	exports com.qx.base.html;
 	exports com.qx.base.log;
+	exports com.qx.base.loader;
 	exports com.qx.base.utils;
-	exports com.qx.base.resources;
 	
 
 	/*
