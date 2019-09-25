@@ -8,5 +8,10 @@
 			<web></web>
 			<filter>$.js</filter>
 		</filtered>
+		<filtered>
+			<package>web/</package>
+			<web></web>
+			<filter>$.js</filter>
+		</filtered>
 	</resources>
 </root:web-loader>

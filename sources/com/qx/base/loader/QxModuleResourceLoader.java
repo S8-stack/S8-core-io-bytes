@@ -30,7 +30,12 @@ public abstract class QxModuleResourceLoader {
 	public Path getResourcePath(String pathname) {
 		try {
 			URL url = getResource(pathname);
-			return Paths.get(url.toURI());
+			if(url!=null) {
+				return Paths.get(url.toURI());	
+			}
+			else {
+				return null;
+			}
 		} 
 		catch (URISyntaxException e) {
 			e.printStackTrace();
