@@ -1,4 +1,4 @@
-package com.qx.base.files;
+package com.qx.base.bytes;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.READ;
@@ -9,12 +9,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.qx.base.bytes.ByteInput;
-import com.qx.base.bytes.ByteOutput;
-import com.qx.base.bytes.FileByteInput;
-import com.qx.base.bytes.FileByteOutput;
-
-public abstract class QxFile {
+public abstract class ByteFile {
 
 
 	public static final boolean IS_DELETING_ILL_FORMATED_FILES = false;
@@ -23,7 +18,7 @@ public abstract class QxFile {
 
 	private boolean isAutosaveActive = false;
 
-	public QxFile(Path path) {
+	public ByteFile(Path path) {
 		super();
 		this.path = path;
 	}
@@ -48,10 +43,10 @@ public abstract class QxFile {
 	 * </p>
 	 * @param inflow
 	 * @throws BkException
-	 * @throws QxFileReadingException
+	 * @throws ByteFileReadingException
 	 * @throws IOException
 	 */
-	public abstract void read(ByteInput inflow) throws QxFileReadingException, IOException;
+	public abstract void read(ByteInput inflow) throws ByteFileReadingException, IOException;
 
 	/**
 	 * 
@@ -59,7 +54,7 @@ public abstract class QxFile {
 	 * @throws BkException
 	 * @throws IOException
 	 */
-	public abstract void write(ByteOutput outflow) throws QxFileWritingException, IOException;
+	public abstract void write(ByteOutput outflow) throws ByteFileWritingException, IOException;
 
 
 	public boolean isExisting() {
@@ -73,7 +68,7 @@ public abstract class QxFile {
 	 * @throws BkException
 	 * @throws IOException 
 	 */
-	public boolean load() throws QxFileReadingException, IOException {
+	public boolean load() throws ByteFileReadingException, IOException {
 		if(Files.exists(path)) {
 
 			try {
@@ -84,7 +79,7 @@ public abstract class QxFile {
 				read(inflow);
 				channel.close();
 			}
-			catch (QxFileReadingException | IOException e) {
+			catch (ByteFileReadingException | IOException e) {
 				//System.out.println("");
 
 				// delete file
@@ -108,7 +103,7 @@ public abstract class QxFile {
 	 * @param bucket
 	 * @throws Exception
 	 */
-	public void save() throws QxFileWritingException, IOException {
+	public void save() throws ByteFileWritingException, IOException {
 
 
 		// ensure directories are created
@@ -153,7 +148,7 @@ public abstract class QxFile {
 					try {
 						save();
 					} 
-					catch (QxFileWritingException | IOException e) {
+					catch (ByteFileWritingException | IOException e) {
 						e.printStackTrace();
 					}
 				}

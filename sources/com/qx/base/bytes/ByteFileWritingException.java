@@ -1,8 +1,8 @@
-package com.qx.base.files;
+package com.qx.base.bytes;
 
 import java.nio.file.Path;
 
-public class QxFileReadingException extends Exception {
+public class ByteFileWritingException extends Exception {
 
 	/**
 	 * 
@@ -12,7 +12,7 @@ public class QxFileReadingException extends Exception {
 	
 	public Path path;
 
-	public QxFileReadingException(Path path, String message) {
+	public ByteFileWritingException(Path path, String message) {
 		super(message);
 		this.path = path;
 	}
@@ -21,7 +21,7 @@ public class QxFileReadingException extends Exception {
 	 * Degraded version for later definition of path
 	 * @param message
 	 */
-	public QxFileReadingException(String message) {
+	public ByteFileWritingException(String message) {
 		super(message);
 	}
 }

@@ -38,7 +38,7 @@ public class QxUInt {
 		super();
 		this.bytes = bytes;
 	}
-	
+
 	public QxUInt(String hexadecimalEncoding) {
 		super();
 		int length = hexadecimalEncoding.length()/2;
@@ -49,7 +49,7 @@ public class QxUInt {
 			offset+=2;
 		}
 	}
-	
+
 	public QxUInt(int length, String hexadecimalEncoding) {
 		super();
 		bytes = new byte[length];
@@ -61,7 +61,7 @@ public class QxUInt {
 		}
 	}
 
-	
+
 	public QxUInt(int length, long value) {
 		super();
 		bytes = new byte[length];
@@ -71,7 +71,7 @@ public class QxUInt {
 			shift+=8;
 		}
 	}
-	
+
 	public QxUInt(int length, int value) {
 		super();
 		bytes = new byte[length];
@@ -104,6 +104,17 @@ public class QxUInt {
 		return new QxUInt(nextBytes);
 	}
 
+
+	public static QxUInt fromHexadecimal(String value) {
+		int length = value.length()/2;
+		byte[] bytes = new byte[length];
+		int offset=0;
+		for(int i=0; i<length; i++) {
+			bytes[i] = (byte) Integer.parseUnsignedInt(value.substring(offset, offset+2), 16);
+			offset+=2;
+		}
+		return new QxUInt(bytes);
+	}
 
 	/**
 	 * 
@@ -138,6 +149,16 @@ public class QxUInt {
 	}
 
 
+	public String toHexadecimal() {
+		StringBuilder builder = new StringBuilder();
+		int length = bytes.length;
+		for(int i=0; i<length; i++){
+			builder.append(String.format("%02x", bytes[i]));
+		}
+		return builder.toString();
+	}
+
+
 
 	public void increment() {
 		int index=bytes.length-1;
@@ -156,7 +177,7 @@ public class QxUInt {
 		}
 		return true;
 	}
-	
+
 
 
 
@@ -225,8 +246,8 @@ public class QxUInt {
 		}
 		return true;
 	}
-	
-	
+
+
 	public boolean isGreaterThan(QxUInt right) {
 		int length = bytes.length;
 		for(int i=0; i<length; i++) {
@@ -268,8 +289,8 @@ public class QxUInt {
 		}
 		return result;
 	}
-	
-	
+
+
 	/**
 	 * Shuffle all bytes at random
 	 */
@@ -279,12 +300,12 @@ public class QxUInt {
 			bytes[i] = (byte) (((int) (Math.random()*256)) & 0xff);
 		}
 	}
-	
-	
+
+
 	public void read(ByteInput inflow) throws IOException {
 		bytes = inflow.getByteArray(bytes.length);
 	}
-	
+
 	public void write(ByteOutput outflow) throws IOException {
 		outflow.putByteArray(bytes);
 	}
