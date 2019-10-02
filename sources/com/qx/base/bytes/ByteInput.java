@@ -33,6 +33,19 @@ public interface ByteInput {
 	 * @throws IOException 
 	 */
 	public byte[] getByteArray(int length) throws IOException;
+	
+	
+	
+	/**
+	 * Tells if the next bytes in the ByteInput are matching the sequence passed as
+	 * argument. Note that this method will return false if there is not enough
+	 * bytes to make the comparison.
+	 * 
+	 * @param bytes
+	 * @return
+	 * @throws IOException
+	 */
+	public boolean isMatching(byte[] sequence) throws IOException;
 
 
 	/**

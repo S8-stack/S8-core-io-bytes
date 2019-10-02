@@ -85,6 +85,17 @@ public class FileByteInput implements ByteInput {
 		return bytes;
 	}
 
+	@Override
+	public boolean isMatching(byte[] sequence) throws IOException {
+		int length = sequence.length;
+		byte[] bytes = getByteArray(length);
+		for(int i=0; i<length; i++) {
+			if(bytes[i]!=sequence[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 
 	public boolean[] getFlagsBlock() throws IOException {

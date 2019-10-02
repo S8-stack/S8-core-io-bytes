@@ -23,6 +23,25 @@ public class BufferByteInput implements ByteInput {
 		return buffer.get();
 	}
 	
+	
+	@Override
+	public boolean isMatching(byte[] sequence) throws IOException {
+		int length = sequence.length;
+		if(buffer.remaining()>=length) {
+			byte[] bytes = new byte[length];
+			buffer.get(bytes);
+			for(int i=0; i<length; i++) {
+				if(bytes[i]!=sequence[i]) {
+					return false;
+				}
+			}
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 
 	@Override
 	public int getUInt8() throws IOException {
