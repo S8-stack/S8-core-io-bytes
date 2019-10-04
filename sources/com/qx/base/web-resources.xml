@@ -11,12 +11,5 @@
 				<file>ByteOutflow.js</file>
 			</resources>
 		</bundle>
-		<bundle>
-			<package>web</package>
-			<web></web>
-			<resources>
-				<file>QxContext.js</file>
-			</resources>
-		</bundle>
 	</resources>
 </root:bundle>

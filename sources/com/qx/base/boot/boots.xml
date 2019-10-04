@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root:QxRunModes>
+<root:QxBoots>
 	<fork>
-		<QxRunMode name="DEBUG_MacBookPro">
+		<QxBoot name="DEBUG_MacBookPro">
 			<path>/Users/pc/qx/qx-workspace</path>
 			<debug>true</debug>
-		</QxRunMode>
-		<QxRunMode name="DEBUG_MacPro">
+		</QxBoot>
+		<QxBoot name="DEBUG_MacPro">
 			<path>/Users/pc/qx/qx-workspace</path>
 			<debug>true</debug>
-		</QxRunMode>
+		</QxBoot>
 	</fork>
-</root:QxRunModes>
+</root:QxBoots>

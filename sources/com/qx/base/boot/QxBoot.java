@@ -1,4 +1,4 @@
-package com.qx.base.run;
+package com.qx.base.boot;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -13,8 +13,8 @@ import com.qx.lang.xml.annotation.XML_SetElement;
 import com.qx.lang.xml.annotation.XML_Type;
 
 
-@XML_Type(name="QxRunMode")
-public class QxRunMode {
+@XML_Type(name="QxBoot")
+public class QxBoot {
 
 	/**
 	 * config name
@@ -23,7 +23,7 @@ public class QxRunMode {
 	 */
 	private String name;
 	
-	private Path path;
+	private Path root;
 	
 	private boolean isDebugEnabled;
 
@@ -35,7 +35,7 @@ public class QxRunMode {
 	
 	@XML_SetElement(name="path")
 	public void setPath(String pathname) {
-		this.path = Paths.get(pathname);
+		this.root = Paths.get(pathname);
 	}
 	
 	@XML_SetElement(name="debug")
@@ -48,62 +48,83 @@ public class QxRunMode {
 		return name;
 	}
 
-	public Path getPath() {
-		return path;
+	public Path getRootPath() {
+		return root;
 	}
 
 	public Path getPath(String continuation) {
-		return path.resolve(continuation);
+		return root.resolve(continuation);
 	}
 
 	public boolean isDebugEnabled() {
 		return isDebugEnabled;
 	}
 	
-	@XML_Type(name="QxRunModes")
+	@XML_Type(name="QxBoots")
 	public static class Presets {
 
-		private Map<String, QxRunMode> map;
+		private Map<String, QxBoot> map;
 
 		public Presets() {
 			super();
 		}
 
 		@XML_SetElement(name="fork")
-		public void setEnvironments(QxRunMode[] envs) {
-			this.map = new HashMap<String, QxRunMode>();
+		public void setEnvironments(QxBoot[] envs) {
+			this.map = new HashMap<String, QxBoot>();
 			if(envs!=null) {
-				for(QxRunMode environment : envs) {
+				for(QxBoot environment : envs) {
 					map.put(environment.name, environment);
 				}
 			}
 		}
 		
-		public QxRunMode get(String name) {
+		public QxBoot get(String name) {
 			return map.get(name);
 		}
 	}
 
 	private static Presets presets;
 
-	public final static String PRESETS_FILENAME = "run-modes.xml";
+	public final static String PRESETS_FILENAME = "boots.xml";
 
 	private static InputStream openInputStream() {
-		return new BufferedInputStream(QxRunMode.class.getResourceAsStream(PRESETS_FILENAME));
+		return new BufferedInputStream(QxBoot.class.getResourceAsStream(PRESETS_FILENAME));
 	}
 
-	public static QxRunMode get(String name) {
+	public static QxBoot get(String name) throws Exception {
 		if(presets==null) {
 			try (InputStream inputStream = openInputStream()){
-				XML_Context context = new XML_Context(QxRunMode.Presets.class);
+				XML_Context context = new XML_Context(QxBoot.Presets.class);
 				presets = (Presets) context.deserialize(inputStream);
 				inputStream.close();
 			} 
 			catch (Exception e) {
 				e.printStackTrace();
+				throw new Exception("Cannot load run mode "+name+" due to "+e.getMessage());
 			}
 		}
 		
-		return presets.get(name);
+		QxBoot runMode = presets.get(name);
+		if(runMode==null) {
+			throw new Exception("Cannot find run mode: "+name);
+		}
+		
+		return runMode;
+	}
+	
+	
+	/**
+	 * Assume that args only contains a single object, which is the mode name
+	 * @param args
+	 * @return
+	 * @throws Exception
+	 */
+	public static QxBoot boot(String[] args) throws Exception {
+		if(args==null || args.length!=1) {
+			throw new Exception("Wrong number of arguments");
+		}
+		String runModeName = args[0];
+		return QxBoot.get(runModeName);
 	}
 }

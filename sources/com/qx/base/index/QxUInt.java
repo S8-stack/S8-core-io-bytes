@@ -238,13 +238,18 @@ public class QxUInt {
 	 * @return
 	 */
 	public boolean equals(QxUInt right) {
-		int length = bytes.length;
-		for(int i=0; i<length; i++) {
-			if(bytes[i]!=right.bytes[i]) {
-				return false;
+		if(right!=null) {
+			int length = bytes.length;
+			for(int i=0; i<length; i++) {
+				if(bytes[i]!=right.bytes[i]) {
+					return false;
+				}
 			}
+			return true;	
 		}
-		return true;
+		else {
+			return false;
+		}
 	}
 
 
