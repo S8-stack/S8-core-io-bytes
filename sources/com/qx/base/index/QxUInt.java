@@ -2,8 +2,8 @@ package com.qx.base.index;
 
 import java.io.IOException;
 
-import com.qx.base.bytes.ByteInput;
-import com.qx.base.bytes.ByteOutput;
+import com.qx.base.bytes.ByteInflow;
+import com.qx.base.bytes.ByteOutflow;
 
 /**
  * 
@@ -136,7 +136,7 @@ public class QxUInt {
 		}
 	}
 
-	public void compose(ByteOutput outflow) throws IOException {
+	public void compose(ByteOutflow outflow) throws IOException {
 		outflow.putByteArray(bytes);
 	}
 
@@ -307,11 +307,11 @@ public class QxUInt {
 	}
 
 
-	public void read(ByteInput inflow) throws IOException {
+	public void read(ByteInflow inflow) throws IOException {
 		bytes = inflow.getByteArray(bytes.length);
 	}
 
-	public void write(ByteOutput outflow) throws IOException {
+	public void write(ByteOutflow outflow) throws IOException {
 		outflow.putByteArray(bytes);
 	}
 

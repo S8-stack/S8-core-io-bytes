@@ -46,7 +46,7 @@ public abstract class ByteFile {
 	 * @throws ByteFileReadingException
 	 * @throws IOException
 	 */
-	public abstract void read(ByteInput inflow) throws ByteFileReadingException, IOException;
+	public abstract void read(ByteInflow inflow) throws ByteFileReadingException, IOException;
 
 	/**
 	 * 
@@ -54,7 +54,7 @@ public abstract class ByteFile {
 	 * @throws BkException
 	 * @throws IOException
 	 */
-	public abstract void write(ByteOutput outflow) throws ByteFileWritingException, IOException;
+	public abstract void write(ByteOutflow outflow) throws ByteFileWritingException, IOException;
 
 
 	public boolean isExisting() {
@@ -73,7 +73,7 @@ public abstract class ByteFile {
 
 			try {
 				FileChannel channel = FileChannel.open(path, CREATE, READ);
-				FileByteInput inflow = new FileByteInput(channel, getFileBufferingSize());
+				FileByteInflow inflow = new FileByteInflow(channel, getFileBufferingSize());
 				inflow.pull();
 
 				read(inflow);
@@ -112,7 +112,7 @@ public abstract class ByteFile {
 			Files.createDirectories(folderpath);
 		}
 		FileChannel channel = FileChannel.open(path, CREATE, WRITE).truncate(0);
-		FileByteOutput outflow = new FileByteOutput(channel, getFileBufferingSize());
+		FileByteOutflow outflow = new FileByteOutflow(channel, getFileBufferingSize());
 
 		write(outflow);
 

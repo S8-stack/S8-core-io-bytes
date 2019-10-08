@@ -3,7 +3,7 @@
 	<package>/com/qx/base</package>
 	<web>/base</web>
 	<resources>
-		<bundle>
+		<bundle cache="false">
 			<package>bytes</package>
 			<web></web>
 			<resources>
