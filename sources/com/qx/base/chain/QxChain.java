@@ -10,12 +10,8 @@ import java.io.IOException;
  */
 public class QxChain {
 
-	/**
-	 * 
-	 * @author pc
-	 *
-	 */
-	public class Link {
+
+	private class Link {
 
 		private QxChainable object;
 
@@ -29,33 +25,62 @@ public class QxChain {
 		 * previous block
 		 */
 		private Link previous;
-		
-		
 
 		public Link(QxChainable object) {
 			super();
 			this.object = object;
-			object.setLink(this);
+			object.setChainLinkHandle(new QxChainLinkHandle() {
+
+				@Override
+				public Object previous() {
+					return previous;
+				}
+
+				@Override
+				public Object next() {
+					return next;
+				}
+
+				@Override
+				public void detach() {
+					Link.this.detach();
+				}
+
+				@Override
+				public void moveFirst() {
+					Link.this.moveFirst();
+				}
+
+				@Override
+				public void moveLast() {
+					Link.this.moveLast();
+				}
+			});
 		}
 
-	
-		
-		public void setLatest() {
-			QxChain.this.setLatest(this);
-		}
 
 		/**
 		 * Chain method for efficient storage
 		 */
-		private void pop(){
-			if(next!=null){
+		public void detach(){
+			
+			if(this==head){ // update head
+				head = next;
+			}
+			
+			if(this==tail){ // update tail
+				tail = previous;
+			}
+			
+			if(next!=null){ // update next
 				next.previous = previous;
 			}
-			if(previous!=null){
+			
+			if(previous!=null){ // update previous
 				previous.next = next;
 			}
-			previous = null;
-			next = null;
+			
+			object.onChainLinkDetached();
 		}
 
 
@@ -63,7 +88,7 @@ public class QxChain {
 		 * 
 		 * @param node
 		 */
-		/*
+		
 		private void insertAfter(Link node){
 			if(next!=null){
 				next.previous = node;
@@ -72,14 +97,13 @@ public class QxChain {
 			next = node;
 			node.previous = this;
 		}
-		*/
-
+		
 
 		/**
 		 * 
 		 * @param node
 		 */
-		private void insertBefore(Link node){
+		public void insertBefore(Link node){
 			//From previous<->this to previous<->node<->this
 
 			if(previous!=null){
@@ -90,38 +114,69 @@ public class QxChain {
 			node.next = this;
 		}
 
-	}
-
-
-	/**
-	 * <p><code>Chainable</code> is keeping a reference to a <code>Link</code></p>
-	 * @author pc
-	 *
-	 */
-	public interface QxChainable {
-
+		
 		/**
+		 * Install blockHandler passed as argument as the new head of time chain
 		 * 
 		 * @param link
 		 */
-		public void setLink(Link link);
+		private void moveFirst() {
+			// move to head
+			if(this!=head){
+				if(this==tail) {
+					Link newTail = previous;
+					detach();
+					tail = newTail;
+				}
+				else {
+					detach();	
+				}
 
+				pushFirst();
+			}
+		}
+		
+		private void moveLast() {
+			// move to head
+			if(this!=tail){
+				detach();
+				pushLast();
+			}
+		}
+		
+		
 		/**
 		 * 
-		 * @return
+		 * @param bucket
 		 */
-		public Link getLink();
+		private void pushFirst(){
+			if(head!=null){
+				head.insertBefore(this);
+				head = this;
+			}
+			else{
+				head = this;
+				tail = this;
+			}
+		}
 		
-		/**
-		 * To be called when dropped. Typical use case:
-		 * <ul>
-		 * <li><code>save();</code></li>
-		 * <li>remove from mapping: <code>buckets.remove(bucket.getPath());</code></li>
-		 * </ul>
-		 */
-		public void dispose();
 		
+		private void pushLast(){
+			if(tail!=null){
+				tail.insertAfter(this);
+				tail = this;
+			}
+			else{
+				head = this;
+				tail = this;
+			}
+		}
+		
+
+		
+
 	}
+
 
 	/**
 	 * most recently used
@@ -137,7 +192,7 @@ public class QxChain {
 	 * number of elements
 	 */
 	private int nLinks = 0;
-	
+
 	public QxChain() {
 		super();
 	}
@@ -151,59 +206,23 @@ public class QxChain {
 	 * Modify size of the chain.
 	 * @param element
 	 */
-	public void push(QxChainable element) {
-		push(new Link(element));
+	public void pushFirst(QxChainable element) {
+		new Link(element).pushFirst();
+		nLinks++;
+	}
+	
+	public void pushLast(QxChainable element) {
+		new Link(element).pushLast();
 		nLinks++;
 	}
 
-	/**
-	 * 
-	 * @param bucket
-	 */
-	private void push(Link link){
-		if(head!=null){
-			head.insertBefore(link);
-			head = link;
-		}
-		else{
-			head = link;
-			tail = link;
-		}
-	}
 
-
-
-
-	/**
-	 * Install blockHandler passed as argument as the new head of time chain
-	 * 
-	 * @param link
-	 */
-	private void setLatest(Link link) {
-		// move to head
-		if(link!=head){
-			if(link==tail) {
-				Link newTail = link.previous;
-				link.pop();
-				tail = newTail;
-			}
-			else {
-				link.pop();	
-			}
-
-			push(link);
-			//displayMappedBuckets("swap");
-		}
-	}
-	
-	
-	
 	public void trim(int nLinks) {
 		while(this.nLinks>nLinks) {
-			dropTail();
+			removeLast();
 		}
 	}
-	
+
 	/**
 	 * Drop oldest nodes
 	 * @throws IOException 
@@ -211,24 +230,14 @@ public class QxChain {
 	 * @throws Exception 
 	 * 
 	 */
-	public void dropTail() {
-		Link link = tail;
-
-		link.object.dispose();
-
-		// adjust list
-		Link newTail = tail.previous;
-		tail.pop();
-		tail = newTail;
-		if(tail==null){
-			head = null;
-		}
+	public void removeLast() {
+		tail.detach();
 		nLinks--;
 	}
 
-	
+
 	public static interface LinkConsumer {
-		
+
 		/**
 		 * 
 		 * @param object
@@ -236,7 +245,7 @@ public class QxChain {
 		 */
 		public boolean consume(QxChainable object);
 	}
-	
+
 	public boolean traverse(LinkConsumer consumer) {
 		Link link = head;
 		boolean isAborted = false;

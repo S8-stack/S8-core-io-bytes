@@ -221,6 +221,15 @@ class ByteOutflow {
 			}
 		}
 	}
+	
+	
+	
+	putBkAddress(address){
+		for(let i=0; i<4; i++){
+			this.view.setUint32(this.offset+=4, address[i]);
+			this.offset+=4;
+		}
+	}
 
 
 	/*

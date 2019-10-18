@@ -215,6 +215,16 @@ class ByteInflow {
 		}
 		return value;
 	}
+	
+	
+	getBkAddress(){
+		let address = new Array(4);
+		for(let i=0; i<4; i++){
+			address[i] = this.view.getUint32(this.offset);
+			this.offset++;
+		}
+		return address;
+	}
 
 	/*
 	getString() {
