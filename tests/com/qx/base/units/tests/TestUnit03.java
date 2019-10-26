@@ -1,15 +1,16 @@
 package com.qx.base.units.tests;
 
-import com.qx.base.units.QxScientificUnit;
+import com.qx.base.units.SI_Unit;
+import com.qx.base.units.SI_Unit.WrongUnitFormat;
 
 public class TestUnit03 {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws WrongUnitFormat {
 		
 		// input = "W.m-2.K-2.A-4";
-		QxScientificUnit unit = new QxScientificUnit("J.kg-1.mol-2");
+		SI_Unit unit = new SI_Unit("J.kg-1.mol-2");
 		
-		System.out.println(unit.fromIS(1.0));
+		System.out.println(unit.convert(1.0));
 	}
 
 }

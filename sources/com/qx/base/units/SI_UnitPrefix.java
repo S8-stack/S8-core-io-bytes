@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public enum QxScientificUnitPrefix {
+public enum SI_UnitPrefix {
 
 	PICO("p", 1e-12),
 	NANO("n", 1e-9),
@@ -24,19 +24,19 @@ public enum QxScientificUnitPrefix {
 
 	public double scaling;
 
-	private QxScientificUnitPrefix(String abbreviation, double scaling) {
+	private SI_UnitPrefix(String abbreviation, double scaling) {
 		this.abbreviation = abbreviation;
 		this.scaling = scaling;
 	}
 
 
-	public static QxScientificUnitPrefix get(String abbreviation){
+	public static SI_UnitPrefix get(String abbreviation){
 		return map.get(abbreviation);
 	}
 
 	public final static String REGEX;
 
-	private final static Map<String, QxScientificUnitPrefix> map;
+	private final static Map<String, SI_UnitPrefix> map;
 
 	static {
 
@@ -47,7 +47,7 @@ public enum QxScientificUnitPrefix {
 		StringBuilder builder = new StringBuilder();
 		builder.append("(");
 
-		for(QxScientificUnitPrefix prefix : QxScientificUnitPrefix.values()){
+		for(SI_UnitPrefix prefix : SI_UnitPrefix.values()){
 			map.put(prefix.abbreviation, prefix);
 
 			if(isStarted){
@@ -59,7 +59,7 @@ public enum QxScientificUnitPrefix {
 			builder.append(prefix.abbreviation);
 		}
 
-		builder.append(")?");
+		builder.append(")");
 		REGEX = builder.toString();
 	}
 
