@@ -217,6 +217,7 @@ class ByteInflow {
 	}
 	
 	
+	/* DEPRECATED */
 	getBkAddress(){
 		let address = new Array(4);
 		for(let i=0; i<4; i++){
@@ -225,24 +226,17 @@ class ByteInflow {
 		}
 		return address;
 	}
-
-	/*
-	getString() {
-
-		// retrieve length
-		var length = this.view.getUint32(this.offset);
-		this.offset+=4;
-
-		if(length>0){
-			// read string
-			var str = this.textDecoder.decode(new Uint8Array(this.arraybuffer, this.offset, length));
-			this.offset+=length;
-			return str;		
+	
+	
+	getArrayBuffer(){
+		let length = this.getUInt();
+		let arrayBuffer = new ArrayBuffer(length);
+		let arrayBufferView= new Uint8Array(arrayBuffer);
+		for(let i=0; i<length; i++){
+			arrayBufferView[i] = this.view.getUint8(this.offset);
+			this.offset++;
 		}
-		else{
-			return null;
-		}
+		return arrayBuffer;
 	}
-	 */
 
 };

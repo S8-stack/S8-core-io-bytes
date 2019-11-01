@@ -223,31 +223,21 @@ class ByteOutflow {
 	}
 	
 	
-	
+	/* DEPRECATED -> use puttArrayBuffer instead */
 	putBkAddress(address){
 		for(let i=0; i<4; i++){
 			this.view.setUint32(this.offset+=4, address[i]);
 			this.offset+=4;
 		}
 	}
-
-
-	/*
-	putString00(value){
 	
-		// retrieve length
-		var length = value.length;
-		this.putUint32(length);
-	
-		if(length>0){
-			// read string
-			let encoded = this.textEncoder.encode(value);
-			for(var i=0; i<length; i++){
-				this.view.setUint8(this.offset, encoded[i]);
-				this.offset++;
-			}
+	putArrayBuffer(arrayBuffer){
+		let arrayBufferView = new Uint8Array(arrayBuffer);
+		let length = arrayBufferView.length;
+		for(let i=0; i<length; i++){
+			this.view.setUint8(this.offset, arrayBufferView[i]);
+			this.offset++;
 		}
 	}
-	*/
 
 }

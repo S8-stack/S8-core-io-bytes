@@ -5,7 +5,26 @@ import java.util.Map;
 
 
 public enum SI_BaseUnit {
+	
+	
+	NONE("-", false, 1, 0),
 
+	// pressure
+	PASCAL("Pa", true, 1, 0),
+
+	// bar
+	ABSOLUTE_BAR("bara", true, 1e5, 0),
+	ABSOLUTE_GAUGE("barg", true, 1e5, 1e5),
+	BAR("bar", true, 1e5, 0),
+
+	// PSI (prevent psig to be interpreted as "ps..." -> pico seconds
+	PSIA("PSIA", true, 6894.7572931783, 0),
+	PSIG("PSIG", true, 6894.7572931783, 1e5),
+	PSI("PSI", true, 6894.7572931783, 0),
+	MILLIMETER_OF_MERCURY("mmHg", false, 133.322387415, 0.0),
+	// order important for capturing
+	INCH_OF_MERCURY_VACCUM("inHgVac", false, -3386.389, 1.0e5),
+	INCH_OF_MERCURY("inHg", false, 3386.389, 0.0),
 
 	// molar (placed first since 'mol' beginning is the same as 'm' meter
 	MOLE("mol", true, 1.0, 0),
@@ -13,6 +32,7 @@ public enum SI_BaseUnit {
 
 	// length
 	METER("m", true, 1, 0),
+	INCH("in", false, 0.0254, 0),
 
 	// angle
 	RADIAN("rad", true, 1, 0),
@@ -21,21 +41,11 @@ public enum SI_BaseUnit {
 	// temperature
 	KELVIN("K", true, 0.0, 1.0),
 	CELCIUS_DEGREE("°C", false, 1, 273.15),
+	FAHRENHEIT_DEGREE_PROPORTIONAL("°F_", false, 5.0/9.0, 0.0),
 	FAHRENHEIT_DEGREE("°F", false, 5.0/9.0, 255.37222222),
+	
 
 
-	// pressure
-	PASCAL("Pa", true, 1, 0),
-	BAR("bar", true, 1e5, 0),
-	ABSOLUTE_BAR("bara", true, 1e5, 0),
-	ABSOLUTE_GAUGE("barg", true, 1e5, 1e5),
-	PSI("PSI", true, 6894.7572931783, 0),
-	PSIA("PSIA", true, 6894.7572931783, 0),
-	PSIG("PSIG", true, 6894.7572931783, 1e5),
-	MILLIMETER_OF_MERCURY("mmHg", false, 133.322387415, 0.0),
-	// order important for capturing
-	INCH_OF_MERCURY_VACCUM("inHgVac", false, -3386.389, 1.0e5),
-	INCH_OF_MERCURY("inHg", false, 3386.389, 0.0),
 
 	// weight
 	GRAM("g", true, 1e-3, 0),
@@ -61,7 +71,6 @@ public enum SI_BaseUnit {
 	// energy
 	JOULE("J", true, 1, 0),
 	WATT_HOUR("Wh", true, 3600, 0),
-
 	/** American defintion */
 	AMERICAN_BTU("BTU", true, 1054.804, 0),
 

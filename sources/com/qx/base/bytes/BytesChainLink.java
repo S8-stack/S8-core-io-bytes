@@ -24,7 +24,7 @@ public class BytesChainLink {
 	 */
 	public byte[] bytes;
 
-	
+
 	/**
 	 * Filled part bytes start at <code>offset</code>
 	 */
@@ -43,7 +43,7 @@ public class BytesChainLink {
 		this.offset = 0;
 		this.length = bytes.length;
 	}
-	
+
 	public BytesChainLink(byte[] bytes) {
 		super();
 		this.bytes = bytes;
@@ -88,4 +88,34 @@ public class BytesChainLink {
 			return buffer;
 		}
 	}
+
+
+
+	/**
+	 * Flatten to byte Array
+	 * 
+	 * @return the byte array
+	 */
+	public byte[] toByteArray() {
+		BytesChainLink fragment = this;
+
+		int length=0;
+		while(fragment!=null) {
+			length+=fragment.length;
+			fragment=fragment.next;
+		}
+
+		byte[] array = new byte[length];
+		int index=0;
+		fragment = this;
+		while(fragment!=null) {
+			byte[] fragmentBytes = fragment.bytes;
+			int i0 = fragment.offset, i1= fragment.offset+fragment.length;
+			for(int i=i0; i<i1; i++) {
+				array[index++] = fragmentBytes[i];
+			}
+		}
+		return array;
+	}
+
 }

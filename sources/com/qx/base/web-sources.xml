@@ -2,14 +2,14 @@
 <root:bundle>
 	<package>/com/qx/base</package>
 	<web>/base</web>
-	<resources>
+	<sources>
 		<bundle cache="false">
 			<package>bytes</package>
 			<web></web>
-			<resources>
-				<file>ByteInflow.js</file>
-				<file>ByteOutflow.js</file>
-			</resources>
+			<sources>
+				<js>ByteInflow.js</js>
+				<js>ByteOutflow.js</js>
+			</sources>
 		</bundle>
-	</resources>
+	</sources>
 </root:bundle>

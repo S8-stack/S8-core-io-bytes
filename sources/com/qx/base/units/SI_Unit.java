@@ -52,7 +52,7 @@ public class SI_Unit {
 	
 	static{
 		String REGEX = 
-				SI_BaseUnit.UNPREFIXABLES_REGEX
+				"(?:"+SI_BaseUnit.UNPREFIXABLES_REGEX+"(-?[1-9])?)"
 				+"|(?:"+SI_UnitPrefix.REGEX+'?'+SI_BaseUnit.PREFIXABLES_REGEX+"(-?[1-9])?(\\.)?)";
 		PATTERN = Pattern.compile(REGEX);
 	}
@@ -71,7 +71,6 @@ public class SI_Unit {
 		factor = 1.0;
 		offset = 0.0;
 		
-		boolean isContinuing = true;
 		
 		SI_UnitPrefix prefix;
 		SI_BaseUnit base;
@@ -82,7 +81,8 @@ public class SI_Unit {
 		int position=0;
 		String unprefixable;
 		
-		while(isContinuing && matcher.find()){
+		boolean isContinuing = matcher.find();
+		while(isContinuing){
 			
 			//System.out.print("Expression: "+matcher.group(0)+", ");
 			//System.out.print("prefix: "+matcher.group(1)+", ");
@@ -94,24 +94,31 @@ public class SI_Unit {
 				}
 				groupFactor = base.factor;
 				groupOffset = base.offset;
+				
+				exponant = 1;
+				exponantEncoding = matcher.group(2);
+				if(exponantEncoding!=null){
+					exponant = Integer.parseInt(exponantEncoding);
+					groupFactor = Math.pow(groupFactor, exponant);
+				}
 			}
 			else { // prefixable
 				groupFactor = 1.0;
 				groupOffset = 0.0;
 				
-				prefix = SI_UnitPrefix.get(matcher.group(2));
+				prefix = SI_UnitPrefix.get(matcher.group(3));
 				if(prefix!=null){
 					groupFactor*=prefix.scaling;
 				}
 				//System.out.print("unit: "+matcher.group(2)+", ");
-				base = SI_BaseUnit.get(matcher.group(3));
+				base = SI_BaseUnit.get(matcher.group(4));
 				if(base!=null){
 					groupFactor*=base.factor;
 					groupOffset = base.offset;
 				}
 				//System.out.print("exponent: "+matcher.group(3)+"\n");
 				exponant = 1;
-				exponantEncoding = matcher.group(4);
+				exponantEncoding = matcher.group(5);
 				if(exponantEncoding!=null){
 					exponant = Integer.parseInt(exponantEncoding);
 					groupFactor = Math.pow(groupFactor, exponant);
@@ -127,7 +134,7 @@ public class SI_Unit {
 			}
 			position++;
 			
-			isContinuing = (matcher.group(4)!=null);
+			isContinuing = matcher.find();
 		}
 	}
 	

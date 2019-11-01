@@ -1,0 +1,15 @@
+extension,type
+.js, application/javascript
+.json, application/json
+.xml, application/xml
+.zip, application/zip
+.pdf, application/pdf
+.mpeg, audio/mpeg
+.mp3, audio/mpeg
+.css, text/css
+.html, text/html
+.csv, text/csv
+.png, image/png
+.jpg, image/jpeg
+.jpeg, image/jpeg
+.gif, image/gif
