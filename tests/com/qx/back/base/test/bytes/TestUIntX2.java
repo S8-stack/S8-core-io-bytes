@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.qx.base.bytes.ByteFile;
-import com.qx.base.bytes.ByteFileReadingException;
-import com.qx.base.bytes.ByteFileWritingException;
-import com.qx.base.bytes.ByteInflow;
-import com.qx.base.bytes.ByteOutflow;
+import com.qx.level0.utilities.bytes.ByteFile;
+import com.qx.level0.utilities.bytes.ByteFileReadingException;
+import com.qx.level0.utilities.bytes.ByteFileWritingException;
+import com.qx.level0.utilities.bytes.ByteInflow;
+import com.qx.level0.utilities.bytes.ByteOutflow;
 
 public class TestUIntX2 {
 

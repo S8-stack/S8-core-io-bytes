@@ -1,7 +1,7 @@
 package com.qx.back.base.test.index;
 
-import com.qx.base.index.QxUIntMap;
-import com.qx.base.index.QxUInt;
+import com.qx.level0.utilities.index.QxUInt;
+import com.qx.level0.utilities.index.QxUIntMap;
 
 public class TestIndexMap01 {
 

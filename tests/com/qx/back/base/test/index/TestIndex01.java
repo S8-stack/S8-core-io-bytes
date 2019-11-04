@@ -1,6 +1,6 @@
 package com.qx.back.base.test.index;
 
-import com.qx.base.index.QxUInt;
+import com.qx.level0.utilities.index.QxUInt;
 
 public class TestIndex01 {
 

@@ -3,8 +3,8 @@ package com.qx.back.base.test.bytes;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import com.qx.base.bytes.BufferByteInflow;
-import com.qx.base.bytes.BufferByteOutflow;
+import com.qx.level0.utilities.bytes.BufferByteInflow;
+import com.qx.level0.utilities.bytes.BufferByteOutflow;
 
 public class TestUIntX {
 

@@ -1,7 +1,7 @@
 package com.qx.base.units.tests;
 
-import com.qx.base.units.SI_Unit;
-import com.qx.base.units.SI_Unit.WrongUnitFormat;
+import com.qx.level0.utilities.units.SI_Unit;
+import com.qx.level0.utilities.units.SI_Unit.WrongUnitFormat;
 
 public class TestUnit03 {
 

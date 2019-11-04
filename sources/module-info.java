@@ -5,26 +5,21 @@
  * @author pc
  *
  */
-module com.qx.base {
+module com.qx.level0.utilities {
 	
-	exports com.qx.base;
-	exports com.qx.base.index;
-	exports com.qx.base.bytes;
-	exports com.qx.base.chain;
-	exports com.qx.base.units;
-	exports com.qx.base.reactive;
-	exports com.qx.base.html;
-	exports com.qx.base.log;
-	exports com.qx.base.boot;
-	exports com.qx.base.utils;
+	exports com.qx.level0.utilities.index;
+	exports com.qx.level0.utilities.bytes;
+	exports com.qx.level0.utilities.chain;
+	exports com.qx.level0.utilities.units;
+	exports com.qx.level0.utilities.reactive;
+	exports com.qx.level0.utilities.html;
+	exports com.qx.level0.utilities.log;
+	exports com.qx.level0.utilities.boot;
+	exports com.qx.level0.utilities.utils;
 	
-	exports com.qx.web.mime;
-
-	exports com.qx.web.sources;
-	exports com.qx.web.sources.js;
-
 	/*
-	 * dependencies: none
+	 * dependencies: XML
 	 */
-	requires transitive com.qx.lang.xml;
+	requires transitive com.qx.level0.lang.xml;
+
 }

@@ -2,7 +2,7 @@ package com.qx.base.units.tests;
 
 import java.util.regex.Matcher;
 
-import com.qx.base.units.SI_Unit;
+import com.qx.level0.utilities.units.SI_Unit;
 
 public class TestUnit2 {
 

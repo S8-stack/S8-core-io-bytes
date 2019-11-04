@@ -1,9 +1,9 @@
 package com.qx.back.base.test.chain;
 
-import com.qx.base.chain.QxChain;
-import com.qx.base.chain.QxChain.LinkConsumer;
-import com.qx.base.chain.QxChainLinkHandle;
-import com.qx.base.chain.QxChainable;
+import com.qx.level0.utilities.chain.QxChain;
+import com.qx.level0.utilities.chain.QxChainLinkHandle;
+import com.qx.level0.utilities.chain.QxChainable;
+import com.qx.level0.utilities.chain.QxChain.LinkConsumer;
 
 public class ChainTesting {
 
