@@ -6,7 +6,13 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * Legacy class
+ * 
+ * @author pc
+ *
+ */
+//@Deprecated
 public enum Unit {
 
 	// Special

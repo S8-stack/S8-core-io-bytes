@@ -29,7 +29,7 @@ public abstract class ByteFile {
 	 * @return
 	 */
 	public int getFileBufferingSize() {
-		return 64;
+		return 1024;
 	}
 
 	public Path getFilePath() {
