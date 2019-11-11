@@ -1,5 +1,6 @@
 package com.qx.level0.utilities.units;
 
+import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -169,7 +170,11 @@ public class SI_Unit {
 			e.printStackTrace();
 		}
 		return 0.0;
-		
+	}
+	
+	public String write(double value, DecimalFormat format) {
+		double convertedValue = convert(value);
+		return format.format(convertedValue)+ " " +abbreviation;
 	}
 
 }
