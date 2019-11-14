@@ -103,14 +103,14 @@ public class FileByteInflow implements ByteInflow {
 		ensure(1);
 		boolean[] flags = new boolean[8];
 		byte b = buffer.get();
-		flags[0] = (b & 0x01) == 0x01;
-		flags[1] = (b & 0x02) == 0x02;
-		flags[2] = (b & 0x04) == 0x04;
-		flags[3] = (b & 0x08) == 0x08;
-		flags[4] = (b & 0x10) == 0x10;
-		flags[5] = (b & 0x20) == 0x20;
-		flags[6] = (b & 0x40) == 0x40;
-		flags[7] = (b & 0x80) == 0x80;
+		flags[0] = (b & 0x80) == 0x80;
+		flags[1] = (b & 0x40) == 0x40;
+		flags[2] = (b & 0x20) == 0x20;
+		flags[3] = (b & 0x10) == 0x10;
+		flags[4] = (b & 0x08) == 0x08;
+		flags[5] = (b & 0x04) == 0x04;
+		flags[6] = (b & 0x02) == 0x02;
+		flags[7] = (b & 0x01) == 0x01;
 		return flags;
 	}
 
