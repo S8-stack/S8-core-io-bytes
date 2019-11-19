@@ -1,7 +1,7 @@
 package com.qx.back.base.test.index;
 
-import com.qx.level0.utilities.index.QxUInt;
-import com.qx.level0.utilities.index.QxUIntMap;
+import com.qx.level0.utilities.index.QxIndex;
+import com.qx.level0.utilities.index.QxMap;
 
 public class TestIndexMap01 {
 
@@ -9,9 +9,9 @@ public class TestIndexMap01 {
 		
 		int nElements = 1000000;
 	
-		QxUIntMap map = new QxUIntMap();
+		QxMap map = new QxMap();
 		
-		QxUInt index = new QxUInt(new byte[]{ 
+		QxIndex index = new QxIndex(new byte[]{ 
 				(byte) 0xaf, (byte) 0x01, (byte) 0x02, (byte) 0x04, 
 				(byte) 0xaa, (byte) 0x00, (byte) 0x00, (byte) 0x00 });
 		for(int i=0; i<nElements; i++) {
@@ -20,7 +20,7 @@ public class TestIndexMap01 {
 		}
 		
 		
-		index = new QxUInt(new byte[]{ 
+		index = new QxIndex(new byte[]{ 
 				(byte) 0xaf, (byte) 0x01, (byte) 0x02, (byte) 0x04, 
 				(byte) 0xaa, (byte) 0x00, (byte) 0x00, (byte) 0x00 });
 		Integer object;
@@ -32,7 +32,7 @@ public class TestIndexMap01 {
 			index.increment();
 		}
 		
-		index = new QxUInt(new byte[]{ 
+		index = new QxIndex(new byte[]{ 
 				(byte) 0xaf, (byte) 0x01, (byte) 0x02, (byte) 0x04, 
 				(byte) 0xaa, (byte) 0x00, (byte) 0x00, (byte) 0x00 });
 		

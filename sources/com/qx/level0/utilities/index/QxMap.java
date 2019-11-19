@@ -20,25 +20,25 @@ package com.qx.level0.utilities.index;
  * @author pc
  *
  */
-public class QxUIntMap {
+public class QxMap {
 
 	public final static boolean IS_DEBUG_ACTIVE = true;
 
 	private class Node {
 
-		public QxUInt index;
+		public QxIndex index;
 
 		public Object object;
 
 		public Node next;
 
-		public Node(QxUInt index, Object object) {
+		public Node(QxIndex index, Object object) {
 			super();
 			this.index = index;
 			this.object = object;
 		}
 
-		public Node(QxUInt index, Object object, Node next) {
+		public Node(QxIndex index, Object object, Node next) {
 			super();
 			this.index = index;
 			this.object = object;
@@ -60,7 +60,7 @@ public class QxUIntMap {
 
 	private int exponent;
 
-	public QxUIntMap() {
+	public QxMap() {
 		super();
 		size = 0;
 		this.exponent = 6;
@@ -156,7 +156,7 @@ public class QxUIntMap {
 	 * @param index: the index used to store the object.
 	 * @param object
 	 */
-	public void put(QxUInt index, Object object) {
+	public void put(QxIndex index, Object object) {
 		int hashcode = mask & index.hashCode();
 		Node head = buckets[hashcode];
 		Node node = head;
@@ -179,12 +179,12 @@ public class QxUIntMap {
 
 
 
-	public boolean contains(QxUInt index) {
+	public boolean contains(QxIndex index) {
 		return get(index)!=null;
 	}
 
 
-	public Object get(QxUInt index) {
+	public Object get(QxIndex index) {
 		int hashcode = mask & index.hashCode();
 		Node node = buckets[hashcode];
 		while(node!=null) {
@@ -199,7 +199,7 @@ public class QxUIntMap {
 	}
 
 
-	public void remove(QxUInt index) {
+	public void remove(QxIndex index) {
 		int hashcode = mask & index.hashCode();
 		Node node = buckets[hashcode];
 		Node previous = null;
@@ -276,7 +276,7 @@ public class QxUIntMap {
 		 * @param object
 		 * @return a flag indicating if traverse operation must be continued or not
 		 */
-		public boolean consume(QxUInt index, Object object);
+		public boolean consume(QxIndex index, Object object);
 	}
 
 

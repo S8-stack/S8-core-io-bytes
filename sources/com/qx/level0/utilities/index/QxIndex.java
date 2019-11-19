@@ -21,7 +21,7 @@ import com.qx.level0.utilities.bytes.ByteOutflow;
  * @author pc
  *
  */
-public class QxUInt {
+public class QxIndex {
 
 	public byte[] bytes;
 
@@ -29,17 +29,17 @@ public class QxUInt {
 	/**
 	 * ZERO constructor
 	 */
-	public QxUInt(int length) {
+	public QxIndex(int length) {
 		super();
 		bytes = new byte[length];
 	}
 
-	public QxUInt(byte[] bytes) {
+	public QxIndex(byte[] bytes) {
 		super();
 		this.bytes = bytes;
 	}
 
-	public QxUInt(String hexadecimalEncoding) {
+	public QxIndex(String hexadecimalEncoding) {
 		super();
 		int length = hexadecimalEncoding.length()/2;
 		bytes = new byte[length];
@@ -50,7 +50,7 @@ public class QxUInt {
 		}
 	}
 
-	public QxUInt(int length, String hexadecimalEncoding) {
+	public QxIndex(int length, String hexadecimalEncoding) {
 		super();
 		bytes = new byte[length];
 		int l = Math.min(hexadecimalEncoding.length()/2, length);
@@ -62,7 +62,7 @@ public class QxUInt {
 	}
 
 
-	public QxUInt(int length, long value) {
+	public QxIndex(int length, long value) {
 		super();
 		bytes = new byte[length];
 		int shift = 0;
@@ -72,7 +72,7 @@ public class QxUInt {
 		}
 	}
 
-	public QxUInt(int length, int value) {
+	public QxIndex(int length, int value) {
 		super();
 		bytes = new byte[length];
 		int shift = 0;
@@ -82,7 +82,7 @@ public class QxUInt {
 		}
 	}
 
-	public QxUInt(QxUInt ui0, QxUInt ui1) {
+	public QxIndex(QxIndex ui0, QxIndex ui1) {
 		super();
 		int n0 = ui0.bytes.length , n1 = ui1.bytes.length;
 		int nBytes = n0+n1;
@@ -95,17 +95,17 @@ public class QxUInt {
 		}
 	}
 
-	public QxUInt copy() {
+	public QxIndex copy() {
 		int nBytes=bytes.length;
 		byte[] nextBytes = new byte[nBytes];
 		for(int i=0; i<nBytes; i++) {
 			nextBytes[i] = bytes[i];
 		}
-		return new QxUInt(nextBytes);
+		return new QxIndex(nextBytes);
 	}
 
 
-	public static QxUInt fromHexadecimal(String value) {
+	public static QxIndex fromHexadecimal(String value) {
 		int length = value.length()/2;
 		byte[] bytes = new byte[length];
 		int offset=0;
@@ -113,7 +113,7 @@ public class QxUInt {
 			bytes[i] = (byte) Integer.parseUnsignedInt(value.substring(offset, offset+2), 16);
 			offset+=2;
 		}
-		return new QxUInt(bytes);
+		return new QxIndex(bytes);
 	}
 
 	/**
@@ -216,8 +216,8 @@ public class QxUInt {
 
 	@Override
 	public boolean equals(Object object) {
-		if(object instanceof QxUInt) {
-			QxUInt right = (QxUInt) object;
+		if(object instanceof QxIndex) {
+			QxIndex right = (QxIndex) object;
 			for(int i=bytes.length-1; i>=0; i--) {
 				if(bytes[i]!=right.bytes[i]) {
 					return false;
@@ -237,7 +237,7 @@ public class QxUInt {
 	 * @param right
 	 * @return
 	 */
-	public boolean equals(QxUInt right) {
+	public boolean equals(QxIndex right) {
 		if(right!=null) {
 			int length = bytes.length;
 			for(int i=0; i<length; i++) {
@@ -253,7 +253,7 @@ public class QxUInt {
 	}
 
 
-	public boolean isGreaterThan(QxUInt right) {
+	public boolean isGreaterThan(QxIndex right) {
 		int length = bytes.length;
 		for(int i=0; i<length; i++) {
 			if(bytes[i] < right.bytes[i]) {

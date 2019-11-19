@@ -1,7 +1,7 @@
 package com.qx.back.base.test.index;
 
-import com.qx.level0.utilities.index.QxUInt;
-import com.qx.level0.utilities.index.QxUIntMap;
+import com.qx.level0.utilities.index.QxIndex;
+import com.qx.level0.utilities.index.QxMap;
 
 public class TestIndexMap02 {
 
@@ -9,15 +9,15 @@ public class TestIndexMap02 {
 		
 		int nElements = 1000000;
 	
-		QxUIntMap map = new QxUIntMap();
+		QxMap map = new QxMap();
 		
 		for(int i=0; i<nElements; i++) {
-			map.put(new QxUInt(8, i*10+20), Integer.valueOf(i));
+			map.put(new QxIndex(8, i*10+20), Integer.valueOf(i));
 		}
 		
 		Integer object;
 		for(int i=0; i<nElements; i++) {
-			object = (Integer) map.get(new QxUInt(8, i*10+20));
+			object = (Integer) map.get(new QxIndex(8, i*10+20));
 			if(i!=object) {
 				System.out.println("mismatch");
 			}
@@ -25,7 +25,7 @@ public class TestIndexMap02 {
 		
 
 		for(int i=0; i<nElements-12; i++) {
-			map.remove(new QxUInt(8, i*10+20));
+			map.remove(new QxIndex(8, i*10+20));
 		}
 	}
 

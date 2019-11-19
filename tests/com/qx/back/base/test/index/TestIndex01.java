@@ -1,6 +1,6 @@
 package com.qx.back.base.test.index;
 
-import com.qx.level0.utilities.index.QxUInt;
+import com.qx.level0.utilities.index.QxIndex;
 
 public class TestIndex01 {
 
@@ -8,7 +8,7 @@ public class TestIndex01 {
 		
 		byte[] bytes = { (byte) 0x00, (byte) 0x00, (byte) 0xaf };
 		
-		QxUInt index = new QxUInt(bytes);
+		QxIndex index = new QxIndex(bytes);
 
 		System.out.println("i0->Int32:"+index.toInt32());
 		System.out.println("i0->Int32:"+Integer.decode("0xaf"));
@@ -18,7 +18,7 @@ public class TestIndex01 {
 				(byte) 0x00, (byte) 0x00, (byte) 0xaf, (byte) 0x01, 
 				(byte) 0x02, (byte) 0x04, (byte) 0xaa, (byte) 0x2d  };
 		
-		index = new QxUInt(bytes);
+		index = new QxIndex(bytes);
 		
 
 		System.out.println("i0->Int32:"+index.toInt32());
