@@ -99,7 +99,7 @@ public class FileByteInflow implements ByteInflow {
 	}
 
 
-	public boolean[] getFlagsBlock() throws IOException {
+	public boolean[] getFlags8() throws IOException {
 		ensure(1);
 		boolean[] flags = new boolean[8];
 		byte b = buffer.get();

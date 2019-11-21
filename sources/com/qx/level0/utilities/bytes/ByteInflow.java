@@ -68,7 +68,7 @@ public interface ByteInflow {
 	 * @return
 	 * @throws IOException
 	 */
-	boolean[] getFlagsBlock() throws IOException;
+	boolean[] getFlags8() throws IOException;
 
 
 	/**

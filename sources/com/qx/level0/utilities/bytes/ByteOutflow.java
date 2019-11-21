@@ -30,7 +30,7 @@ public interface ByteOutflow {
 	 * @param flags
 	 * @throws IOException
 	 */
-	public void putFlags(boolean[] flags) throws IOException;
+	public void putFlags8(boolean[] flags) throws IOException;
 
 
 	/**

@@ -49,7 +49,7 @@ public class BufferByteInflow implements ByteInflow {
 	}
 
 	@Override
-	public boolean[] getFlagsBlock() throws IOException {
+	public boolean[] getFlags8() throws IOException {
 		boolean[] flags = new boolean[8];
 		byte b = buffer.get();
 		flags[0] = (b & 0x80) == 0x80;

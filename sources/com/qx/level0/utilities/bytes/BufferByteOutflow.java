@@ -26,7 +26,7 @@ public class BufferByteOutflow implements ByteOutflow {
 	}
 
 	@Override
-	public void putFlags(boolean[] flags) throws IOException {
+	public void putFlags8(boolean[] flags) throws IOException {
 		byte b = 0;
 		for(int i=0; i<7; i++){
 			if(flags[i]){
