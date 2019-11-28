@@ -68,7 +68,18 @@ public class QxMap {
 		buckets = new Node[powerOfTwo(exponent)];
 	}
 
+	
+	/**
+	 * clear the map
+	 */
+	public void clear() {
+		size = 0;
+		this.exponent = 6;
+		mask = mask(exponent);
+		buckets = new Node[powerOfTwo(exponent)];
+	}
 
+	
 	private void update() {
 		double loadFactor = ((double) size)/((double) buckets.length);
 		if(loadFactor>8.0) {
@@ -299,4 +310,7 @@ public class QxMap {
 		}
 		return isContinuing;
 	}
+
+
+	
 }

@@ -169,6 +169,7 @@ public interface ByteInflow {
 
 	/**
 	 * String is encoded in UTF-8.
+	 * String is length-delimited using new getUInt (auto-sized int)
 	 * 
 	 * @return the next String.
 	 * @throws IOException
