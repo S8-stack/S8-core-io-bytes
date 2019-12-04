@@ -11,7 +11,7 @@ public class TestIndex02 {
 				(byte) 0xff, (byte) 0x23, (byte) 0xa1, (byte) 0xff
 		});
 		
-		QxIndex i1 = new QxIndex("00011001ff23a1ff");
+		QxIndex i1 = QxIndex.fromHexadecimal("00011001ff23a1ff");
 
 		System.out.println(i0.equals(i1));
 		

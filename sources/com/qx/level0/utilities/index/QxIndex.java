@@ -8,93 +8,64 @@ import com.qx.level0.utilities.bytes.ByteOutflow;
 /**
  * 
  * General purpose index. Fully adaptable size.
- * <p>
- * Index is based on a bytes array, with the following structure:
- * </p>
- * <ul>
- * <li><b>Most significant bytes comes first</b>. This is especially important
- * for testing zero or equal, since least significant bytes are incremented
- * first but also to be tested first.</li>
- * <li><b>Least significant bytes comes last</b></li>
- * </ul>
+ *
  * 
  * @author pc
  *
  */
 public class QxIndex {
 
+	
+	/**
+	 * <p>
+	 * Index is based on a bytes array, with the following structure:
+	 * </p>
+	 * <ul>
+	 * <li><b>Least significant bytes comes first</b>. This is especially important
+	 * for testing zero or equal, since least significant bytes are incremented
+	 * first but also to be tested first.</li>
+	 * <li><b>Most significant bytes comes last</b></li>
+	 * </ul>
+	 */
 	public byte[] bytes;
 
-
-	/**
-	 * ZERO constructor
-	 */
-	public QxIndex(int length) {
-		super();
-		bytes = new byte[length];
-	}
 
 	public QxIndex(byte[] bytes) {
 		super();
 		this.bytes = bytes;
 	}
 
-	public QxIndex(String hexadecimalEncoding) {
-		super();
-		int length = hexadecimalEncoding.length()/2;
-		bytes = new byte[length];
-		int offset=0;
-		for(int i=0; i<length; i++) {
-			bytes[i] = (byte) Integer.parseUnsignedInt(hexadecimalEncoding.substring(offset, offset+2), 16);
-			offset+=2;
+
+
+	
+	/**
+	 * 
+	 * @param right
+	 * @return
+	 */
+	public QxIndex append(QxIndex right) {
+		
+		int nLeft = bytes.length , nRight = right.bytes.length;
+		int nBytes = nLeft+nRight;
+		byte[] bytes = new byte[nBytes];
+		
+		// left
+		for(int i=0; i<nLeft; i++) {
+			bytes[i] = this.bytes[i];
 		}
+		
+		// right
+		for(int i=0; i<nRight; i++) {
+			bytes[nLeft+i] = right.bytes[i];
+		}
+		return new QxIndex(bytes);
 	}
 
-	public QxIndex(int length, String hexadecimalEncoding) {
-		super();
-		bytes = new byte[length];
-		int l = Math.min(hexadecimalEncoding.length()/2, length);
-		int offset=0;
-		for(int i=length-l; i<length; i++) {
-			bytes[i] = (byte) Integer.parseUnsignedInt(hexadecimalEncoding.substring(offset, offset+2), 16);
-			offset+=2;
-		}
-	}
-
-
-	public QxIndex(int length, long value) {
-		super();
-		bytes = new byte[length];
-		int shift = 0;
-		for(int i=0; i<length; i++) {
-			bytes[length-1-i] = (byte) (0xff & (value >> shift));
-			shift+=8;
-		}
-	}
-
-	public QxIndex(int length, int value) {
-		super();
-		bytes = new byte[length];
-		int shift = 0;
-		for(int i=0; i<length; i++) {
-			bytes[length-1-i] = (byte) (0xff & (value >> shift));
-			shift+=8;
-		}
-	}
-
-	public QxIndex(QxIndex ui0, QxIndex ui1) {
-		super();
-		int n0 = ui0.bytes.length , n1 = ui1.bytes.length;
-		int nBytes = n0+n1;
-		bytes = new byte[nBytes];
-		for(int i=0; i<n0; i++) {
-			bytes[i] = ui0.bytes[i];
-		}
-		for(int i=0; i<n1; i++) {
-			bytes[n0+i] = ui1.bytes[i];
-		}
-	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public QxIndex copy() {
 		int nBytes=bytes.length;
 		byte[] nextBytes = new byte[nBytes];
@@ -108,31 +79,77 @@ public class QxIndex {
 	public static QxIndex fromHexadecimal(String value) {
 		int length = value.length()/2;
 		byte[] bytes = new byte[length];
-		int offset=0;
+		int offset=0, index=length-1;
 		for(int i=0; i<length; i++) {
-			bytes[i] = (byte) Integer.parseUnsignedInt(value.substring(offset, offset+2), 16);
+			bytes[index] = (byte) Integer.parseUnsignedInt(value.substring(offset, offset+2), 16);
+			index--;
 			offset+=2;
 		}
 		return new QxIndex(bytes);
+	}
+	
+	
+	public static QxIndex fromHexadecimal(String value, int trimLength) {
+		byte[] bytes = new byte[trimLength];
+		int offset = value.length()-2*trimLength, index=trimLength-1;
+		for(int i=0; i<trimLength; i++) {
+			bytes[index] = (byte) Integer.parseUnsignedInt(value.substring(offset, offset+2), 16);
+			index--;
+			offset+=2;
+		}
+		return new QxIndex(bytes);
+	}
+	
+	
+	public static QxIndex fromLong(int length, long value) {
+		byte[] bytes = new byte[length];
+		
+		// least significant bytes first
+		for(int i=0; i<length; i++) {
+			bytes[i] = (byte) (0xff & value);
+			value >>= 8;
+		}
+		return new QxIndex(bytes);
+	}
+
+	public static QxIndex fromInt(int length, int value) {
+		byte[] bytes = new byte[length];
+		
+		// least significant bytes first
+		for(int i=0; i<length; i++) {
+			bytes[i] = (byte) (0xff & value);
+			value >>= 8;
+		}
+		return new QxIndex(bytes);
+	}
+	
+	
+	
+	public static QxIndex zero(int length) {
+		return new QxIndex(new byte[length]);
 	}
 
 	/**
 	 * 
 	 * @param value
 	 */
-	public void parse(String value, int offset, int length){
-		bytes = new byte[length];
+	/*
+	public static QxIndex fromHexadecimal(String value, int offset, int length){
+		byte[] bytes = new byte[length];
 		for(int i=0; i<length; i++){
 			bytes[i] = (byte) Short.parseShort(value.substring(offset, offset+2), 16);
 			offset+=2;
 		}
 	}
+	*/
 
 
 	public void compose(StringBuilder builder){
 		int length = bytes.length;
+		int index=length-1;
 		for(int i=0; i<length; i++){
-			builder.append(String.format("%02x", bytes[i]));
+			builder.append(String.format("%02x", bytes[index]));
+			index--;
 		}
 	}
 
@@ -151,9 +168,10 @@ public class QxIndex {
 
 	public String toHexadecimal() {
 		StringBuilder builder = new StringBuilder();
-		int length = bytes.length;
+		int length = bytes.length, index = length-1;
 		for(int i=0; i<length; i++){
-			builder.append(String.format("%02x", bytes[i]));
+			builder.append(String.format("%02x", bytes[index]));
+			index--;
 		}
 		return builder.toString();
 	}
@@ -161,16 +179,17 @@ public class QxIndex {
 
 
 	public void increment() {
-		int index=bytes.length-1;
-		while(index>=0 && bytes[index]++ == (byte) 0xff){
+		int index=0, length=bytes.length;
+		while(index<length && bytes[index]++ == (byte) 0xff){
 			bytes[index] = 0;
-			index--;
+			index++;
 		}
 	}
 
 
 	public boolean isZero() {
-		for(int i=bytes.length-1; i>=0; i--) {
+		int length=bytes.length;
+		for(int i=0; i<length; i++) {
 			if(bytes[i]!=0) {
 				return false;
 			};
@@ -193,7 +212,8 @@ public class QxIndex {
 		}
 		return bytesCopy;
 	}
-
+	
+	
 
 	/**
 	 * The multiplier of this function is 31 and it has its own rationale: Joshua
@@ -241,6 +261,7 @@ public class QxIndex {
 		if(right!=null) {
 			int length = bytes.length;
 			for(int i=0; i<length; i++) {
+				// start with least significant bytes first
 				if(bytes[i]!=right.bytes[i]) {
 					return false;
 				}
@@ -254,10 +275,19 @@ public class QxIndex {
 
 
 	public boolean isGreaterThan(QxIndex right) {
-		int length = bytes.length;
+		int length = bytes.length, index=length-1;
+		int bLeft, bRight;
 		for(int i=0; i<length; i++) {
-			if(bytes[i] < right.bytes[i]) {
+			bLeft = bytes[index] & 0xff; // suppress sign
+			bRight = right.bytes[index] & 0xff; // suppress sign
+			if(bLeft < bRight) {
 				return false;
+			}
+			else if(bLeft > bRight) {
+				return false;
+			}
+			else {
+				index--;
 			}
 		}
 		return true;
@@ -294,6 +324,18 @@ public class QxIndex {
 		}
 		return result;
 	}
+	
+	/*
+	public QxIndex max(QxIndex right) {
+		int nLeft = bytes.length, nRight = right.bytes.length, n=Math.max(nLeft, nRight);
+		for(int i=0; i<n; i++) {
+			int bLeft = i<nLeft?bytes[nLeft-i]:0x00;
+			int bRight = i<nRight?bytes[nRight-i]:0x00;
+			
+		}
+	}
+	*/
+	
 
 
 	/**
