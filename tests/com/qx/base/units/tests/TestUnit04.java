@@ -8,7 +8,7 @@ public class TestUnit04 {
 	public static void main(String[] args) throws WrongUnitFormat {
 		
 		// input = "W.m-2.K-2.A-4";
-		SI_Unit unit = new SI_Unit("BTU.kg2.m-1.°F-1");
+		SI_Unit unit = new SI_Unit("K");
 		
 		System.out.println(unit.convert(1.0));
 		

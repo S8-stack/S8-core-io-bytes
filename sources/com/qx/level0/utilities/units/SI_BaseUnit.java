@@ -39,7 +39,7 @@ public enum SI_BaseUnit {
 	DEGREE("deg", true, Math.PI/180.0, 0),
 
 	// temperature
-	KELVIN("K", true, 0.0, 1.0),
+	KELVIN("K", true, 1.0, 0.0),
 	CELCIUS_DEGREE("°C", false, 1, 273.15),
 	FAHRENHEIT_DEGREE_PROPORTIONAL("°F_", false, 5.0/9.0, 0.0),
 	FAHRENHEIT_DEGREE("°F", false, 5.0/9.0, 255.37222222),

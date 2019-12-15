@@ -144,11 +144,16 @@ public class SI_Unit {
 		return abbreviation;
 	}
 	
-	
+	/** 
+	 * From this unit to SI  
+	 */
 	public double convertBack(double value){
 		return value*factor+offset;
 	}
-	
+
+	/** 
+	 * From SI to this unit
+	 */
 	public double convert(double value){
 		return (value-offset)/factor;
 	}
