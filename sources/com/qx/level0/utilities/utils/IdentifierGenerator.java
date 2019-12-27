@@ -175,28 +175,28 @@ public class IdentifierGenerator {
 			return new IdentifierGenerator(this);
 		}
 
-		@XML_SetAttribute(name="index")
+		@XML_SetAttribute(tag="index")
 		public void setIndex(long index) { this.index = index; }
 
-		@XML_SetAttribute(name="prefix")
+		@XML_SetAttribute(tag="prefix")
 		public void setPrefix(String prefix) { this.prefix = prefix; }
 
-		@XML_SetAttribute(name="length")
+		@XML_SetAttribute(tag="length")
 		public void setLength(int length) { this.length = length; }
 
-		@XML_GetAttribute(name="path")
+		@XML_GetAttribute(tag="path")
 		public String getPath() { return path; }
 		
-		@XML_GetAttribute(name="index")
+		@XML_GetAttribute(tag="index")
 		public long getIndex() { return index; }
 
-		@XML_GetAttribute(name="prefix")
+		@XML_GetAttribute(tag="prefix")
 		public String getPrefix() { return prefix; }
 
-		@XML_SetAttribute(name="length")
+		@XML_SetAttribute(tag="length")
 		public int setLength() { return length; }
 
-		@XML_SetAttribute(name="path")
+		@XML_SetAttribute(tag="path")
 		public String setPath() { return path; }
 		
 	}

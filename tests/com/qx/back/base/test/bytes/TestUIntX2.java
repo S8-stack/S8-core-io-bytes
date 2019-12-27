@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.qx.level0.utilities.bytes.ByteFile;
+import com.qx.level0.utilities.bytes.ByteFileReader;
 import com.qx.level0.utilities.bytes.ByteFileReadingException;
 import com.qx.level0.utilities.bytes.ByteFileWritingException;
 import com.qx.level0.utilities.bytes.ByteInflow;
@@ -51,6 +52,8 @@ public class TestUIntX2 {
 
 	public static class TestFile extends ByteFile {
 		
+		public boolean isLoadedSuccessfully;
+		
 		public int[] values;
 
 		public TestFile(Path path, int nValues) {
@@ -58,12 +61,28 @@ public class TestUIntX2 {
 			this.values = new int[nValues];
 		}
 
-		@Override
-		public void read(ByteInflow inflow) throws ByteFileReadingException, IOException {
-			int length = values.length;
-			for(int i=0; i<length; i++) {
-				values[i] = inflow.getUInt();
-			}
+		
+		public void load() throws ByteFileReadingException, IOException {
+			ByteFile.load(getFilePath(), getBufferCapacity(), new ByteFileReader() {
+				
+				@Override
+				public void consume(ByteInflow inflow) throws IOException {
+					int length = values.length;
+					for(int i=0; i<length; i++) {
+						values[i] = inflow.getUInt();
+					}
+				}
+				
+				@Override
+				public void onFileDoesNotExist() {
+					isLoadedSuccessfully = false;
+				}
+				
+				@Override
+				public void onIOException(IOException exception) {
+					isLoadedSuccessfully = false;
+				}
+			});
 		}
 
 		@Override

@@ -28,17 +28,17 @@ public class QxBoot {
 	private boolean isDebugEnabled;
 
 
-	@XML_SetAttribute(name="name")
+	@XML_SetAttribute(tag="name")
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	@XML_SetElement(name="path")
+	@XML_SetElement(tag="path")
 	public void setPath(String pathname) {
 		this.root = Paths.get(pathname);
 	}
 	
-	@XML_SetElement(name="debug")
+	@XML_SetElement(tag="debug")
 	public void setDebug(boolean flag) {
 		this.isDebugEnabled = flag;
 	}
@@ -69,7 +69,7 @@ public class QxBoot {
 			super();
 		}
 
-		@XML_SetElement(name="fork")
+		@XML_SetElement(tag="fork")
 		public void setEnvironments(QxBoot[] envs) {
 			this.map = new HashMap<String, QxBoot>();
 			if(envs!=null) {

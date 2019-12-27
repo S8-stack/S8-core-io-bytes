@@ -9,18 +9,34 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+
+
+/**
+ * 
+ * @author pc
+ *
+ */
 public abstract class ByteFile {
 
+	public static final int DEFAULT_BUFFER_CAPACITY = 1024;
 
 	public static final boolean IS_DELETING_ILL_FORMATED_FILES = false;
 
 	private Path path;
 
 	private boolean isAutosaveActive = false;
+	
+	private int capacity = DEFAULT_BUFFER_CAPACITY;
 
 	public ByteFile(Path path) {
 		super();
 		this.path = path;
+	}
+	
+	public ByteFile(Path path, int capacity) {
+		super();
+		this.path = path;
+		this.capacity = capacity;
 	}
 
 
@@ -28,25 +44,13 @@ public abstract class ByteFile {
 	 * To be overriden
 	 * @return
 	 */
-	public int getFileBufferingSize() {
-		return 1024;
+	public int getBufferCapacity() {
+		return capacity;
 	}
 
 	public Path getFilePath() {
 		return path;
 	}
-
-
-	/**
-	 * <p><b>/!\ : Key assumption is that WE KNOW what type of file we are about to parse</b>
-	 * This is mostly the case in the scope of Bk project.
-	 * </p>
-	 * @param inflow
-	 * @throws BkException
-	 * @throws ByteFileReadingException
-	 * @throws IOException
-	 */
-	public abstract void read(ByteInflow inflow) throws ByteFileReadingException, IOException;
 
 	/**
 	 * 
@@ -60,6 +64,10 @@ public abstract class ByteFile {
 	public boolean isExisting() {
 		return Files.exists(path);
 	}
+	
+	public static void load(Path path, ByteFileReader consumer) {
+		load(path, DEFAULT_BUFFER_CAPACITY, consumer);
+	}
 
 	/**
 	 * Test if file is existing
@@ -68,30 +76,23 @@ public abstract class ByteFile {
 	 * @throws BkException
 	 * @throws IOException 
 	 */
-	public boolean load() throws ByteFileReadingException, IOException {
+	public static void load(Path path, int capacity, ByteFileReader consumer) {
 		if(Files.exists(path)) {
 
 			try {
 				FileChannel channel = FileChannel.open(path, CREATE, READ);
-				FileByteInflow inflow = new FileByteInflow(channel, getFileBufferingSize());
+				FileByteInflow inflow = new FileByteInflow(channel, capacity);
 				inflow.pull();
 
-				read(inflow);
+				consumer.consume(inflow);
 				channel.close();
 			}
-			catch (ByteFileReadingException | IOException e) {
-				//System.out.println("");
-
-				// delete file
-				if(IS_DELETING_ILL_FORMATED_FILES) {
-					Files.delete(path);	
-				}
-				return false;
+			catch (IOException e) {
+				consumer.onIOException(e);
 			}
-			return true;
 		}
 		else {
-			return false;
+			consumer.onFileDoesNotExist();
 		}
 	}
 
@@ -112,7 +113,7 @@ public abstract class ByteFile {
 			Files.createDirectories(folderpath);
 		}
 		FileChannel channel = FileChannel.open(path, CREATE, WRITE).truncate(0);
-		FileByteOutflow outflow = new FileByteOutflow(channel, getFileBufferingSize());
+		FileByteOutflow outflow = new FileByteOutflow(channel, getBufferCapacity());
 
 		write(outflow);
 
