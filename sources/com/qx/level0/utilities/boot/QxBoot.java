@@ -13,7 +13,7 @@ import com.qx.level0.lang.xml.annotation.XML_Type;
 import com.qx.level0.lang.xml.XML_Context;
 
 
-@com.qx.level0.lang.xml.annotation.XML_Type(name="QxBoot")
+@XML_Type(name="QxBoot")
 public class QxBoot {
 
 	/**
@@ -60,7 +60,7 @@ public class QxBoot {
 		return isDebugEnabled;
 	}
 	
-	@XML_Type(name="QxBoots")
+	@XML_Type(name="QxBoots", isRoot = true)
 	public static class Presets {
 
 		private Map<String, QxBoot> map;

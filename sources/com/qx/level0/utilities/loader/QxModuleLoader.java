@@ -10,7 +10,7 @@ import java.io.InputStream;
  * @author pc
  *
  */
-public interface QxLoader {
+public interface QxModuleLoader {
 
 
 	/**

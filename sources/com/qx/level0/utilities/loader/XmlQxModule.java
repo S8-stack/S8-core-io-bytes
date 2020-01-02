@@ -7,41 +7,29 @@ import com.qx.level0.lang.xml.annotation.XML_SetValue;
 import com.qx.level0.lang.xml.annotation.XML_Type;
 
 @XML_Type(name = "module")
-public class QxLoaderReference {
+public class XmlQxModule {
 
 	private String className;
 	
-	private QxLoader loader;
+	private QxModuleLoader loader;
 	
 	@XML_SetValue
 	public void setClassname(String name) {
 		this.className = name;
 	}
 	
-	public void build() throws 
-			ClassNotFoundException, 
-			NoSuchMethodException, 
-			SecurityException, 
-			InstantiationException, 
-			IllegalAccessException, 
-			IllegalArgumentException, 
-			InvocationTargetException {
-		
-		Class<?> loaderClass = Class.forName(className);
-		Constructor<?> loaderConstructor = loaderClass.getConstructor(new Class<?>[] {});
-		loader = (QxLoader) loaderConstructor.newInstance(new Object[] {});	
-	}
-	
-	
 	/**
 	 * Loader might be null
 	 * @return
 	 */
-	public QxLoader getLoader(){
+	public QxModuleLoader getLoader(){
 		if(loader==null) {
 			try {
-				build();
-			} catch (ClassNotFoundException 
+				Class<?> loaderClass = Class.forName(className);
+				Constructor<?> loaderConstructor = loaderClass.getConstructor(new Class<?>[] {});
+				loader = (QxModuleLoader) loaderConstructor.newInstance(new Object[] {});	
+			} 
+			catch (ClassNotFoundException 
 					| NoSuchMethodException 
 					| SecurityException 
 					| InstantiationException
@@ -53,4 +41,5 @@ public class QxLoaderReference {
 		}
 		return loader;
 	}
+	
 }
