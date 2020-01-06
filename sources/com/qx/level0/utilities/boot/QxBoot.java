@@ -28,7 +28,7 @@ public class QxBoot {
 	private boolean isDebugEnabled;
 
 
-	@XML_SetAttribute(tag="name")
+	@XML_SetAttribute(name="name")
 	public void setName(String name) {
 		this.name = name;
 	}

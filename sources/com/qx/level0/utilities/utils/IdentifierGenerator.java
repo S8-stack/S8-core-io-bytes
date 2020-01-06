@@ -175,13 +175,13 @@ public class IdentifierGenerator {
 			return new IdentifierGenerator(this);
 		}
 
-		@XML_SetAttribute(tag="index")
+		@XML_SetAttribute(name="index")
 		public void setIndex(long index) { this.index = index; }
 
-		@XML_SetAttribute(tag="prefix")
+		@XML_SetAttribute(name="prefix")
 		public void setPrefix(String prefix) { this.prefix = prefix; }
 
-		@XML_SetAttribute(tag="length")
+		@XML_SetAttribute(name="length")
 		public void setLength(int length) { this.length = length; }
 
 		@XML_GetAttribute(tag="path")
@@ -193,10 +193,10 @@ public class IdentifierGenerator {
 		@XML_GetAttribute(tag="prefix")
 		public String getPrefix() { return prefix; }
 
-		@XML_SetAttribute(tag="length")
+		@XML_SetAttribute(name="length")
 		public int setLength() { return length; }
 
-		@XML_SetAttribute(tag="path")
+		@XML_SetAttribute(name="path")
 		public String setPath() { return path; }
 		
 	}

@@ -3,7 +3,7 @@ package com.qx.level0.utilities.bytes;
 import java.io.IOException;
 
 /**
- * Can parse from a <code>ByteInflow</code>
+ * Can parse from a <code>ByteInflow</code> and compose to a <code>ByteOutflow</code>.
  * @author pc
  *
  */

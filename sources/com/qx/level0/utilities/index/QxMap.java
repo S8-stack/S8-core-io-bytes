@@ -157,7 +157,7 @@ public class QxMap {
 
 
 	public int size() {
-		return (int) size;
+		return size;
 	}
 
 
@@ -285,7 +285,7 @@ public class QxMap {
 		 * 
 		 * @param index
 		 * @param object
-		 * @return a flag indicating if traverse operation must be continued or not
+		 * @return a flag indicating if traverse operation must be continued or not (true=continue)
 		 */
 		public boolean consume(QxIndex index, Object object);
 	}
