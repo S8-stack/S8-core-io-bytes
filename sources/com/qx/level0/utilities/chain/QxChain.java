@@ -8,12 +8,12 @@ import java.io.IOException;
  * @author pc
  *
  */
-public class QxChain {
+public class QxChain<T extends QxChainable<T>> {
 
 
-	private class Link {
+	private class Link implements QxChainLinkHandle<T> {
 
-		private QxChainable object;
+		private T object;
 
 		/**
 		 * next block
@@ -26,42 +26,22 @@ public class QxChain {
 		 */
 		private Link previous;
 
-		public Link(QxChainable object) {
+		public Link(T object) {
 			super();
 			this.object = object;
-			object.setChainLinkHandle(new QxChainLinkHandle() {
-
-				@Override
-				public Object previous() {
-					return previous;
-				}
-
-				@Override
-				public Object next() {
-					return next;
-				}
-
-				@Override
-				public void detach() {
-					Link.this.detach();
-				}
-
-				@Override
-				public void moveFirst() {
-					Link.this.moveFirst();
-				}
-
-				@Override
-				public void moveLast() {
-					Link.this.moveLast();
-				}
-			});
+			object.setChainLinkHandle(this);
 		}
 
+
+		@Override
+		public T getObject() {
+			return object;
+		}
 
 		/**
 		 * Chain method for efficient storage
 		 */
+		@Override
 		public void detach(){
 			
 			if(this==head){ // update head
@@ -85,7 +65,7 @@ public class QxChain {
 
 
 		/**
-		 * 
+		 * From this<->next to this<->node<->next
 		 * @param node
 		 */
 		
@@ -100,11 +80,10 @@ public class QxChain {
 		
 
 		/**
-		 * 
+		 * From previous<->this to previous<->node<->this
 		 * @param node
 		 */
 		public void insertBefore(Link node){
-			//From previous<->this to previous<->node<->this
 
 			if(previous!=null){
 				previous.next = node;
@@ -120,7 +99,8 @@ public class QxChain {
 		 * 
 		 * @param link
 		 */
-		private void moveFirst() {
+		@Override
+		public void moveFirst() {
 			// move to head
 			if(this!=head){
 				if(this==tail) {
@@ -136,7 +116,8 @@ public class QxChain {
 			}
 		}
 		
-		private void moveLast() {
+		@Override
+		public void moveLast() {
 			// move to head
 			if(this!=tail){
 				detach();
@@ -171,10 +152,28 @@ public class QxChain {
 				tail = this;
 			}
 		}
-		
 
-		
 
+		@Override
+		public T next() {
+			if(next!=null) {
+				return next.object;
+			}
+			else {
+				return null;
+			}
+		}
+
+
+		@Override
+		public T previous() {
+			if(previous!=null) {
+				return previous.object;	
+			}
+			else {
+				return null;
+			}
+		}
 	}
 
 
@@ -206,12 +205,12 @@ public class QxChain {
 	 * Modify size of the chain.
 	 * @param element
 	 */
-	public void pushFirst(QxChainable element) {
+	public void pushFirst(T element) {
 		new Link(element).pushFirst();
 		nLinks++;
 	}
 	
-	public void pushLast(QxChainable element) {
+	public void pushLast(T element) {
 		new Link(element).pushLast();
 		nLinks++;
 	}
@@ -236,17 +235,17 @@ public class QxChain {
 	}
 
 
-	public static interface LinkConsumer {
+	public static interface LinkConsumer<T> {
 
 		/**
 		 * 
 		 * @param object
 		 * @return a flag indicating if traversing is aborted
 		 */
-		public boolean consume(QxChainable object);
+		public boolean consume(T object);
 	}
 
-	public boolean traverse(LinkConsumer consumer) {
+	public boolean traverse(LinkConsumer<T> consumer) {
 		Link link = head;
 		boolean isAborted = false;
 		while(link!=null && !isAborted) {

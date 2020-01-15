@@ -1,7 +1,11 @@
 package com.qx.level0.utilities.chain;
 
-public interface QxChainLinkHandle {
+public interface QxChainLinkHandle<T> {
 
+	
+	public T getObject();
+	
+	
 	/**
 	 * detach from the chain
 	 */
@@ -24,12 +28,12 @@ public interface QxChainLinkHandle {
 	 * move next along the chain
 	 * @return
 	 */
-	public Object next();
+	public T next();
 	
 	
 	/**
 	 * move to previous one along the chain
 	 * @return
 	 */
-	public Object previous();
+	public T previous();
 }

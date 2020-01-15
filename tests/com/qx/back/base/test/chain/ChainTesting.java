@@ -7,23 +7,23 @@ import com.qx.level0.utilities.chain.QxChain.LinkConsumer;
 
 public class ChainTesting {
 
-	public static class MyChainable implements QxChainable {
+	public static class MyProject implements QxChainable<MyProject> {
 
-		private QxChainLinkHandle handle;
+		private QxChainLinkHandle<MyProject> handle;
 		
 		private int index;
 		
-		public MyChainable(int index) {
+		public MyProject(int index) {
 			super();
 			this.index = index;
 		}
 		
 		@Override
-		public void setChainLinkHandle(QxChainLinkHandle handle) {
+		public void setChainLinkHandle(QxChainLinkHandle<MyProject> handle) {
 			this.handle = handle;
 		}
 
-		public QxChainLinkHandle getChainLinkHandle() {
+		public QxChainLinkHandle<MyProject> getChainLinkHandle() {
 			return handle;
 		}
 
@@ -40,12 +40,12 @@ public class ChainTesting {
 	
 	public static void main(String[] args) {
 		
-		QxChain chain = new QxChain();
+		QxChain<MyProject> chain = new QxChain<MyProject>();
 		
-		MyChainable chainable, special0=null, special1=null, special2=null;
+		MyProject chainable, special0=null, special1=null, special2=null;
 		
 		for(int i=0; i<100; i++) {
-			chainable = new MyChainable(i);
+			chainable = new MyProject(i);
 			if(i==22) {
 				special0 = chainable;
 			}
@@ -57,8 +57,8 @@ public class ChainTesting {
 			}
 			chain.pushLast(chainable);
 		}
-		chain.traverse(new LinkConsumer() {
-			public @Override boolean consume(QxChainable object) {
+		chain.traverse(new LinkConsumer<MyProject>() {
+			public @Override boolean consume(MyProject object) {
 				System.out.print(object+", ");
 				return false;
 			}
@@ -66,8 +66,8 @@ public class ChainTesting {
 		System.out.println();
 		
 		special0.getChainLinkHandle().detach();
-		chain.traverse(new LinkConsumer() {
-			public @Override boolean consume(QxChainable object) {
+		chain.traverse(new LinkConsumer<MyProject>() {
+			public @Override boolean consume(MyProject object) {
 				System.out.print(object+", ");
 				return false;
 			}
@@ -75,8 +75,8 @@ public class ChainTesting {
 		System.out.println();
 		
 		special1.getChainLinkHandle().detach();
-		chain.traverse(new LinkConsumer() {
-			public @Override boolean consume(QxChainable object) {
+		chain.traverse(new LinkConsumer<MyProject>() {
+			public @Override boolean consume(MyProject object) {
 				System.out.print(object+", ");
 				return false;
 			}
@@ -84,20 +84,12 @@ public class ChainTesting {
 		System.out.println();
 		
 		special2.getChainLinkHandle().moveFirst();
-		chain.traverse(new LinkConsumer() {
-			public @Override boolean consume(QxChainable object) {
+		chain.traverse(new LinkConsumer<MyProject>() {
+			public @Override boolean consume(MyProject object) {
 				System.out.print(object+", ");
 				return false;
 			}
 		});
 		System.out.println();
-		
-		
-		
-		
 	}
-	
-	
-	
-	
 }
