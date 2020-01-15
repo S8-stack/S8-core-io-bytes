@@ -5,16 +5,16 @@ package com.qx.level0.utilities.chain;
  * @author pc
  *
  */
-public interface QxChainable<T> {
+public interface QxChainable<T extends QxChainable<T>> {
 	
 
 	/**
 	 * 
 	 * @param link
 	 */
-	public void setChainLinkHandle(QxChainLinkHandle<T> handle);
+	public void setChainLink(QxChain<T>.Link handle);
 	
-	public QxChainLinkHandle<T> getChainLinkHandle();
+	public QxChain<T>.Link getChainLink();
 
 	
 	/**

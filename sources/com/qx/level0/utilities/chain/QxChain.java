@@ -11,7 +11,7 @@ import java.io.IOException;
 public class QxChain<T extends QxChainable<T>> {
 
 
-	private class Link implements QxChainLinkHandle<T> {
+	public class Link {
 
 		private T object;
 
@@ -26,14 +26,17 @@ public class QxChain<T extends QxChainable<T>> {
 		 */
 		private Link previous;
 
-		public Link(T object) {
+		private Link(T object) {
 			super();
 			this.object = object;
-			object.setChainLinkHandle(this);
+			object.setChainLink(this);
 		}
 
 
-		@Override
+		/**
+		 * return the underlying object
+		 * @return
+		 */
 		public T getObject() {
 			return object;
 		}
@@ -41,7 +44,6 @@ public class QxChain<T extends QxChainable<T>> {
 		/**
 		 * Chain method for efficient storage
 		 */
-		@Override
 		public void detach(){
 			
 			if(this==head){ // update head
@@ -99,7 +101,6 @@ public class QxChain<T extends QxChainable<T>> {
 		 * 
 		 * @param link
 		 */
-		@Override
 		public void moveFirst() {
 			// move to head
 			if(this!=head){
@@ -116,7 +117,6 @@ public class QxChain<T extends QxChainable<T>> {
 			}
 		}
 		
-		@Override
 		public void moveLast() {
 			// move to head
 			if(this!=tail){
@@ -154,7 +154,10 @@ public class QxChain<T extends QxChainable<T>> {
 		}
 
 
-		@Override
+		/**
+		 * Give access to next element
+		 * @return
+		 */
 		public T next() {
 			if(next!=null) {
 				return next.object;
@@ -164,8 +167,10 @@ public class QxChain<T extends QxChainable<T>> {
 			}
 		}
 
-
-		@Override
+		/**
+		 * Give access to previous element
+		 * @return
+		 */
 		public T previous() {
 			if(previous!=null) {
 				return previous.object;	

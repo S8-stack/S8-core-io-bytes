@@ -1,15 +1,14 @@
 package com.qx.back.base.test.chain;
 
 import com.qx.level0.utilities.chain.QxChain;
-import com.qx.level0.utilities.chain.QxChainLinkHandle;
-import com.qx.level0.utilities.chain.QxChainable;
 import com.qx.level0.utilities.chain.QxChain.LinkConsumer;
+import com.qx.level0.utilities.chain.QxChainable;
 
 public class ChainTesting {
 
 	public static class MyProject implements QxChainable<MyProject> {
 
-		private QxChainLinkHandle<MyProject> handle;
+		private QxChain<MyProject>.Link handle;
 		
 		private int index;
 		
@@ -19,11 +18,11 @@ public class ChainTesting {
 		}
 		
 		@Override
-		public void setChainLinkHandle(QxChainLinkHandle<MyProject> handle) {
+		public void setChainLinkHandle(QxChain<MyProject>.Link handle) {
 			this.handle = handle;
 		}
 
-		public QxChainLinkHandle<MyProject> getChainLinkHandle() {
+		public QxChain<MyProject>.Link getChainLink() {
 			return handle;
 		}
 
@@ -65,7 +64,7 @@ public class ChainTesting {
 		});
 		System.out.println();
 		
-		special0.getChainLinkHandle().detach();
+		special0.getChainLink().detach();
 		chain.traverse(new LinkConsumer<MyProject>() {
 			public @Override boolean consume(MyProject object) {
 				System.out.print(object+", ");
@@ -74,7 +73,7 @@ public class ChainTesting {
 		});
 		System.out.println();
 		
-		special1.getChainLinkHandle().detach();
+		special1.getChainLink().detach();
 		chain.traverse(new LinkConsumer<MyProject>() {
 			public @Override boolean consume(MyProject object) {
 				System.out.print(object+", ");
@@ -83,7 +82,7 @@ public class ChainTesting {
 		});
 		System.out.println();
 		
-		special2.getChainLinkHandle().moveFirst();
+		special2.getChainLink().moveFirst();
 		chain.traverse(new LinkConsumer<MyProject>() {
 			public @Override boolean consume(MyProject object) {
 				System.out.print(object+", ");
