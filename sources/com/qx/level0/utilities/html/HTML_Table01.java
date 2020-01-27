@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qx.level0.utilities.units.Unit;
+import com.qx.level0.utilities.units.SI_Unit;
 
 
 public class HTML_Table01 extends HTML_Block {
@@ -34,21 +34,21 @@ public class HTML_Table01 extends HTML_Block {
 		body.add(row);
 	}
 	
-	public void pushF01(String name, String symbol, double value, Unit unit){
+	public void pushF01(String name, String symbol, double value, SI_Unit unit){
 		body.add(new String[]{
 				name,
 				symbol,
-				F01.format(unit.fromIS(value)),
-				unit.abbreviation
+				F01.format(unit.convert(value)),
+				unit.getAbbreviation()
 		});
 	}
 	
-	public void pushF02(String name, String symbol, double value, Unit unit){
+	public void pushF02(String name, String symbol, double value, SI_Unit unit){
 		body.add(new String[]{
 				name,
 				symbol,
-				F02.format(unit.fromIS(value)),
-				unit.abbreviation
+				F02.format(unit.convert(value)),
+				unit.getAbbreviation()
 		});
 	}
 	

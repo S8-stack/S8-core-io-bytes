@@ -17,10 +17,7 @@ public class ChainTesting {
 			this.index = index;
 		}
 		
-		@Override
-		public void setChainLinkHandle(QxChain<MyProject>.Link handle) {
-			this.handle = handle;
-		}
+		
 
 		public QxChain<MyProject>.Link getChainLink() {
 			return handle;
@@ -34,6 +31,13 @@ public class ChainTesting {
 		@Override
 		public String toString() {
 			return Integer.toString(index);
+		}
+
+
+
+		@Override
+		public void setChainLink(QxChain<MyProject>.Link handle) {
+			this.handle = handle;
 		}
 	}
 	
