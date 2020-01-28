@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qx.level0.utilities.units.SI_Unit;
+import com.qx.level0.utilities.units.QxUnit;
 
 
 public class HTML_Table01 extends HTML_Block {
@@ -16,8 +16,8 @@ public class HTML_Table01 extends HTML_Block {
 	private List<String[]> body;
 	
 	public static final DecimalFormat
-	F01 = new DecimalFormat("0.00"),
-	F02 = new DecimalFormat("0.00E0");
+	STANDARD = new DecimalFormat("0.00"),
+	ACCURATE = new DecimalFormat("0.00E0");
 	
 	public HTML_Table01(String name){
 		super();
@@ -34,20 +34,22 @@ public class HTML_Table01 extends HTML_Block {
 		body.add(row);
 	}
 	
-	public void pushF01(String name, String symbol, double value, SI_Unit unit){
+	public void pushStandard(String name, String symbol, double value, String unitAbbreviation){
+		QxUnit unit = QxUnit.getUnitByAbbreviation(unitAbbreviation);
 		body.add(new String[]{
 				name,
 				symbol,
-				F01.format(unit.convert(value)),
+				STANDARD.format(unit.convert(value)),
 				unit.getAbbreviation()
 		});
 	}
 	
-	public void pushF02(String name, String symbol, double value, SI_Unit unit){
+	public void pushAccurate(String name, String symbol, double value, String unitAbbreviation){
+		QxUnit unit = QxUnit.getUnitByAbbreviation(unitAbbreviation);
 		body.add(new String[]{
 				name,
 				symbol,
-				F02.format(unit.convert(value)),
+				ACCURATE.format(unit.convert(value)),
 				unit.getAbbreviation()
 		});
 	}
