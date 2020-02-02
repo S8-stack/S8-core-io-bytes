@@ -229,11 +229,18 @@ public class QxUnit {
 
 
 
-		VELOCITY(0x31, new QxUnit[] {
+		VELOCITY(0x30, new QxUnit[] {
 				new QxUnit(0x00, SI, "Meter per Second", "m.s-1", 1, 0), // SI-base
 				
 				new QxUnit(0x20, SI, "Kilometer per hour", "km.h-1", 1000/3600, 0),
 				new QxUnit(0x21, IMPERIAL, "Mile per hour", "mph", 1609.344/3600, 0)
+		}),
+		
+
+		ROTATIONAL_SPEED(0x31, new QxUnit[] {
+				new QxUnit(0x00, SI, "Radian per Second", "rad.s-1", 1, 0), // SI-base
+				
+				new QxUnit(0x20, SI, "Revolution per minute", "RPM", (2.0*Math.PI)/60.0, 0),
 		}),
 
 		ACCELERATION(0x32, new QxUnit[] {

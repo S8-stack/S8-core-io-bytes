@@ -34,8 +34,11 @@ public class HTML_Table01 extends HTML_Block {
 		body.add(row);
 	}
 	
-	public void pushStandard(String name, String symbol, double value, String unitAbbreviation){
+	public void pushStandard(String name, String symbol, double value, String unitAbbreviation) throws Exception{
 		QxUnit unit = QxUnit.getUnitByAbbreviation(unitAbbreviation);
+		if(unit==null) {
+			throw new Exception("Cannot find unit for abbreviation: "+unitAbbreviation);
+		}
 		body.add(new String[]{
 				name,
 				symbol,
@@ -44,8 +47,11 @@ public class HTML_Table01 extends HTML_Block {
 		});
 	}
 	
-	public void pushAccurate(String name, String symbol, double value, String unitAbbreviation){
+	public void pushAccurate(String name, String symbol, double value, String unitAbbreviation) throws Exception{
 		QxUnit unit = QxUnit.getUnitByAbbreviation(unitAbbreviation);
+		if(unit==null) {
+			throw new Exception("Cannot find unit for abbreviation: "+unitAbbreviation);
+		}
 		body.add(new String[]{
 				name,
 				symbol,
