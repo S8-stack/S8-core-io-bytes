@@ -205,7 +205,23 @@ public class QxBytes {
 		tail.next = chain;
 		return tail.tail();
 	}
+	
 
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public long getBytecount() {
+		QxBytes bytes = this;
+		long bytecount = 0;
+		while(bytes!=null) {
+			bytecount+=length;
+			bytes = bytes.next;
+		}
+		return bytecount;
+	}
+	
 	
 	/**
 	 * read this chain as an 

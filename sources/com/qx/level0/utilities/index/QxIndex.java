@@ -185,6 +185,7 @@ public class QxIndex {
 			index++;
 		}
 	}
+	
 
 
 	public boolean isZero() {

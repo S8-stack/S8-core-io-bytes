@@ -24,25 +24,15 @@ public class QxUnit {
 
 	public final static int UNITS_MAP_CAPACITY = 256;
 
-	private final static HomogeneityClass[] CLASSES;
+	private static boolean isInitialized = false;
+	
+	private static HomogeneityClass[] CLASSES;
 
-	private final static Map<String, QxUnit> ABB_MAP;
+	private static Map<String, QxUnit> ABB_MAP;
 
-	static {
-		CLASSES = new HomogeneityClass[CLASS_MAP_CAPACITY];
-		for(HomogeneityClass homogeneityClass : HomogeneityClass.values()) {
-			CLASSES[homogeneityClass.code] = homogeneityClass;
-		}
-
-		ABB_MAP = new HashMap<>();
-		for(HomogeneityClass homogeneityClass : HomogeneityClass.values()) {
-			for(QxUnit unit : homogeneityClass.units) {
-				ABB_MAP.put(unit.getAbbreviation(), unit);
-			}
-		}
-	}
 
 	public static HomogeneityClass getClass(int code) {
+		initialize();
 		return CLASSES[code];
 	}
 
@@ -508,6 +498,7 @@ public class QxUnit {
 
 
 	public static QxUnit getUnitByAbbreviation(String abbreviation) {
+		initialize();
 		return ABB_MAP.get(abbreviation);
 	}
 
@@ -528,5 +519,27 @@ public class QxUnit {
 		outflow.putUInt8(homogeneityClass.code);
 		outflow.putUInt8(code);
 	}
+	
+	
+	
+	private static void initialize() {
+		if(!isInitialized) {
+			CLASSES = new HomogeneityClass[CLASS_MAP_CAPACITY];
+			for(HomogeneityClass homogeneityClass : HomogeneityClass.values()) {
+				CLASSES[homogeneityClass.code] = homogeneityClass;
+			}
+
+			ABB_MAP = new HashMap<>();
+			for(HomogeneityClass homogeneityClass : HomogeneityClass.values()) {
+				for(QxUnit unit : homogeneityClass.units) {
+					ABB_MAP.put(unit.getAbbreviation(), unit);
+				}
+			}
+			
+			// true
+			isInitialized = true;
+		}
+	}
+	
 
 }
