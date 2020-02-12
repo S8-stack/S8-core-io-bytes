@@ -122,13 +122,13 @@ public class QxBytes {
 
 	public QxBytes recut(int fragmentLength) {
 		QxBytes chain1 = this;
-		QxBytes chain2 = new QxBytes(fragmentLength);
+		QxBytes chain2 = new QxBytes(new byte[fragmentLength], 0, 0);
 		QxBytes head = chain2;
 
 		int i2=0, i1 = chain1.offset;
-		int n2 = chain2.length, n1 = chain1.length;
+		int n2 = fragmentLength, n1 = chain1.length;
 
-		int nBytes;
+		int nTransferredBytes;
 		byte[] bytes2 = chain2.bytes, bytes1 = chain1.bytes;
 
 		boolean isNextRequired2 = false;
@@ -137,32 +137,33 @@ public class QxBytes {
 			if(n2>n1) {
 				isNextRequired2 = false;
 				isNextRequired1 = true;
-				nBytes = n1;
+				nTransferredBytes = n1;
 			}
 			else if(n2<n1) {
 				isNextRequired2 = true;
 				isNextRequired1 = false;
-				nBytes = n2;
+				nTransferredBytes = n2;
 			}
 			else { // if(n0 == n1)
 				isNextRequired2 = true;
 				isNextRequired1 = true;
-				nBytes = n2;
+				nTransferredBytes = n2;
 			}
 
-			for(int i=0; i<nBytes; i++) {
+			for(int i=0; i<nTransferredBytes; i++) {
 				bytes2[i2++] = bytes1[i1++]; 
 			}
+			chain2.length+=nTransferredBytes;
 
 			if(isNextRequired2) {
-				chain2.next = new QxBytes(fragmentLength);
+				chain2.next = new QxBytes(new byte[fragmentLength], 0, 0);
 				chain2 = chain2.next;
 				i2 = 0;
-				n2 = chain2.length;
+				n2 = fragmentLength;
 				bytes2 = chain2.bytes;
 			}
 			else {
-				n2-=nBytes;	
+				n2-=nTransferredBytes;	
 			}
 
 			if(isNextRequired1) {
@@ -174,7 +175,7 @@ public class QxBytes {
 				}
 			}
 			else {
-				n1-=nBytes;
+				n1-=nTransferredBytes;
 			}
 		}
 		
@@ -213,11 +214,11 @@ public class QxBytes {
 	 * @return
 	 */
 	public long getBytecount() {
-		QxBytes bytes = this;
+		QxBytes link = this;
 		long bytecount = 0;
-		while(bytes!=null) {
-			bytecount+=length;
-			bytes = bytes.next;
+		while(link!=null) {
+			bytecount+=link.length;
+			link = link.next;
 		}
 		return bytecount;
 	}
