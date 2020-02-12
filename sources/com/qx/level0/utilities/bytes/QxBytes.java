@@ -244,4 +244,10 @@ public class QxBytes {
 		}
 		return builder.toString();
 	}
+	
+	
+	public static QxBytes fromString_UTF8(String str) {
+		byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
+		return new QxBytes(bytes);
+	}
 }
