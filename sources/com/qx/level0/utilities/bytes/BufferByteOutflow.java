@@ -160,6 +160,11 @@ public class BufferByteOutflow implements ByteOutflow {
 	public void putByteArray(byte[] bytes) throws IOException {
 		buffer.put(bytes);
 	}
+	
+	@Override
+	public void putByteArray(byte[] bytes, int offset, int length) throws IOException {
+		buffer.put(bytes, offset, length);
+	}
 
 
 	@Override

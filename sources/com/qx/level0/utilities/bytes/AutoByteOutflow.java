@@ -234,6 +234,29 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 			}
 		}
 	}
+	
+	
+	@Override
+	public void putByteArray(byte[] bytes, int offset, int length) throws IOException {
+		// /!\ No block allocation
+		int remaining;
+		while(length>0) {
+			remaining = buffer.remaining();
+
+			// not enough space
+			if(remaining<length) {
+				buffer.put(bytes, offset, remaining);
+				length-=remaining;
+				offset+=remaining;
+				push();
+			}
+			// enough space to write remaining bytes
+			else {
+				buffer.put(bytes, offset, length);
+				length=0;
+			}
+		}
+	}
 
 
 	@Override

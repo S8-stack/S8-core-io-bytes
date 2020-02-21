@@ -23,7 +23,29 @@ public interface ByteOutflow {
 	 */
 	public void putByteArray(byte[] bytes) throws IOException;
 
+	
+	/**
+	 * 
+	 * @param array
+	 * @param offset
+	 * @param length
+	 * @throws IOException 
+	 */
+	public void putByteArray(byte[] array, int offset, int length) throws IOException;
 
+	
+	/**
+	 * 
+	 * @param head
+	 * @throws IOException
+	 */
+	public default void putBytes(QxBytes head) throws IOException{
+		while(head!=null) {
+			putByteArray(head.bytes, head.offset, head.length);
+			head = head.next;
+		}
+	}
+	
 
 	/**
 	 * Auto-feed underlying ByteBuffer as necessary.
@@ -183,6 +205,20 @@ public interface ByteOutflow {
 	 * @throws IOException 
 	 */
 	public void putString(String str) throws IOException;
+
+	
+
+	/**
+	 * 
+	 * @param strs
+	 * @throws IOException
+	 */
+	public default void putFewStrings(String[] strs) throws IOException {
+		putUInt8(strs.length);
+		for(String str : strs) {
+			putString(str);
+		}
+	}
 
 
 }

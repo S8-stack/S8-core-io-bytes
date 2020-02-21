@@ -150,7 +150,9 @@ public class QxUnit {
 				new QxUnit(0x19, SI, "TeraWatt", "TW", 1e12, 0),
 				new QxUnit(0x1a, SI, "PetaWatt", "PW", 1e15, 0),
 
-				new QxUnit(0x20, IMPERIAL, "Mechanical Horsepower", "hp", 745.69987158, 0)
+				new QxUnit(0x20, IMPERIAL, "Mechanical Horsepower", "hp", 745.69987158, 0),
+				new QxUnit(0x21, IMPERIAL, "British Thermal Unit per hour", "BTU/h", 0.29307107, 0)
+				
 		}),
 		
 		MOLE(0x17, new QxUnit[] {
@@ -290,6 +292,11 @@ public class QxUnit {
 				new QxUnit(0x40, SI, "Millibar", "mbar", 1e2, 0),
 				new QxUnit(0x41, SI, "Millibar (absolute)", "mbar(a)", 1e2, 0),
 				new QxUnit(0x42, SI, "Millibar (gauge)", "mbar(g)", 1e2, 1e5),
+				
+				new QxUnit(0x52, IMPERIAL, "PSI", "psi", 6894.75729317831, 0.0),
+				new QxUnit(0x53, IMPERIAL, "PSI (absolute)", "psi", 6894.75729317831, 0.0),
+				new QxUnit(0x54, IMPERIAL, "PSI (gauge)", "psi(g)", 6894.75729317831, 1.0e5)
+				
 		}),
 
 
@@ -374,7 +381,7 @@ public class QxUnit {
 				new QxUnit(0x00, SI, "Kilograms per meter per second", "kg.m-1.s-1", 1, 0),
 				new QxUnit(0x01, SI, "Pascal second", "Pa.s", 1, 0),
 				new QxUnit(0x12, SI, "Milli Pascal second", "mPa.s", 1e-3, 0),
-				new QxUnit(0x13, SI, "Micro Pascal second", "muPa.s", 1e-6, 0)
+				new QxUnit(0x13, SI, "Micro Pascal second", "μPa.s", 1e-6, 0)
 		});
 
 		public int code;
