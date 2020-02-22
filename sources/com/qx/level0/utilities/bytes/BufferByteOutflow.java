@@ -75,6 +75,16 @@ public class BufferByteOutflow implements ByteOutflow {
 		buffer.putInt((int) (value & 0x7fffffff));	
 	}
 
+	@Override
+	public void putUInt53(long value) throws IOException {
+		buffer.put((byte) ((value>>48) & 0x1f)); // only 5 last bits
+		buffer.put((byte) ((value>>40) & 0xff));
+		buffer.put((byte) ((value>>32) & 0xff));
+		buffer.put((byte) ((value>>24) & 0xff));
+		buffer.put((byte) ((value>>16) & 0xff));
+		buffer.put((byte) ((value>>8) & 0xff));
+		buffer.put((byte) (value & 0xff));
+	}
 
 
 	@Override
@@ -160,7 +170,7 @@ public class BufferByteOutflow implements ByteOutflow {
 	public void putByteArray(byte[] bytes) throws IOException {
 		buffer.put(bytes);
 	}
-	
+
 	@Override
 	public void putByteArray(byte[] bytes, int offset, int length) throws IOException {
 		buffer.put(bytes, offset, length);

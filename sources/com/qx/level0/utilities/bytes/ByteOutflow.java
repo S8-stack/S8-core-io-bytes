@@ -107,13 +107,22 @@ public interface ByteOutflow {
 	 * @throws IOException
 	 */
 	public void putUInt32(int value) throws IOException;
+	
+	/**
+	 * Auto-feed underlying ByteBuffer as necessary.
+	 * This format is adequate to send JAVA long to JS (since JS MAX_INTEGER is 2^53).
+	 * @param value
+	 * @throws IOException
+	 */
+	public void putUInt53(long value) throws IOException;
 
 
 	public void putUInt32Array(int[] array) throws IOException;
 	
 	
 	/**
-	 * put Uint32 using extensible mechanism to save bytes
+	 * put Uint32 using extensible mechanism to save bytes.
+	 * Mechanism is compliant with natural JAVA and network Big-Endianness.
 	 * @param value
 	 * @throws IOException
 	 */
