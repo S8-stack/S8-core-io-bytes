@@ -56,6 +56,7 @@ public class HTML_Page {
 		while ((c = reader.read()) != -1) {
 			builder.append((char) c);
 		}
+		reader.close();
 		return builder.toString();
 	}
 }
