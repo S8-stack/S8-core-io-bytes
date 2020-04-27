@@ -65,7 +65,7 @@ public abstract class ByteFile {
 		return Files.exists(path);
 	}
 	
-	public static void load(Path path, ByteFileReader consumer) {
+	public static void load(Path path, ByteFileLoader consumer) {
 		load(path, DEFAULT_BUFFER_CAPACITY, consumer);
 	}
 
@@ -76,7 +76,7 @@ public abstract class ByteFile {
 	 * @throws BkException
 	 * @throws IOException 
 	 */
-	public static void load(Path path, int capacity, ByteFileReader consumer) {
+	public static void load(Path path, int capacity, ByteFileLoader consumer) {
 		if(Files.exists(path)) {
 
 			try {

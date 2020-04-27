@@ -22,7 +22,7 @@ package com.qx.level0.utilities.index;
  */
 public class QxMap {
 
-	public final static boolean IS_DEBUG_ACTIVE = true;
+	public final static boolean IS_DEBUG_ACTIVE = false;
 
 	private class Node {
 
