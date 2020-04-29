@@ -5,17 +5,15 @@
  * @author pc
  *
  */
-module com.qx.level0.utilities {
+module com.qx.level0.io.bytes {
 	
-	exports com.qx.level0.utilities.index;
-	exports com.qx.level0.utilities.bytes;
-	exports com.qx.level0.utilities.chain;
-	exports com.qx.level0.utilities.units;
-	exports com.qx.level0.utilities.reactive;
-	exports com.qx.level0.utilities.html;
-	exports com.qx.level0.utilities.log;
-	exports com.qx.level0.utilities.boot;
-	exports com.qx.level0.utilities.utils;
+	exports com.qx.level0.io.index;
+	exports com.qx.level0.io.bytes;
+	exports com.qx.level0.io.chain;
+	exports com.qx.level0.io.reactive;
+	exports com.qx.level0.io.log;
+	exports com.qx.level0.io.boot;
+	exports com.qx.level0.io.utils;
 	
 	
 	/*
