@@ -22,20 +22,17 @@ public abstract class ByteFile {
 
 	public static final boolean IS_DELETING_ILL_FORMATED_FILES = false;
 
-	private Path path;
 
 	private boolean isAutosaveActive = false;
 	
 	private int capacity = DEFAULT_BUFFER_CAPACITY;
 
-	public ByteFile(Path path) {
+	public ByteFile() {
 		super();
-		this.path = path;
 	}
 	
-	public ByteFile(Path path, int capacity) {
+	public ByteFile(int capacity) {
 		super();
-		this.path = path;
 		this.capacity = capacity;
 	}
 
@@ -48,10 +45,6 @@ public abstract class ByteFile {
 		return capacity;
 	}
 
-	public Path getFilePath() {
-		return path;
-	}
-
 	/**
 	 * 
 	 * @param outflow
@@ -61,7 +54,7 @@ public abstract class ByteFile {
 	public abstract void write(ByteOutflow outflow) throws ByteFileWritingException, IOException;
 
 
-	public boolean isExisting() {
+	public boolean isExisting(Path path) {
 		return Files.exists(path);
 	}
 	
@@ -104,7 +97,7 @@ public abstract class ByteFile {
 	 * @param bucket
 	 * @throws Exception
 	 */
-	public void save() throws ByteFileWritingException, IOException {
+	public void save(Path path) throws ByteFileWritingException, IOException {
 
 
 		// ensure directories are created
@@ -125,13 +118,13 @@ public abstract class ByteFile {
 	}
 
 
-	public void delete() throws IOException {
+	public void delete(Path path) throws IOException {
 		Files.delete(path);
 	}
 
 
 
-	public void startAutosave(long frequency) {
+	public void startAutosave(Path path, long frequency) {
 		Thread autosaveThread = new Thread(new Runnable() {
 
 			@Override
@@ -147,7 +140,7 @@ public abstract class ByteFile {
 
 					// save
 					try {
-						save();
+						save(path);
 					} 
 					catch (ByteFileWritingException | IOException e) {
 						e.printStackTrace();
