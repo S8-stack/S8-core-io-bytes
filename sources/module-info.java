@@ -21,5 +21,6 @@ module com.qx.level0.io.bytes {
 	 * dependencies: XML
 	 */
 	requires transitive com.qx.level0.lang.xml;
+	requires transitive com.s8.api;
 
 }

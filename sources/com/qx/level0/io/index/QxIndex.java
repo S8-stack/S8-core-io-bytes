@@ -2,8 +2,8 @@ package com.qx.level0.io.index;
 
 import java.io.IOException;
 
-import com.qx.level0.io.bytes.ByteInflow;
-import com.qx.level0.io.bytes.ByteOutflow;
+import com.s8.api.io.ByteInflow;
+import com.s8.api.io.ByteOutflow;
 
 /**
  * 

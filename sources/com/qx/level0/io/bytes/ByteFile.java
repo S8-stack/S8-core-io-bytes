@@ -9,6 +9,8 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import com.s8.api.io.ByteOutflow;
+
 
 
 /**
@@ -22,19 +24,30 @@ public abstract class ByteFile {
 
 	public static final boolean IS_DELETING_ILL_FORMATED_FILES = false;
 
+	final private Path path;
 
-	private boolean isAutosaveActive = false;
+	volatile private boolean isAutosaveActive = false;
 	
 	private int capacity = DEFAULT_BUFFER_CAPACITY;
 
-	public ByteFile() {
+
+	public ByteFile(Path path, int capacity) {
 		super();
-	}
-	
-	public ByteFile(int capacity) {
-		super();
+		this.path = path;
 		this.capacity = capacity;
 	}
+	
+	public ByteFile(Path path) {
+		super();
+		this.path = path;
+		capacity = DEFAULT_BUFFER_CAPACITY;
+	}
+	
+	
+	public Path getPath() {
+		return path;
+	}
+	
 
 
 	/**
@@ -54,7 +67,7 @@ public abstract class ByteFile {
 	public abstract void write(ByteOutflow outflow) throws ByteFileWritingException, IOException;
 
 
-	public boolean isExisting(Path path) {
+	public boolean isExisting() {
 		return Files.exists(path);
 	}
 	
@@ -97,7 +110,7 @@ public abstract class ByteFile {
 	 * @param bucket
 	 * @throws Exception
 	 */
-	public void save(Path path) throws ByteFileWritingException, IOException {
+	public void save() throws ByteFileWritingException, IOException {
 
 
 		// ensure directories are created
@@ -118,13 +131,13 @@ public abstract class ByteFile {
 	}
 
 
-	public void delete(Path path) throws IOException {
+	public void delete() throws IOException {
 		Files.delete(path);
 	}
 
 
 
-	public void startAutosave(Path path, long frequency) {
+	public void startAutosave(long frequency) {
 		Thread autosaveThread = new Thread(new Runnable() {
 
 			@Override
@@ -140,7 +153,7 @@ public abstract class ByteFile {
 
 					// save
 					try {
-						save(path);
+						save();
 					} 
 					catch (ByteFileWritingException | IOException e) {
 						e.printStackTrace();
