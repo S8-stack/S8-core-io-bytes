@@ -90,7 +90,7 @@ public abstract class ByteFile {
 				FileByteInflow inflow = new FileByteInflow(channel, capacity);
 				inflow.pull();
 
-				consumer.consume(inflow);
+				consumer.read(inflow);
 				channel.close();
 			}
 			catch (IOException e) {

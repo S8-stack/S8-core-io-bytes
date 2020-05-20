@@ -47,7 +47,7 @@ public abstract class ByteFileLoader {
 				FileByteInflow inflow = new FileByteInflow(channel, capacity);
 				inflow.pull();
 
-				consume(inflow);
+				read(inflow);
 				channel.close();
 			}
 			catch (IOException e) {
@@ -66,7 +66,7 @@ public abstract class ByteFileLoader {
 	 * @return true if inflow has been successfully consumed
 	 * @throws IOException 
 	 */
-	public abstract void consume(ByteInflow inflow) throws IOException;
+	public abstract void read(ByteInflow inflow) throws IOException;
 
 
 	public abstract void onFileDoesNotExist();
