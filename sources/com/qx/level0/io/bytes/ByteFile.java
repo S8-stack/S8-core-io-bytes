@@ -9,7 +9,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.s8.api.io.ByteOutflow;
+import com.s8.api.objects.ByteOutflow;
 
 
 
@@ -155,7 +155,7 @@ public abstract class ByteFile {
 					try {
 						save();
 					} 
-					catch (ByteFileWritingException | IOException e) {
+					catch ( IOException e) {
 						e.printStackTrace();
 					}
 				}

@@ -1,8 +1,9 @@
 package com.qx.level0.io.bytes;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
-public class ByteFileReadingException extends Exception {
+public class ByteFileReadingException extends IOException {
 
 	/**
 	 * 
