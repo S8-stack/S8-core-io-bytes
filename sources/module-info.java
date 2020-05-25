@@ -5,22 +5,25 @@
  * @author pc
  *
  */
-module com.qx.level0.io.bytes {
+module com.s8.io.bytes {
 	
-	exports com.qx.level0.io.index;
-	exports com.qx.level0.io.bytes;
-	exports com.qx.level0.io.chain;
-	exports com.qx.level0.io.reactive;
-	exports com.qx.level0.io.log;
-	exports com.qx.level0.io.boot;
-	exports com.qx.level0.io.units;
-	exports com.qx.level0.io.utils;
+	exports com.s8.io.bytes;
+	
+	
+	// others
+	exports com.s8.io.bytes.utilities.index;
+	exports com.s8.io.bytes.utilities.chain;
+	exports com.s8.io.bytes.utilities.reactive;
+	exports com.s8.io.bytes.utilities.log;
+	exports com.s8.io.bytes.utilities.boot;
+	exports com.s8.io.bytes.utilities.units;
+	exports com.s8.io.bytes.utilities.others;
 	
 	
 	/*
 	 * dependencies: XML
 	 */
-	requires transitive com.qx.level0.lang.xml;
+	requires transitive com.s8.lang.xml;
 	requires transitive com.s8.api;
 
 }
