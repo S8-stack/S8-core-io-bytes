@@ -75,33 +75,7 @@ public abstract class ByteFile {
 		load(path, DEFAULT_BUFFER_CAPACITY, consumer);
 	}
 
-	/**
-	 * Test if file is existing
-	 * 
-	 * @return a flag indicating if loading is successful
-	 * @throws BkException
-	 * @throws IOException 
-	 */
-	public static void load(Path path, int capacity, ByteFileLoader consumer) {
-		if(Files.exists(path)) {
-
-			try {
-				FileChannel channel = FileChannel.open(path, CREATE, READ);
-				FileByteInflow inflow = new FileByteInflow(channel, capacity);
-				inflow.pull();
-
-				consumer.read(inflow);
-				channel.close();
-			}
-			catch (IOException e) {
-				consumer.onIOException(e);
-			}
-		}
-		else {
-			consumer.onFileDoesNotExist();
-		}
-	}
-
+	
 
 
 
