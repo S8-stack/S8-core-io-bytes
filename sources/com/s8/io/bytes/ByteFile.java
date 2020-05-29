@@ -1,7 +1,6 @@
 package com.s8.io.bytes;
 
 import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.READ;
 import static java.nio.file.StandardOpenOption.WRITE;
 
 import java.io.IOException;
@@ -9,7 +8,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.s8.api.ByteOutflow;
+import com.s8.api.io.ByteOutflow;
 
 
 
@@ -71,10 +70,12 @@ public abstract class ByteFile {
 		return Files.exists(path);
 	}
 	
+	
+	/*
 	public static void load(Path path, ByteFileLoader consumer) {
 		load(path, DEFAULT_BUFFER_CAPACITY, consumer);
 	}
-
+	 */
 	
 
 
