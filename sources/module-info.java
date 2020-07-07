@@ -12,7 +12,7 @@ module com.s8.io.bytes {
 	
 	// others
 	exports com.s8.io.bytes.utilities.index;
-	exports com.s8.io.bytes.utilities.chain;
+	//exports com.s8.io.bytes.utilities.chain;
 	exports com.s8.io.bytes.utilities.reactive;
 	exports com.s8.io.bytes.utilities.log;
 	exports com.s8.io.bytes.utilities.boot;
