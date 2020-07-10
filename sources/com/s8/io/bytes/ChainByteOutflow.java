@@ -5,9 +5,9 @@ import java.nio.ByteBuffer;
 
 public class ChainByteOutflow extends AutoByteOutflow {
 
-	private S8Bytes head;
+	private Bytes head;
 
-	private S8Bytes tail;
+	private Bytes tail;
 
 	private int capacity;
 
@@ -19,7 +19,7 @@ public class ChainByteOutflow extends AutoByteOutflow {
 		bytecount = 0;
 
 		// first feed
-		head = new S8Bytes(new byte[capacity]);
+		head = new Bytes(new byte[capacity]);
 		tail = head;
 
 		// feed buffer
@@ -35,7 +35,7 @@ public class ChainByteOutflow extends AutoByteOutflow {
 
 
 		// create next tail link
-		S8Bytes nextLink = new S8Bytes(capacity);
+		Bytes nextLink = new Bytes(capacity);
 
 		// append to tail
 		tail.next = nextLink;
@@ -49,7 +49,7 @@ public class ChainByteOutflow extends AutoByteOutflow {
 	}
 
 
-	public S8Bytes getHead() {
+	public Bytes getHead() {
 		return head;
 	}
 

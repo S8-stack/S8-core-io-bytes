@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
  * @author pc
  *
  */
-public class S8Bytes {
+public class Bytes {
 
 
 	/**
@@ -36,23 +36,23 @@ public class S8Bytes {
 	 */
 	public int length;
 
-	public S8Bytes next;
+	public Bytes next;
 
-	public S8Bytes(int capacity) {
+	public Bytes(int capacity) {
 		super();
 		this.bytes = new byte[capacity];
 		this.offset = 0;
 		this.length = bytes.length;
 	}
 
-	public S8Bytes(byte[] bytes) {
+	public Bytes(byte[] bytes) {
 		super();
 		this.bytes = bytes;
 		this.offset = 0;
 		this.length = bytes.length;
 	}
 
-	public S8Bytes(byte[] bytes, int offset, int length) {
+	public Bytes(byte[] bytes, int offset, int length) {
 		super();
 		this.bytes = bytes;
 		this.offset = offset;
@@ -69,7 +69,7 @@ public class S8Bytes {
 	 * @return a flattened ByteInflow from this fragment as a head
 	 */
 	public ByteBuffer flatten() {
-		S8Bytes fragment = this;
+		Bytes fragment = this;
 		if(fragment.next==null) {
 			return ByteBuffer.wrap(fragment.bytes, fragment.offset, fragment.length);
 		}
@@ -98,7 +98,7 @@ public class S8Bytes {
 	 * @return the byte array
 	 */
 	public byte[] toByteArray() {
-		S8Bytes fragment = this;
+		Bytes fragment = this;
 
 		int length=0;
 		while(fragment!=null) {
@@ -120,10 +120,10 @@ public class S8Bytes {
 	}
 
 
-	public S8Bytes recut(int fragmentLength) {
-		S8Bytes chain1 = this;
-		S8Bytes chain2 = new S8Bytes(new byte[fragmentLength], 0, 0);
-		S8Bytes head = chain2;
+	public Bytes recut(int fragmentLength) {
+		Bytes chain1 = this;
+		Bytes chain2 = new Bytes(new byte[fragmentLength], 0, 0);
+		Bytes head = chain2;
 
 		int i2=0, i1 = chain1.offset;
 		int n2 = fragmentLength, n1 = chain1.length;
@@ -156,7 +156,7 @@ public class S8Bytes {
 			chain2.length+=nTransferredBytes;
 
 			if(isNextRequired2) {
-				chain2.next = new S8Bytes(new byte[fragmentLength], 0, 0);
+				chain2.next = new Bytes(new byte[fragmentLength], 0, 0);
 				chain2 = chain2.next;
 				i2 = 0;
 				n2 = fragmentLength;
@@ -187,8 +187,8 @@ public class S8Bytes {
 	 * retrieve tail of this chain
 	 * @return
 	 */
-	public S8Bytes tail() {
-		S8Bytes tail = this;
+	public Bytes tail() {
+		Bytes tail = this;
 		while(tail.next!=null) {
 			tail = tail.next;
 		}
@@ -201,8 +201,8 @@ public class S8Bytes {
 	 * @param chain
 	 * @return
 	 */
-	public S8Bytes append(S8Bytes chain) {
-		S8Bytes tail = tail();
+	public Bytes append(Bytes chain) {
+		Bytes tail = tail();
 		tail.next = chain;
 		return tail.tail();
 	}
@@ -214,7 +214,7 @@ public class S8Bytes {
 	 * @return
 	 */
 	public long getBytecount() {
-		S8Bytes link = this;
+		Bytes link = this;
 		long bytecount = 0;
 		while(link!=null) {
 			bytecount+=link.length;
@@ -238,7 +238,7 @@ public class S8Bytes {
 	 */
 	public String unrollToString_UTF8() {
 		StringBuilder builder = new StringBuilder();
-		S8Bytes chain = this;
+		Bytes chain = this;
 		while(chain!=null) {
 			builder.append(chain.toString_UTF8());
 			chain = chain.next;
@@ -247,8 +247,8 @@ public class S8Bytes {
 	}
 	
 	
-	public static S8Bytes fromString_UTF8(String str) {
+	public static Bytes fromString_UTF8(String str) {
 		byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
-		return new S8Bytes(bytes);
+		return new Bytes(bytes);
 	}
 }
