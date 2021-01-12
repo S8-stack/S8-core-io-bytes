@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-import com.s8.api.io.ByteOutflow;
-
 public abstract class AutoByteOutflow implements ByteOutflow {
 
 

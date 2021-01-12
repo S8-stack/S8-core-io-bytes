@@ -21,6 +21,6 @@ module com.s8.io.bytes {
 	 * dependencies: XML
 	 */
 	requires transitive com.s8.lang.xml;
-	requires transitive com.s8.api;
+	requires transitive com.s8.alpha;
 
 }
