@@ -14,11 +14,13 @@ public enum ByteFormat {
 	 */
 	BOOL8(new Class<?>[]{ boolean.class }),
 	
+	
 	/**
 	 * Big endian 8 bits unsigned integer
 	 * (Java and network is big-endian)
 	 */
 	UINT8(new Class<?>[]{ byte.class, short.class, int.class, long.class }),
+	
 	
 	/** 
 	 * Big endian 8 bits signed integer
@@ -26,17 +28,20 @@ public enum ByteFormat {
 	 */
 	INT8(new Class<?>[]{ byte.class, short.class, int.class, long.class }),
 
+	
 	/** 
 	 * Big endian 16 bits unsigned integer
 	 * (Java and network is big-endian)
 	 */
 	UINT16(new Class<?>[]{ byte.class, short.class, int.class, long.class }),
 	
+	
 	/** 
 	 * Big endian 16 bits signed integer
 	 * (Java and network is big-endian)
 	 */
 	INT16(new Class<?>[]{ byte.class, short.class, int.class, long.class }),
+	
 	
 	/** 
 	 * Big endian 32 bits unsigned integer
@@ -51,11 +56,13 @@ public enum ByteFormat {
 	 */
 	INT32(new Class<?>[]{ byte.class, short.class, int.class, long.class }),
 
+	
 	/** 
 	 * Big endian 64 bits signed integer
 	 * (Java and network is big-endian)
 	 */
 	INT64(new Class<?>[]{ byte.class, short.class, int.class, long.class }),
+	
 	
 	/**
 	 * The IEEE Standard for Floating-Point Arithmetic (IEEE 754) is a technical
@@ -66,6 +73,7 @@ public enum ByteFormat {
 	 * use the IEEE 754 standard.
 	 */
 	FLOAT32(new Class<?>[]{ double.class, float.class }),
+	
 	
 	/**
 	 * Floating point is used to represent fractional values, or when a wider range
@@ -79,6 +87,7 @@ public enum ByteFormat {
 	 * precision and, more recently, base-10 representations.
 	 */
 	FLOAT64(new Class<?>[]{ double.class, float.class }),
+	
 	
 	/**
 	 * String
