@@ -3,6 +3,9 @@ package com.s8.io.bytes;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import com.s8.io.bytes.api.ByteInflow;
+import com.s8.io.bytes.api.ByteOutflow;
+
 
 /**
  * Can parse from a <code>ByteInflow</code> and compose to a <code>ByteOutflow</code>.

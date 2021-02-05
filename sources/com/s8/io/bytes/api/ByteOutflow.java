@@ -1,4 +1,4 @@
-package com.s8.io.bytes;
+package com.s8.io.bytes.api;
 
 import java.io.IOException;
 
