@@ -1,4 +1,4 @@
-package com.qx.level0.utilities.tools;
+package com.s8.io.bytes.tests;
 
 public class SizeOfTesting {
 
