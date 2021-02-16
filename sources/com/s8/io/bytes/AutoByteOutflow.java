@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-import com.s8.io.bytes.api.ByteOutflow;
+import com.s8.alpha.bytes.ByteOutflow;
 
 public abstract class AutoByteOutflow implements ByteOutflow {
 
@@ -203,7 +203,7 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 	 * @throws IOException
 	 */
 	@Override
-	public void putString(String value) throws IOException {
+	public void putStringUTF8(String value) throws IOException {
 		if(value!=null){
 			byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
 			
@@ -271,63 +271,4 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 	}
 
 
-	@Override
-	public void putUInt32Array(int[] array) throws IOException {
-		// write byte
-		int length = array.length;
-		putUInt32(length);
-
-		for(int i=0; i<length; i++) {
-			putUInt32(array[i]);
-		}
-	}
-
-
-	@Override
-	public void putInt32Array(int[] array) throws IOException {
-		// write byte
-		int length = array.length;
-		putUInt32(length);
-
-		for(int i=0; i<length; i++) {
-			putInt32(array[i]);
-		}
-	}
-
-
-	@Override
-	public void putInt64Array(long[] array) throws IOException {
-		// write byte
-		int length = array.length;
-		putUInt32(length);
-
-		for(int i=0; i<length; i++) {
-			putInt64(array[i]);
-		}
-	}
-
-
-
-	@Override
-	public void putFloat32Array(float[] array) throws IOException {
-		// write byte
-		int length = array.length;
-		putUInt32(length);
-
-		for(int i=0; i<length; i++) {
-			putFloat32(array[i]);
-		}
-	}
-
-
-	@Override
-	public void putFloat64Array(double[] array) throws IOException {
-		// write byte
-		int length = array.length;
-		putUInt32(length);
-
-		for(int i=0; i<length; i++) {
-			putFloat64(array[i]);
-		}
-	}
 }

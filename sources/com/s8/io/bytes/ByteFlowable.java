@@ -3,8 +3,8 @@ package com.s8.io.bytes;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
-import com.s8.io.bytes.api.ByteInflow;
-import com.s8.io.bytes.api.ByteOutflow;
+import com.s8.alpha.bytes.ByteInflow;
+import com.s8.alpha.bytes.ByteOutflow;
 
 
 /**

@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 
-import com.s8.io.bytes.api.ByteInflow;
+import com.s8.alpha.bytes.ByteInflow;
 
 
 public class FileByteInflow implements ByteInflow {
@@ -300,7 +300,7 @@ public class FileByteInflow implements ByteInflow {
 	 * @throws IOException 
 	 */
 	@Override
-	public String getString() throws IOException {
+	public String getStringUTF8() throws IOException {
 
 		// read unsigned int
 		int bytecount = getUInt();

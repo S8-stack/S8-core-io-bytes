@@ -2,8 +2,8 @@ package com.s8.io.bytes.utilities.index;
 
 import java.io.IOException;
 
-import com.s8.io.bytes.api.ByteInflow;
-import com.s8.io.bytes.api.ByteOutflow;
+import com.s8.alpha.bytes.ByteInflow;
+import com.s8.alpha.bytes.ByteOutflow;
 
 /**
  * 
