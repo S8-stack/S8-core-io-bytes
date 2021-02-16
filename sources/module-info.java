@@ -7,10 +7,7 @@
  */
 module com.s8.io.bytes {
 	
-	exports com.s8.io.bytes;
-
-	exports com.s8.io.bytes.api;
-	
+	exports com.s8.io.bytes;	
 	
 	// others
 	exports com.s8.io.bytes.utilities.index;
