@@ -7,10 +7,10 @@ import java.nio.charset.StandardCharsets;
  * -Very- simple structure that prevent re-copying bytes array again and again for nothing.
  * Just traverse the ByteArrayChain with a simple:
  * <pre>{@code 
- * LinkedByteArray n;
- * while(n!=null){
- * // process here n.array
- * 	n = n.next;
+ * Bytes chunk;
+ * while(chunk!=null){
+ * // process here chunk.bytes
+ * 	chunk = chunk.next;
  * }
  * </pre>
  * 
@@ -126,7 +126,7 @@ public class Bytes {
 		Bytes head = chain2;
 
 		int i2=0, i1 = chain1.offset;
-		int n2 = fragmentLength, n1 = chain1.length;
+		int nWritableBytes2 = fragmentLength, nReadableBytes1 = chain1.length;
 
 		int nTransferredBytes;
 		byte[] bytes2 = chain2.bytes, bytes1 = chain1.bytes;
@@ -134,20 +134,25 @@ public class Bytes {
 		boolean isNextRequired2 = false;
 		boolean isNextRequired1 = false;
 		while(chain1!=null) {
-			if(n2>n1) {
+			
+			// chain 1 is limiting
+			if(nWritableBytes2>nReadableBytes1) {
 				isNextRequired2 = false;
 				isNextRequired1 = true;
-				nTransferredBytes = n1;
+				nTransferredBytes = nReadableBytes1;
 			}
-			else if(n2<n1) {
+			
+			// chain 2 is limiting
+			else if(nWritableBytes2<nReadableBytes1) {
 				isNextRequired2 = true;
 				isNextRequired1 = false;
-				nTransferredBytes = n2;
+				nTransferredBytes = nWritableBytes2;
 			}
+			// both chains are limiting
 			else { // if(n0 == n1)
 				isNextRequired2 = true;
 				isNextRequired1 = true;
-				nTransferredBytes = n2;
+				nTransferredBytes = nWritableBytes2;
 			}
 
 			for(int i=0; i<nTransferredBytes; i++) {
@@ -155,27 +160,29 @@ public class Bytes {
 			}
 			chain2.length+=nTransferredBytes;
 
+			// move to next fragment on chain 2
 			if(isNextRequired2) {
 				chain2.next = new Bytes(new byte[fragmentLength], 0, 0);
 				chain2 = chain2.next;
-				i2 = 0;
-				n2 = fragmentLength;
+				i2 = 0; // no offset
+				nWritableBytes2 = fragmentLength;
 				bytes2 = chain2.bytes;
 			}
 			else {
-				n2-=nTransferredBytes;	
+				nWritableBytes2-=nTransferredBytes;	
 			}
 
+			// move to next fragment on chain 1
 			if(isNextRequired1) {
 				chain1 = chain1.next;
 				if(chain1!=null) {
 					i1 = chain1.offset;
-					n1 = chain1.length;
+					nReadableBytes1 = chain1.length;
 					bytes1 = chain1.bytes;	
 				}
 			}
 			else {
-				n1-=nTransferredBytes;
+				nReadableBytes1-=nTransferredBytes;
 			}
 		}
 		
