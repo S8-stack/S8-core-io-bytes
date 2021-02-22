@@ -231,6 +231,29 @@ public class Bytes {
 	}
 	
 	
+	
+	/**
+	 * deep copy
+	 * @return
+	 */
+	public Bytes copy() {
+		Bytes chain1 = this;
+		Bytes head2=null, chain2 = null, next2;
+		while(chain1!=null) {
+			next2 = new Bytes(chain1.bytes, chain1.offset, chain1.length);
+			if(chain2!=null) {
+				chain2.next = next2;
+			}
+			else {
+				head2 = chain2;
+			}
+			chain2 = next2;
+			chain1 = chain1.next;
+		}
+		return head2;
+	}
+	
+	
 	/**
 	 * read this chain as an 
 	 * @return
