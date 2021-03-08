@@ -238,16 +238,18 @@ public class Bytes {
 	 */
 	public Bytes copy() {
 		Bytes chain1 = this;
-		Bytes head2=null, chain2 = null, next2;
+		Bytes head2 = null, chain2 = null, next2;
 		while(chain1!=null) {
 			next2 = new Bytes(chain1.bytes, chain1.offset, chain1.length);
 			if(chain2!=null) {
 				chain2.next = next2;
+				chain2 = next2;
 			}
 			else {
+				chain2 = next2;
 				head2 = chain2;
 			}
-			chain2 = next2;
+			
 			chain1 = chain1.next;
 		}
 		return head2;
