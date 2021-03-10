@@ -292,6 +292,17 @@ public class FileByteInflow implements ByteInflow {
 		}
 		return array;
 	}
+	
+	
+	@Override
+	public String getL8StringASCII() throws IOException {
+		// read unsigned int
+		int length = getUInt8();
+		
+		// retrieve all bytes
+		byte[] bytes = getByteArray(length);
+		return new String(bytes, StandardCharsets.US_ASCII);
+	}
 
 
 	/**
@@ -300,7 +311,7 @@ public class FileByteInflow implements ByteInflow {
 	 * @throws IOException 
 	 */
 	@Override
-	public String getStringUTF8() throws IOException {
+	public String getL32StringUTF8() throws IOException {
 
 		// read unsigned int
 		int bytecount = getUInt();

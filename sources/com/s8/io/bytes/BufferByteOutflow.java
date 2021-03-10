@@ -147,7 +147,7 @@ public class BufferByteOutflow implements ByteOutflow {
 	 * @throws IOException
 	 */
 	@Override
-	public void putStringUTF8(String value) throws IOException{
+	public void putL32StringUTF8(String value) throws IOException{
 		if(value!=null){
 			byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
 
@@ -163,6 +163,27 @@ public class BufferByteOutflow implements ByteOutflow {
 		}
 		else{ // null
 			putUInt(0); // empty string
+		}
+	}
+	
+	
+	@Override
+	public void putL8StringASCII(String value) throws IOException{
+		if(value!=null){
+			byte[] bytes = value.getBytes(StandardCharsets.US_ASCII);
+
+			// we skip the first two bytes, but add to pass our own length
+			int bytecount = bytes.length;
+			if(bytecount>256){
+				throw new IOException("String arg size is exceeding 2^8 "
+						+ "(length is encoded in 1 byte max).");
+			}
+			putUInt8(bytecount);
+
+			putByteArray(bytes);
+		}
+		else{ // null
+			putUInt8(0); // empty string
 		}
 	}
 
