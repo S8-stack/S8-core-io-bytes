@@ -11,6 +11,9 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 
 	public final static int N_RETRIES = 8;
 	
+	/**
+	 * to be initialized by sub classes
+	 */
 	protected ByteBuffer buffer;
 
 	public AutoByteOutflow() {

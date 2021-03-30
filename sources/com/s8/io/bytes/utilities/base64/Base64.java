@@ -12,8 +12,11 @@ public class Base64 {
 	
 	private static boolean testing(int n) {
 		long x, y;
+
+		x = System.nanoTime() & 0xFFFFFFFFFFFFFFFl;
+		
 		for(int i=0; i<n; i++) {
-			x = System.nanoTime() & 0xFFFFFFFFFFFFFFFl;
+			x = (x * 87628769777L + 98279872987L) & 0xFFFFFFFFFFFFFFFl;
 			String encoded = Base64.encode(x);	
 			y = Base64.decode(encoded);
 			
