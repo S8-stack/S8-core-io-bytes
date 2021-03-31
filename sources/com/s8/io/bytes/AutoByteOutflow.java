@@ -36,7 +36,7 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 	protected abstract boolean push() throws IOException;
 	
 	
-	private void ensure(int nBytes) throws IOException{
+	private void prepare(int nBytes) throws IOException{
 		if(buffer.remaining()<nBytes) {
 			int iTry = 0;
 			boolean isPushSuccessful = false;
@@ -62,7 +62,7 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 	*/
 
 	public void sendBoolean(boolean b) throws IOException {
-		ensure(1);
+		prepare(1);
 		if(b){
 			buffer.put((byte) 32);	
 		}
@@ -73,7 +73,7 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 
 	@Override
 	public void putFlags8(boolean[] flags) throws IOException {
-		ensure(1);
+		prepare(1);
 		byte b = 0;
 		for(int i=0; i<7; i++){
 			if(flags[i]){
@@ -92,47 +92,47 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 
 	@Override
 	public void putByte(byte b) throws IOException {
-		ensure(1);
+		prepare(1);
 		buffer.put(b);
 	}
 
 	@Override
 	public void putUInt8(int value) throws IOException {
-		ensure(1);
+		prepare(1);
 		buffer.put((byte) (value & 0xff));
 	}
 
 	@Override
 	public void putUInt16(int value) throws IOException{
-		ensure(2);
+		prepare(2);
 		buffer.putShort((short) (value & 0xffff));
 	}
 
 
 	@Override
 	public void putInt16(short value) throws IOException {
-		ensure(2);
+		prepare(2);
 		buffer.putShort(value);
 	}
 
 
 	@Override
 	public void putUInt32(int value) throws IOException{
-		ensure(4);
+		prepare(4);
 		buffer.putInt((int) (value & 0x7fffffff));
 	}
 
 
 	@Override
 	public void putInt32(int value) throws IOException {
-		ensure(4);
+		prepare(4);
 		buffer.putInt((int) (value & 0x7fffffff));	
 	}
 
 
 	@Override
 	public void putInt64(long value) throws IOException {
-		ensure(8);
+		prepare(8);
 		buffer.putLong(value);
 	}
 	
@@ -150,29 +150,29 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 	@Override
 	public void putUInt(int value) throws IOException {
 		if(value<0x80) { // single byte encoding
-			ensure(1);
+			prepare(1);
 			buffer.put((byte) (value & 0x7f));
 		}
 		else if(value<0x4000) { // two bytes encoding
-			ensure(2);
+			prepare(2);
 			buffer.put((byte) (((value>>7) & 0x7f) | 0x80));
 			buffer.put((byte) (value & 0x7f));
 		}
 		else if(value<0x200000) { // three bytes encoding
-			ensure(3);
+			prepare(3);
 			buffer.put((byte) (((value>>14) & 0x7f) | 0x80));
 			buffer.put((byte) (((value>>7) & 0x7f) | 0x80));
 			buffer.put((byte) (value & 0x7f));
 		}
 		else if(value<0x10000000) { // four bytes encoding
-			ensure(4);
+			prepare(4);
 			buffer.put((byte) (((value>>21) & 0x7f) | 0x80));
 			buffer.put((byte) (((value>>14) & 0x7f) | 0x80));
 			buffer.put((byte) (((value>>7) & 0x7f) | 0x80));
 			buffer.put((byte) (value & 0x7f));
 		}
 		else { // five bytes encoding
-			ensure(5);
+			prepare(5);
 			buffer.put((byte) (((value>>28) & 0x07) | 0x80));
 			buffer.put((byte) (((value>>21) & 0x7f) | 0x80));
 			buffer.put((byte) (((value>>14) & 0x7f) | 0x80));
@@ -189,13 +189,13 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 
 	@Override
 	public void putFloat32(float value) throws IOException {
-		ensure(4);
+		prepare(4);
 		buffer.putFloat(value);
 	}
 
 	@Override
 	public void putFloat64(double value) throws IOException {
-		ensure(8);
+		prepare(8);
 		buffer.putDouble(value);
 	}
 
