@@ -248,8 +248,7 @@ public class Bytes {
 			else {
 				chain2 = next2;
 				head2 = chain2;
-			}
-			
+			}			
 			chain1 = chain1.next;
 		}
 		return head2;
