@@ -28,6 +28,7 @@ public abstract class ByteFile {
 	volatile private boolean isAutosaveActive = false;
 	
 	private int capacity = DEFAULT_BUFFER_CAPACITY;
+	
 
 
 	public ByteFile(Path path, int capacity) {
@@ -86,8 +87,7 @@ public abstract class ByteFile {
 	 * @throws Exception
 	 */
 	public void save() throws ByteFileWritingException, IOException {
-
-
+		
 		// ensure directories are created
 		Path folderpath = path.getParent();
 		if(!Files.exists(folderpath)) {
@@ -100,7 +100,7 @@ public abstract class ByteFile {
 
 		// flush stream
 		outflow.push();
-
+		
 		// close channel
 		channel.close();
 	}
@@ -119,13 +119,7 @@ public abstract class ByteFile {
 			public void run() {
 				while(isAutosaveActive) {
 					// wait for 5 min
-					try {
-						Thread.sleep(frequency);
-					} 
-					catch (InterruptedException e) {
-						e.printStackTrace();
-					}	
-
+				
 					// save
 					try {
 						save();
@@ -133,6 +127,14 @@ public abstract class ByteFile {
 					catch ( IOException e) {
 						e.printStackTrace();
 					}
+					
+					try {
+						Thread.sleep(frequency);
+					} 
+					catch (InterruptedException e) {
+						e.printStackTrace();
+					}	
+
 				}
 			}
 		});
