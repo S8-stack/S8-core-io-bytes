@@ -244,4 +244,18 @@ public class BufferByteInflow implements ByteInflow {
 		return new String(bytes, StandardCharsets.US_ASCII);
 	}
 
+	@Override
+	public long getS8Key() throws IOException {
+		byte[] bytes = getByteArray(8);
+		return (long) (
+				(bytes[0] & 0x7f) << 56 | 
+				(bytes[1] & 0xff) << 48 | 
+				(bytes[2] & 0xff) << 40 | 
+				(bytes[3] & 0xff) << 32 | 
+				(bytes[4] & 0xff) << 24 | 
+				(bytes[5] & 0xff) << 16 | 
+				(bytes[6] & 0xff) << 8 | 
+				(bytes[7] & 0xff));
+	}
+
 }

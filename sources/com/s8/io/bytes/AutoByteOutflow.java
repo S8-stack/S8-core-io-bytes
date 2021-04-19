@@ -294,6 +294,19 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 			}
 		}
 	}
+	
+	
+	@Override
+	public void putS8Key(long key) throws IOException {
+		buffer.put((byte) ((key>>56) & 0x7f)); // only 5 last bits
+		buffer.put((byte) ((key>>48) & 0xff)); // only 5 last bits
+		buffer.put((byte) ((key>>40) & 0xff));
+		buffer.put((byte) ((key>>32) & 0xff));
+		buffer.put((byte) ((key>>24) & 0xff));
+		buffer.put((byte) ((key>>16) & 0xff));
+		buffer.put((byte) ((key>>8) & 0xff));
+		buffer.put((byte) (key & 0xff));
+	}
 
 
 }
