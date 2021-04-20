@@ -245,7 +245,7 @@ public class BufferByteInflow implements ByteInflow {
 	}
 
 	@Override
-	public long getS8Key() throws IOException {
+	public long getS8Index() throws IOException {
 		byte[] bytes = getByteArray(8);
 		return (long) (
 				(bytes[0] & 0x7f) << 56 | 

@@ -201,7 +201,7 @@ public class BufferByteOutflow implements ByteOutflow {
 	
 	
 	@Override
-	public void putS8Key(long key) throws IOException {
+	public void putS8Index(long key) throws IOException {
 		buffer.put((byte) ((key>>56) & 0x7f)); // only 5 last bits
 		buffer.put((byte) ((key>>48) & 0xff)); // only 5 last bits
 		buffer.put((byte) ((key>>40) & 0xff));
