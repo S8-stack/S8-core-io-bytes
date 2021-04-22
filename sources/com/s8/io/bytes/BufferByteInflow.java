@@ -258,4 +258,9 @@ public class BufferByteInflow implements ByteInflow {
 				(bytes[7] & 0xff));
 	}
 
+	@Override
+	public long getCount() {
+		return (long) buffer.position();
+	}
+
 }

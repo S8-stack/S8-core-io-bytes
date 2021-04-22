@@ -13,31 +13,32 @@ public class FileByteInflow implements ByteInflow {
 	private FileChannel channel;
 
 	private ByteBuffer buffer;
+	
+	private long count;
 
 	private boolean isEndOfFileReached;
 
-	public FileByteInflow(FileChannel channel,  int bufferingSize) throws IOException {
+	public FileByteInflow(FileChannel channel, int bufferingSize) throws IOException {
 		super();
 		this.channel = channel;
 		buffer = ByteBuffer.allocate(bufferingSize);
+		count = 0;
 	}
 
 
 	private final static int N_READ_RETRY = 8;
 
 
-	public void pull() throws IOException {
-		int nBytesRead = channel.read(buffer);
-		if(nBytesRead==-1) {
-			isEndOfFileReached = true;
-		}
-		buffer.flip();
-	}
 	
-
 	private void ensure(int nBytes) throws IOException {
 		if(nBytes>buffer.remaining()) {
-			buffer.compact();        	
+			
+			// prior to compact, note the position since this the new offset
+			count += buffer.position();
+			
+			// then compact
+			buffer.compact();
+			
 			int retryIndex = 0;
 			while(nBytes>buffer.position() && retryIndex<N_READ_RETRY && !isEndOfFileReached) {
 				int nBytesRead = channel.read(buffer);
@@ -62,6 +63,21 @@ public class FileByteInflow implements ByteInflow {
 		ensure(1);
 		return buffer.get();
 	}
+	
+	
+	/**
+	 * Note that buffer must have been entirely read at this point, so we can clean 
+	 * @throws IOException
+	 */
+	public void pull() throws IOException {
+		buffer.clear();
+		
+		int nBytesRead = channel.read(buffer);
+		if(nBytesRead==-1) {
+			isEndOfFileReached = true;
+		}
+		buffer.flip();
+	}
 
 
 	@Override
@@ -77,8 +93,14 @@ public class FileByteInflow implements ByteInflow {
 			}
 			isRetrieved = (index==length);
 			if(!isRetrieved) {
-				buffer.clear();
+				
+				count += buffer.position();
+				
+				//buffer has been entirely read at this point, so we can clean 
+				
+				// pull
 				pull();
+				
 			}
 			tryIndex++;
 		}
@@ -352,4 +374,8 @@ public class FileByteInflow implements ByteInflow {
 				(bytes[7] & 0xff));
 	}
 
+	@Override
+	public long getCount() {
+		return count;
+	}
 }
