@@ -2,9 +2,10 @@ package com.s8.io.bytes.utilities.others;
 
 import java.io.IOException;
 
-import com.s8.lang.xml.api.XML_GetAttribute;
-import com.s8.lang.xml.api.XML_SetAttribute;
-import com.s8.lang.xml.api.XML_Type;
+import com.s8.io.xml.api.XML_GetAttribute;
+import com.s8.io.xml.api.XML_SetAttribute;
+import com.s8.io.xml.api.XML_Type;
+
 
 
 

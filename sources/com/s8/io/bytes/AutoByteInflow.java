@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-import com.s8.alpha.bytes.ByteInflow;
+import com.s8.io.bytes.api.ByteInflow;
 
 public abstract class AutoByteInflow implements ByteInflow {
 

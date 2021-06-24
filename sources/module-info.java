@@ -7,7 +7,12 @@
  */
 module com.s8.io.bytes {
 	
-	exports com.s8.io.bytes;	
+	//
+	exports com.s8.io.bytes.api;
+	
+	// the API
+	exports com.s8.io.bytes;
+	
 	
 	// others
 	exports com.s8.io.bytes.utilities.index;
@@ -19,7 +24,6 @@ module com.s8.io.bytes {
 	/*
 	 * dependencies: XML
 	 */
-	requires transitive com.s8.lang.xml;
-	requires transitive com.s8.alpha;
+	requires transitive com.s8.io.xml;
 
 }
