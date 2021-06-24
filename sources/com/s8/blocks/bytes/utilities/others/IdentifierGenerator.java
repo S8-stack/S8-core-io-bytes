@@ -2,9 +2,9 @@ package com.s8.blocks.bytes.utilities.others;
 
 import java.io.IOException;
 
-import com.s8.alpha.xml.XML_GetAttribute;
-import com.s8.alpha.xml.XML_SetAttribute;
-import com.s8.alpha.xml.XML_Type;
+import com.s8.blocks.xml.annotations.XML_GetAttribute;
+import com.s8.blocks.xml.annotations.XML_SetAttribute;
+import com.s8.blocks.xml.annotations.XML_Type;
 
 
 
