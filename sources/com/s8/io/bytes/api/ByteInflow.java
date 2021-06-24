@@ -2,8 +2,6 @@ package com.s8.io.bytes.api;
 
 import java.io.IOException;
 
-import com.s8.alpha.objects.S8Address;
-
 
 /**
  * <p>
@@ -198,18 +196,7 @@ public interface ByteInflow {
 	
 	
 	
-	
-	
-	
-	
-	/**
-	 * Retrieve S8Address
-	 * @return
-	 * @throws IOException
-	 */
-	public default S8Address getS8Address() throws IOException {
-		return new S8Address(getByteArray(S8Address.BYTECOUNT));
-	}
+
 	
 	public long getS8Index() throws IOException;
 

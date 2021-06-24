@@ -2,8 +2,6 @@ package com.s8.io.bytes.api;
 
 import java.io.IOException;
 
-import com.s8.alpha.objects.S8Address;
-
 
 
 /**
@@ -184,15 +182,6 @@ public interface ByteOutflow {
 	public void putL8StringASCII(String str) throws IOException;
 
 	
-	
-	/**
-	 * 
-	 * @param strs
-	 * @throws IOException
-	 */
-	public default void putS8Address(S8Address address) throws IOException {
-		putByteArray(address.bytes);
-	}
 	
 	/**
 	 * 
