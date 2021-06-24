@@ -3,8 +3,8 @@ package com.s8.io.bytes.tests;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import com.s8.io.bytes.BufferByteInflow;
-import com.s8.io.bytes.BufferByteOutflow;
+import com.s8.blocks.bytes.BufferByteInflow;
+import com.s8.blocks.bytes.BufferByteOutflow;
 
 public class TestUIntX {
 

@@ -7,7 +7,7 @@
 	</classpathentry>
 	<classpathentry kind="src" path="sources"/>
 	<classpathentry kind="src" path="tests"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/com.s8.io.xml">
+	<classpathentry combineaccessrules="false" kind="src" path="/com.s8.blocks.xml">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

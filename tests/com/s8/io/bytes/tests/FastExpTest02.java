@@ -1,6 +1,6 @@
 package com.s8.io.bytes.tests;
 
-import com.s8.io.bytes.utilities.index.QxMap;
+import com.s8.blocks.bytes.utilities.index.QxMap;
 
 public class FastExpTest02 {
 
