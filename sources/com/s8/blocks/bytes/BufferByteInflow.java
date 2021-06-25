@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 import com.s8.alpha.bytes.ByteInflow;
+import com.s8.alpha.bytes.ByteOutflow;
 
 /**
  * <code>ByteBuffer</code>-based <code>ByteInflow</code>
@@ -15,6 +16,10 @@ public class BufferByteInflow implements ByteInflow {
 
 	private ByteBuffer buffer;
 
+	private int recordStartPosition;
+	
+	private ByteOutflow recorder;
+	
 	public BufferByteInflow(ByteBuffer buffer) {
 		super();
 		this.buffer = buffer;
@@ -245,7 +250,7 @@ public class BufferByteInflow implements ByteInflow {
 	}
 
 	@Override
-	public long getGrapheneIdentifier() throws IOException {
+	public long getVertexIndex() throws IOException {
 		byte[] bytes = getByteArray(8);
 		return (long) (
 				(bytes[0] & 0x7f) << 56 | 
@@ -261,6 +266,32 @@ public class BufferByteInflow implements ByteInflow {
 	@Override
 	public long getCount() {
 		return (long) buffer.position();
+	}
+
+	@Override
+	public void startRecording(ByteOutflow outflow) {
+		recorder = outflow;
+		recordStartPosition = buffer.position();
+	}
+
+	@Override
+	public void stopRecording() throws IOException {
+		int position = buffer.position();
+		int length = position - recordStartPosition;
+		byte[] recordedBytes = new byte[length];
+		
+		// rewind
+		buffer.position(recordStartPosition);
+		buffer.get(recordedBytes, 0, length);
+		
+		// restore position
+		buffer.position(position);
+		
+		// actually record
+		recorder.putByteArray(recordedBytes);
+		
+		// unplug
+		recorder = null;
 	}
 
 }

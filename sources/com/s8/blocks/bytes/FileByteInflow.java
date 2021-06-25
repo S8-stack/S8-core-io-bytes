@@ -6,6 +6,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 
 import com.s8.alpha.bytes.ByteInflow;
+import com.s8.alpha.bytes.ByteOutflow;
 
 
 public class FileByteInflow implements ByteInflow {
@@ -14,9 +15,13 @@ public class FileByteInflow implements ByteInflow {
 
 	private ByteBuffer buffer;
 	
+	private ByteOutflow recorder = null;
+	
 	private long count;
 
 	private boolean isEndOfFileReached;
+
+	private int recordStartPosition;
 
 	public FileByteInflow(FileChannel channel, int bufferingSize) throws IOException {
 		super();
@@ -35,6 +40,25 @@ public class FileByteInflow implements ByteInflow {
 			
 			// prior to compact, note the position since this the new offset
 			count += buffer.position();
+			
+			// record before compacting
+			if(recorder!=null) {
+				int position = buffer.position();
+				int length = position - recordStartPosition;
+				byte[] recordedBytes = new byte[length];
+				
+				// rewind
+				buffer.position(recordStartPosition);
+				buffer.get(recordedBytes, 0, length);
+				
+				// restore position
+				buffer.position(position);
+				
+				// actually record
+				recorder.putByteArray(recordedBytes);
+				
+				recordStartPosition = 0;
+			}
 			
 			// then compact
 			buffer.compact();
@@ -361,7 +385,7 @@ public class FileByteInflow implements ByteInflow {
 	}
 	
 	@Override
-	public long getGrapheneIdentifier() throws IOException {
+	public long getVertexIndex() throws IOException {
 		byte[] bytes = getByteArray(8);
 		return (long) (
 				(bytes[0] & 0x7f) << 56 | 
@@ -377,5 +401,34 @@ public class FileByteInflow implements ByteInflow {
 	@Override
 	public long getCount() {
 		return count;
+	}
+	
+	
+	@Override
+	public void startRecording(ByteOutflow outflow) {
+		recorder = outflow;
+		recordStartPosition = buffer.position();
+	}
+	
+	
+
+	@Override
+	public void stopRecording() throws IOException {
+		int position = buffer.position();
+		int length = position - recordStartPosition;
+		byte[] recordedBytes = new byte[length];
+		
+		// rewind
+		buffer.position(recordStartPosition);
+		buffer.get(recordedBytes, 0, length);
+		
+		// restore position
+		buffer.position(position);
+		
+		// actually record
+		recorder.putByteArray(recordedBytes);
+		
+		// unplug
+		recorder = null;
 	}
 }

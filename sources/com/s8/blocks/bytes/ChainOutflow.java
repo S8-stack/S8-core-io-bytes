@@ -3,7 +3,7 @@ package com.s8.blocks.bytes;
 import java.nio.ByteBuffer;
 
 
-public class ChainByteOutflow extends AutoByteOutflow {
+public class ChainOutflow extends AutoByteOutflow {
 
 	private Bytes head;
 
@@ -13,7 +13,7 @@ public class ChainByteOutflow extends AutoByteOutflow {
 
 	private int bytecount;
 
-	public ChainByteOutflow(int capacity) {
+	public ChainOutflow(int capacity) {
 		super();
 		this.capacity = capacity;
 		bytecount = 0;
