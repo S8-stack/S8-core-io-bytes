@@ -22,6 +22,6 @@ module com.s8.blocks.bytes {
 	 * dependencies: XML
 	 */
 	requires transitive com.s8.alpha;
-	requires com.s8.blocks.xml;
+	requires transitive com.s8.blocks.xml;
 
 }
