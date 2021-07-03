@@ -62,4 +62,16 @@ public class FileByteOutflow extends AutoByteOutflow {
 	}
 	 */
 
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	public void close() throws IOException {
+		buffer.flip();
+		while(buffer.hasRemaining()) {
+			channel.write(buffer);
+		}
+		channel.close();
+	}
 }
