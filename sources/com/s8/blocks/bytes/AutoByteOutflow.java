@@ -105,7 +105,8 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 	@Override
 	public void putUInt16(int value) throws IOException{
 		prepare(2);
-		buffer.putShort((short) (value & 0xffff));
+		buffer.put((byte) ((value>>8) & 0xff));
+		buffer.put((byte) (value & 0xff));
 	}
 
 
@@ -138,6 +139,7 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 	
 	@Override
 	public void putUInt53(long value) throws IOException {
+		prepare(5);
 		buffer.put((byte) ((value>>48) & 0x1f)); // only 5 last bits
 		buffer.put((byte) ((value>>40) & 0xff));
 		buffer.put((byte) ((value>>32) & 0xff));
