@@ -106,9 +106,14 @@ export class ByteInflow {
 	}
 
 	getBohrNodeIdentifier(){
+		/*
 		let index = "";
 		new Uint8Array(this.buffer, this.offset, 8).forEach(digit => (index = index.concat(Number(digit).toString(16).padStart(2, "0"))));
 		this.offset+=8;
 		return index;
+		*/
+		let value = this.view.getUInt64(this.offset);
+		this.offset+=8;
+		return value;
 	}
 }
