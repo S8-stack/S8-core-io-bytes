@@ -36,13 +36,13 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 	protected abstract boolean push() throws IOException;
 	
 	
-	private void prepare(int nBytes) throws IOException{
+	private void prepare(int nBytes) throws IOException {
 		if(buffer.remaining()<nBytes) {
 			int iTry = 0;
 			boolean isPushSuccessful = false;
 			while(buffer.remaining()<nBytes){
 				isPushSuccessful = push();
-				iTry = isPushSuccessful?0:iTry+1;
+				iTry = isPushSuccessful ? 0 : iTry+1;
 				if(iTry>N_RETRIES) {
 					throw new IOException("Max number of retries without push success exceed");
 				}
