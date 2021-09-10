@@ -200,6 +200,7 @@ public class FileByteInflow implements ByteInflow {
 				(b3 & 0xff));
 	}
 
+	@Override
 	public int getUInt32() throws IOException {
 		ensure(4);
 		byte[] bytes = getByteArray(4);
