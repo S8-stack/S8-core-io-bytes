@@ -17,8 +17,14 @@ import java.nio.charset.StandardCharsets;
  * @author pc
  *
  */
-public class Bytes {
+public class LinkedBytes {
 
+	
+	/**
+	 * attributes
+	 */
+	public short attributes;
+	
 
 	/**
 	 * the underlying bytes array of this link
@@ -36,27 +42,39 @@ public class Bytes {
 	 */
 	public int length;
 
-	public Bytes next;
+	/**
+	 * 
+	 */
+	public LinkedBytes next;
 
-	public Bytes(int capacity) {
+	public LinkedBytes(int capacity) {
 		super();
 		this.bytes = new byte[capacity];
 		this.offset = 0;
-		this.length = bytes.length;
+		this.length = capacity;
 	}
 
-	public Bytes(byte[] bytes) {
+	public LinkedBytes(byte[] bytes) {
 		super();
 		this.bytes = bytes;
 		this.offset = 0;
 		this.length = bytes.length;
 	}
 
-	public Bytes(byte[] bytes, int offset, int length) {
+	public LinkedBytes(byte[] bytes, int offset, int length) {
 		super();
 		this.bytes = bytes;
 		this.offset = offset;
 		this.length = length;
+	}
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ByteBuffer wrap() {
+		return ByteBuffer.wrap(bytes, offset, length);
 	}
 
 
@@ -69,7 +87,7 @@ public class Bytes {
 	 * @return a flattened ByteInflow from this fragment as a head
 	 */
 	public ByteBuffer flatten() {
-		Bytes fragment = this;
+		LinkedBytes fragment = this;
 		if(fragment.next==null) {
 			return ByteBuffer.wrap(fragment.bytes, fragment.offset, fragment.length);
 		}
@@ -98,7 +116,7 @@ public class Bytes {
 	 * @return the byte array
 	 */
 	public byte[] toByteArray() {
-		Bytes fragment = this;
+		LinkedBytes fragment = this;
 
 		int length=0;
 		while(fragment!=null) {
@@ -120,10 +138,10 @@ public class Bytes {
 	}
 
 
-	public Bytes recut(int fragmentLength) {
-		Bytes chain1 = this;
-		Bytes chain2 = new Bytes(new byte[fragmentLength], 0, 0);
-		Bytes head = chain2;
+	public LinkedBytes recut(int fragmentLength) {
+		LinkedBytes chain1 = this;
+		LinkedBytes chain2 = new LinkedBytes(new byte[fragmentLength], 0, 0);
+		LinkedBytes head = chain2;
 
 		int i2=0, i1 = chain1.offset;
 		int nWritableBytes2 = fragmentLength, nReadableBytes1 = chain1.length;
@@ -162,7 +180,7 @@ public class Bytes {
 
 			// move to next fragment on chain 2
 			if(isNextRequired2) {
-				chain2.next = new Bytes(new byte[fragmentLength], 0, 0);
+				chain2.next = new LinkedBytes(new byte[fragmentLength], 0, 0);
 				chain2 = chain2.next;
 				i2 = 0; // no offset
 				nWritableBytes2 = fragmentLength;
@@ -194,8 +212,8 @@ public class Bytes {
 	 * retrieve tail of this chain
 	 * @return
 	 */
-	public Bytes tail() {
-		Bytes tail = this;
+	public LinkedBytes tail() {
+		LinkedBytes tail = this;
 		while(tail.next!=null) {
 			tail = tail.next;
 		}
@@ -208,8 +226,8 @@ public class Bytes {
 	 * @param chain
 	 * @return
 	 */
-	public Bytes append(Bytes chain) {
-		Bytes tail = tail();
+	public LinkedBytes append(LinkedBytes chain) {
+		LinkedBytes tail = tail();
 		tail.next = chain;
 		return tail.tail();
 	}
@@ -221,7 +239,7 @@ public class Bytes {
 	 * @return
 	 */
 	public long getBytecount() {
-		Bytes link = this;
+		LinkedBytes link = this;
 		long bytecount = 0;
 		while(link!=null) {
 			bytecount+=link.length;
@@ -236,11 +254,11 @@ public class Bytes {
 	 * deep copy
 	 * @return
 	 */
-	public Bytes copy() {
-		Bytes chain1 = this;
-		Bytes head2 = null, chain2 = null, next2;
+	public LinkedBytes copy() {
+		LinkedBytes chain1 = this;
+		LinkedBytes head2 = null, chain2 = null, next2;
 		while(chain1!=null) {
-			next2 = new Bytes(chain1.bytes, chain1.offset, chain1.length);
+			next2 = new LinkedBytes(chain1.bytes, chain1.offset, chain1.length);
 			if(chain2!=null) {
 				chain2.next = next2;
 				chain2 = next2;
@@ -269,7 +287,7 @@ public class Bytes {
 	 */
 	public String unrollToString_UTF8() {
 		StringBuilder builder = new StringBuilder();
-		Bytes chain = this;
+		LinkedBytes chain = this;
 		while(chain!=null) {
 			builder.append(chain.toString_UTF8());
 			chain = chain.next;
@@ -278,8 +296,8 @@ public class Bytes {
 	}
 	
 	
-	public static Bytes fromString_UTF8(String str) {
+	public static LinkedBytes fromString_UTF8(String str) {
 		byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
-		return new Bytes(bytes);
+		return new LinkedBytes(bytes);
 	}
 }

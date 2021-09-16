@@ -6,23 +6,26 @@ import java.nio.charset.StandardCharsets;
 
 import com.s8.alpha.bytes.ByteInflow;
 
+/**
+ * 
+ * @author pierreconvert
+ *
+ */
 public abstract class AutoByteInflow implements ByteInflow {
 
 	
-	private ByteBuffer buffer;
+	protected ByteBuffer buffer;
 
-	public AutoByteInflow(ByteBuffer buffer) {
+	/**
+	 * 
+	 * @param buffer
+	 */
+	public AutoByteInflow() {
 		super();
-		this.buffer = buffer;
 	}
 
-	@Override
-	public byte getByte() {
-		return buffer.get();
-	}
 	
-	
-	public abstract void prepare(int bytecount);
+	public abstract void prepare(int bytecount) throws IOException;
 
 
 	@Override
@@ -44,6 +47,13 @@ public abstract class AutoByteInflow implements ByteInflow {
 		}
 	}
 
+
+	@Override
+	public byte getByte() throws IOException {
+		prepare(1);
+		return buffer.get();
+	}
+	
 
 	@Override
 	public int getUInt8() throws IOException {
@@ -69,7 +79,7 @@ public abstract class AutoByteInflow implements ByteInflow {
 
 
 	@Override
-	public byte[] getByteArray(int length) {
+	public byte[] getByteArray(int length) throws IOException {
 		prepare(length);
 		byte[] bytes = new byte[length];
 		buffer.get(bytes);
@@ -88,7 +98,7 @@ public abstract class AutoByteInflow implements ByteInflow {
 
 
 	@Override
-	public short getInt16() {
+	public short getInt16() throws IOException {
 		prepare(2);
 		return buffer.getShort();
 	}
@@ -106,7 +116,7 @@ public abstract class AutoByteInflow implements ByteInflow {
 	}
 
 	@Override
-	public int getInt32() {
+	public int getInt32() throws IOException {
 		prepare(4);
 		return buffer.getInt();
 	}
@@ -139,7 +149,7 @@ public abstract class AutoByteInflow implements ByteInflow {
 
 
 	@Override
-	public long getInt64() {
+	public long getInt64() throws IOException {
 		prepare(8);
 		return buffer.getLong();
 	}
@@ -161,7 +171,7 @@ public abstract class AutoByteInflow implements ByteInflow {
 
 
 	@Override
-	public int getUInt() {
+	public int getUInt() throws IOException {
 		prepare(1);
 		byte b = buffer.get(); // first byte
 		
@@ -209,7 +219,7 @@ public abstract class AutoByteInflow implements ByteInflow {
 
 
 	@Override
-	public float getFloat32() {
+	public float getFloat32() throws IOException {
 		prepare(4);
 		return buffer.getFloat();
 	}
@@ -230,7 +240,7 @@ public abstract class AutoByteInflow implements ByteInflow {
 
 
 	@Override
-	public double getFloat64() {
+	public double getFloat64() throws IOException {
 		prepare(8);
 		return buffer.getDouble();
 	}

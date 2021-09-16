@@ -46,8 +46,23 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 				if(iTry>N_RETRIES) {
 					throw new IOException("Max number of retries without push success exceed");
 				}
-			}	
+			}
 		}
+	}
+	
+	
+	/**
+	 * 
+	 * @param delta
+	 * @throws IOException 
+	 */
+	public void shift(int delta) throws IOException {
+		
+		prepare(delta);
+		
+		// shift position
+		buffer.position(buffer.position() + delta);
+		
 	}
 	
 	/**
