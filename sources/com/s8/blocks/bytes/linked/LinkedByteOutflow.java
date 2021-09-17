@@ -1,6 +1,8 @@
-package com.s8.blocks.bytes;
+package com.s8.blocks.bytes.linked;
 
 import java.nio.ByteBuffer;
+
+import com.s8.blocks.bytes.AutoByteOutflow;
 
 
 /**

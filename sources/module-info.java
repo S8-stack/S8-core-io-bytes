@@ -10,6 +10,8 @@ module com.s8.blocks.bytes {
 
 	exports com.s8.blocks.bytes;
 	
+	exports com.s8.blocks.bytes.linked;
+	
 	
 	// others
 	exports com.s8.blocks.bytes.utilities.index;
