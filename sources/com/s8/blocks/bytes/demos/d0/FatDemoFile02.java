@@ -17,7 +17,7 @@ public class FatDemoFile02 {
 	/**
 	 * Not serialized
 	 */
-	public double partialCheckSum;
+	public double checkSum;
 
 	public FatDemoFile02() {
 		super();
@@ -28,7 +28,7 @@ public class FatDemoFile02 {
 	public void generateData(int n) {
 		values = new double[n];
 		formats = new int[n];
-		partialCheckSum = 0;
+		checkSum = 0;
 
 		double value;
 		int format;
@@ -36,7 +36,7 @@ public class FatDemoFile02 {
 			value = Math.random()*208009.9087;
 			format = (int) (Math.random()*3);
 			if(format==0) {
-				partialCheckSum += value;
+				checkSum += value;
 			}
 			values[i] = value;
 			formats[i] = format;
@@ -114,7 +114,7 @@ public class FatDemoFile02 {
 		FatDemoFile02 file = new FatDemoFile02();
 		file.formats = formats;
 		file.values = values;
-		file.partialCheckSum = sum;
+		file.checkSum = sum;
 		
 		return file;
 	}
