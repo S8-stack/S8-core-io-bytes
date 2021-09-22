@@ -8,8 +8,7 @@ import com.s8.alpha.bytes.ByteInflow;
 import com.s8.blocks.bytes.linked.LinkedByteInflow;
 import com.s8.blocks.bytes.linked.LinkedByteOutflow;
 import com.s8.blocks.bytes.linked.LinkedBytes;
-import com.s8.blocks.bytes.linked.LinkedBytesDiskReading;
-import com.s8.blocks.bytes.linked.LinkedBytesDiskWriting;
+import com.s8.blocks.bytes.linked.LinkedBytesIO;
 
 
 /**
@@ -19,7 +18,7 @@ import com.s8.blocks.bytes.linked.LinkedBytesDiskWriting;
  */
 public class IOTest02 {
 
-	
+
 	/**
 	 * 
 	 * @param args
@@ -46,72 +45,45 @@ public class IOTest02 {
 			}
 		}
 		LinkedBytes head = outflow.getHead();
-
 		Path path = Paths.get("data/test_file");
-
-		LinkedBytesDiskWriting writing = new LinkedBytesDiskWriting(head, path, true) {
-
-			@Override
-			public void onSucceed() {
-				System.out.println("Write succeed");
-			}
-
-			@Override
-			public void onFailed() {
-				System.out.println("Write failed");
-			}
-		};
-
-		writing.write();
+		LinkedBytesIO.write(head, path, true);
 
 
 
 
-		LinkedBytesDiskReading reading = new LinkedBytesDiskReading(path, true) {
+		head = LinkedBytesIO.read(path, true);
 
-			@Override
-			public void onSucceed(LinkedBytes head) {
-				System.out.println("Read succeed");
-				ByteInflow inflow = new LinkedByteInflow(head);
-				double sum = 0;
-				try {
-					for(int i=0; i<n; i++) {
-						switch(formats[i]) {
-						
-						case 0 :
-							double val0 = inflow.getFloat64();
-							if(val0 != values[i]) {
-								System.out.println("MISMATCH");
-							}	
-							break;
-							
-						case 1:
-							float val1 = inflow.getFloat32();
-							sum+=val1;
-							break;
-							
-						case 2:
-							int val2 = inflow.getUInt8();
-							sum+=val2;
-							break;
-						}
-						
 
-					
-					}
-					System.out.println("Matching terminated ("+sum+")");
-				} catch (IOException e) {
-					e.printStackTrace();
+		System.out.println("Read succeed");
+		ByteInflow inflow = new LinkedByteInflow(head);
+		double sum = 0;
+		try {
+			for(int i=0; i<n; i++) {
+				switch(formats[i]) {
+
+				case 0 :
+					double val0 = inflow.getFloat64();
+					if(val0 != values[i]) {
+						System.out.println("MISMATCH");
+					}	
+					break;
+
+				case 1:
+					float val1 = inflow.getFloat32();
+					sum+=val1;
+					break;
+
+				case 2:
+					int val2 = inflow.getUInt8();
+					sum+=val2;
+					break;
 				}
 			}
+			System.out.println("Matching terminated ("+sum+")");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-			@Override
-			public void onFailed(IOException exception) {
-				System.out.println("Read failed");	
-			}
-		};
-		
-		reading.read();
 
 	}
 
