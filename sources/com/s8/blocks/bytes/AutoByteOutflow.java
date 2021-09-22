@@ -234,7 +234,7 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 				throw new IOException("String arg size is exceeding 2^31-1 (length is encoded in 4 bytes).");
 			}
 			*/
-			putUInt(bytecount);
+			putUInt32(bytecount);
 
 			putByteArray(bytes);
 		}
