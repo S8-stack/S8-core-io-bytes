@@ -1,5 +1,6 @@
 package com.s8.blocks.bytes.linked;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import com.s8.blocks.bytes.AutoByteOutflow;
@@ -27,6 +28,8 @@ public class LinkedByteOutflow extends AutoByteOutflow {
 	
 	/** bytecount */
 	private int bytecount;
+	
+	private boolean isClosed;
 
 	
 	/**
@@ -64,6 +67,8 @@ public class LinkedByteOutflow extends AutoByteOutflow {
 
 		// feed buffer
 		buffer = ByteBuffer.wrap(tail.bytes);
+		
+		isClosed = false;
 	}
 	
 
@@ -92,9 +97,22 @@ public class LinkedByteOutflow extends AutoByteOutflow {
 	/**
 	 * 
 	 * @return
+	 * @throws IOException 
 	 */
-	public LinkedBytes getHead() {
-		return head;
+	public LinkedBytes getHead() throws IOException {
+		if(!isClosed) {
+			
+			// dump current link
+			tail.length = buffer.position();
+			bytecount += tail.length;
+			
+			isClosed = true;
+			
+			return head;
+		}
+		else {
+			throw new IOException("Already closed");
+		}
 	}
 
 	
