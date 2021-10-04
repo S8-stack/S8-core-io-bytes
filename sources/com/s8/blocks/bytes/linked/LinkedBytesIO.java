@@ -199,6 +199,11 @@ public class LinkedBytesIO {
 				Files.createDirectories(folderpath);
 			}
 			channel = FileChannel.open(path, CREATE, WRITE).truncate(0);
+			
+			if(isVerbose) {
+				long bytecount = head.getBytecount();
+				System.out.println("[LinkedBytesIO] bytecount to be written: "+bytecount);
+			}
 
 			LinkedBytes chunk = head;
 			// is sending
@@ -206,7 +211,7 @@ public class LinkedBytesIO {
 				ByteBuffer buffer = chunk.wrap();
 				
 				// write header
-				composeHeader(chunk);
+				pushHeader(chunk);
 				
 				// write body
 				writeBuffer(buffer);
@@ -238,7 +243,7 @@ public class LinkedBytesIO {
 	 * @return
 	 * @throws IOException
 	 */
-	private void composeHeader(LinkedBytes chunk) throws IOException {
+	private void pushHeader(LinkedBytes chunk) throws IOException {
 
 		short flags = 0x00;
 		if(chunk.next!=null) {

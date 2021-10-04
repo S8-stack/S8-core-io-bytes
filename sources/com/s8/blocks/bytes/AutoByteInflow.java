@@ -13,7 +13,7 @@ import com.s8.alpha.bytes.ByteInflow;
  */
 public abstract class AutoByteInflow implements ByteInflow {
 
-	
+
 	protected ByteBuffer buffer;
 
 	/**
@@ -24,27 +24,40 @@ public abstract class AutoByteInflow implements ByteInflow {
 		super();
 	}
 
-	
+
+	public abstract void pull();
+
 	public abstract void prepare(int bytecount) throws IOException;
 
 
 	@Override
 	public boolean isMatching(byte[] sequence) throws IOException {
 		int length = sequence.length;
-		prepare(length);
-		if(buffer.remaining()>=length) {
-			byte[] bytes = new byte[length];
-			buffer.get(bytes);
-			for(int i=0; i<length; i++) {
-				if(bytes[i]!=sequence[i]) {
-					return false;
+		int offset = 0, remaining;
+		while(length > 0) {
+			remaining = buffer.remaining();
+			// not enough space
+			if(remaining < length) {
+				// match what can be matched
+				for(int i=0; i<remaining; i++) {
+					if(sequence[i+offset] != buffer.get()) {
+						return false;
+					}
 				}
+				length-=remaining;
+				offset+=remaining;
+				pull();
 			}
-			return true;
+			else { // enough space to match remaining bytes
+				for(int i=0; i<length; i++) {
+					if(sequence[i+offset] != buffer.get()) {
+						return false;
+					}
+				}
+				length = 0;
+			}
 		}
-		else {
-			return false;
-		}
+		return true;
 	}
 
 
@@ -53,7 +66,7 @@ public abstract class AutoByteInflow implements ByteInflow {
 		prepare(1);
 		return buffer.get();
 	}
-	
+
 
 	@Override
 	public int getUInt8() throws IOException {
@@ -80,9 +93,33 @@ public abstract class AutoByteInflow implements ByteInflow {
 
 	@Override
 	public byte[] getByteArray(int length) throws IOException {
+		byte[] bytes = new byte[length];
+		/*
 		prepare(length);
 		byte[] bytes = new byte[length];
 		buffer.get(bytes);
+
+		 */
+
+		// /!\ No block allocation
+
+		int offset = 0, remaining;
+		while(length>0) {
+			remaining = buffer.remaining();
+
+			// not enough space
+			if(remaining < length) {
+				buffer.get(bytes, offset, remaining);
+				length-=remaining;
+				offset+=remaining;
+				pull();
+			}
+			// enough space to write remaining bytes
+			else {
+				buffer.get(bytes, offset, length);
+				length = 0;
+			}
+		}
 		return bytes;
 	}
 
@@ -174,30 +211,30 @@ public abstract class AutoByteInflow implements ByteInflow {
 	public int getUInt() throws IOException {
 		prepare(1);
 		byte b = buffer.get(); // first byte
-		
+
 		if((b & 0x80) == 0x80) {
 			int value = b & 0x7f;
-			
+
 			prepare(1);
 			b = buffer.get(); // second byte
 			if((b & 0x80) == 0x80) {
 				value = (value << 7) | (b & 0x7f);
-				
+
 				prepare(1);
 				b = buffer.get(); // third byte
-				
+
 				if((b & 0x80) == 0x80) {
 					value = (value << 7) | (b & 0x7f);
-					
+
 					prepare(1);
 					b = buffer.get(); // fourth byte
-					
+
 					if((b & 0x80) == 0x80) {
 						value = (value << 7) | (b & 0x7f);
-						
+
 						prepare(1);
 						b = buffer.get(); // fifth byte (final one)
-						
+
 						return (value << 7) | (b & 0x7f);
 					}
 					else { // fourth byte is matching 0x7f mask
@@ -229,7 +266,7 @@ public abstract class AutoByteInflow implements ByteInflow {
 	public float[] getFloat32Array() throws IOException {
 		prepare(4);
 		int length = getUInt32();
-		
+
 		prepare(4*length);
 		float[] array = new float[length];
 		for(int i=0; i<length; i++) {
@@ -250,7 +287,7 @@ public abstract class AutoByteInflow implements ByteInflow {
 	public double[] getFloat64Array() throws IOException {
 		prepare(4);
 		int length = getUInt32();
-		
+
 		prepare(8*length);
 		double[] array = new double[length];
 		for(int i=0; i<length; i++) {
@@ -269,27 +306,23 @@ public abstract class AutoByteInflow implements ByteInflow {
 	public String getL32StringUTF8() throws IOException {
 
 		// read unsigned int
-		prepare(4);
 		int bytecount = getUInt32();
 
 		// retrieve all bytes
-		prepare(bytecount);
 		byte[] bytes = getByteArray(bytecount);
 		return new String(bytes, StandardCharsets.UTF_8);
 	}
 
-	
+
 	@Override
 	public String getL8StringASCII() throws IOException {
 		// read unsigned int
-		prepare(1);
 		int length = getUInt8();
-		
+
 		// retrieve all bytes
-		prepare(length);
 		byte[] bytes = getByteArray(length);
 		return new String(bytes, StandardCharsets.US_ASCII);
 	}
 
-	
+
 }

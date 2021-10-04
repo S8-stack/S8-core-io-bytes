@@ -35,6 +35,12 @@ public class LinkedByteInflow extends AutoByteInflow {
 	}
 	
 	
+	@Override
+	public void pull() {
+		exhaustedChunksBytecount+=head.length;
+		head = head.next;
+		buffer = head.wrap();
+	}
 
 	@Override
 	public void prepare(int bytecount) throws IOException {
@@ -44,9 +50,7 @@ public class LinkedByteInflow extends AutoByteInflow {
 			if(buffer.remaining()>0) {
 				throw new IOException("Scrapped end of buffer");
 			}
-			exhaustedChunksBytecount+=head.length;
-			head = head.next;
-			buffer = head.wrap();
+			pull();
 		}
 	}
 	
