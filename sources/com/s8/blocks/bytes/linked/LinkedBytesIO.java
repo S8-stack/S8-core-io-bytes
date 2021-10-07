@@ -198,7 +198,7 @@ public class LinkedBytesIO {
 			if(!Files.exists(folderpath)) {
 				Files.createDirectories(folderpath);
 			}
-			channel = FileChannel.open(path, CREATE, WRITE).truncate(0);
+			channel = FileChannel.open(path, CREATE, WRITE);
 			
 			if(isVerbose) {
 				long bytecount = head.getBytecount();
