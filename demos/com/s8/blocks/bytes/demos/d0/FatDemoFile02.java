@@ -8,7 +8,7 @@ import com.s8.alpha.bytes.ByteOutflow;
 public class FatDemoFile02 {
 
 
-	public double[] values;
+	public long[] values;
 
 	public int[] formats;
 
@@ -17,7 +17,7 @@ public class FatDemoFile02 {
 	/**
 	 * Not serialized
 	 */
-	public double checkSum;
+	public long checkSum;
 
 	public FatDemoFile02() {
 		super();
@@ -26,14 +26,14 @@ public class FatDemoFile02 {
 
 
 	public void generateData(int n) {
-		values = new double[n];
+		values = new long[n];
 		formats = new int[n];
 		checkSum = 0;
 
-		double value;
+		long value;
 		int format;
 		for(int i=0; i<n; i++) {
-			value = Math.random()*208009.9087;
+			value = (long) (Math.random()*2087);
 			format = (int) (Math.random()*3);
 			if(format==0) {
 				checkSum += value;
@@ -61,15 +61,15 @@ public class FatDemoFile02 {
 
 			switch(format) {
 			case 0 : // 8  bytes
-				outflow.putFloat64(values[i]); 
+				outflow.putInt64(values[i]); 
 				break;
 
 			case 1 : // 4 bytes
-				outflow.putFloat32((float) values[i]); 
+				outflow.putInt32((int) values[i]); 
 				break;
 
 			case 2 : // 1 byte
-				outflow.putUInt8(((int) values[i]) & 0xff); 
+				outflow.putUInt8(((short) values[i]) & 0xff); 
 				break;
 			}
 		}
@@ -87,8 +87,8 @@ public class FatDemoFile02 {
 		int n = inflow.getUInt32();
 
 		int[] formats = new int[n];
-		double[] values = new double[n];
-		double sum = 0;
+		long[] values = new long[n];
+		long sum = 0;
 
 
 		for(int i=0; i<n; i++) {
@@ -98,12 +98,12 @@ public class FatDemoFile02 {
 			switch(format) {
 
 			case 0 :
-				double val = inflow.getFloat64();
+				long val = inflow.getInt64();
 				values[i] = val;
 				sum+=val;
 				break;
 
-			case 1: values[i] = inflow.getFloat32(); break;
+			case 1: values[i] = inflow.getInt32(); break;
 
 			case 2: values[i] = inflow.getUInt8(); break;
 			
