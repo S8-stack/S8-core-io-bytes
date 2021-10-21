@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.s8.alpha.bytes.ByteInflow;
+import com.s8.alpha.utilities.bytes.ByteInflow;
 import com.s8.blocks.bytes.linked.LinkedByteInflow;
 import com.s8.blocks.bytes.linked.LinkedByteOutflow;
 import com.s8.blocks.bytes.linked.LinkedBytes;

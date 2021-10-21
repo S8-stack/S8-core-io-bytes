@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-import com.s8.alpha.bytes.ByteOutflow;
+import com.s8.alpha.utilities.bytes.ByteOutflow;
 
 public class BufferByteOutflow implements ByteOutflow {
 

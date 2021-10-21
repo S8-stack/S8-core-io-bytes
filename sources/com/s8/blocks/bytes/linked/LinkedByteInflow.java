@@ -2,7 +2,7 @@ package com.s8.blocks.bytes.linked;
 
 import java.io.IOException;
 
-import com.s8.alpha.bytes.ByteOutflow;
+import com.s8.alpha.utilities.bytes.ByteOutflow;
 import com.s8.blocks.bytes.AutoByteInflow;
 
 

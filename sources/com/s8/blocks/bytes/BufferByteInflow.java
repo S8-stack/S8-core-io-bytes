@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-import com.s8.alpha.bytes.ByteInflow;
-import com.s8.alpha.bytes.ByteOutflow;
+import com.s8.alpha.utilities.bytes.ByteInflow;
+import com.s8.alpha.utilities.bytes.ByteOutflow;
 
 /**
  * <code>ByteBuffer</code>-based <code>ByteInflow</code>

@@ -8,7 +8,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.s8.alpha.bytes.ByteInflow;
+import com.s8.alpha.utilities.bytes.ByteInflow;
 
 /**
  * 

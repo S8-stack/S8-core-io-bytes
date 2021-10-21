@@ -5,8 +5,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 
-import com.s8.alpha.bytes.ByteInflow;
-import com.s8.alpha.bytes.ByteOutflow;
+import com.s8.alpha.utilities.bytes.ByteInflow;
+import com.s8.alpha.utilities.bytes.ByteOutflow;
 
 
 public class FileByteInflow implements ByteInflow {
