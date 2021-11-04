@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sources xmlns="http://s8.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://s8.com schema.xsd">
-	<root-local-path>/Users/pc/qx/git/com.s8.blocks.bytes/web/</root-local-path>
+	<root-local-path>/Users/pc/qx/git/com.s8.blocks.bytes/web-bytes/</root-local-path>
 	<root-web-path>/bytes/</root-web-path>
 	<html-filter cache="PRODUCTION" frag-length="1024">
 		<sources>**.html</sources>
