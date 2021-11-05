@@ -25,7 +25,7 @@ public abstract class ByteFile {
 
 	final private Path path;
 
-	volatile private boolean isAutosaveActive = false;
+	//volatile private boolean isAutosaveActive = false;
 	
 	private int capacity = DEFAULT_BUFFER_CAPACITY;
 	
@@ -112,6 +112,7 @@ public abstract class ByteFile {
 
 
 
+	/*
 	public void startAutosave(long frequency) {
 		Thread autosaveThread = new Thread(new Runnable() {
 
@@ -145,5 +146,6 @@ public abstract class ByteFile {
 	public void stopAutosave() {
 		isAutosaveActive = false;
 	}
+	*/
 
 }
