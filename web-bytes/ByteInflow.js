@@ -17,11 +17,11 @@ export class ByteInflow {
 
 	/**
 	 * 
-	 * @param {ArrayBuffer} buffer 
+	 * @param {ArrayBuffer} arraybuffer 
 	 */
-	constructor(buffer){
-		this.buffer = buffer;
-		this.view = new DataView(buffer);
+	constructor(arraybuffer){
+		this.arraybuffer = arraybuffer;
+		this.view = new DataView(arraybuffer);
 		this.textDecoder_ASCII = new TextDecoder('ascii');
 		this.textDecoder_UTF8 = new TextDecoder('utf8');
 		this.offset = 0;
@@ -91,7 +91,7 @@ export class ByteInflow {
 
 	getL8StringASCII(){
 		let length = this.getUInt8();
-		let stringView = new Uint8Array(this.buffer, this.offset, length);
+		let stringView = new Uint8Array(this.arraybuffer, this.offset, length);
 		let value = this.textDecoder_ASCII.decode(stringView);
 		this.offset+=length;
 		return value;
@@ -99,21 +99,10 @@ export class ByteInflow {
 
 	getL32StringUTF8(){
 		let length = this.getUInt32();
-		let stringView = new Uint8Array(this.buffer, this.offset, length);
+		let stringView = new Uint8Array(this.arraybuffer, this.offset, length);
 		let value = this.textDecoder_UTF8.decode(stringView);
 		this.offset+=length;
 		return value;
 	}
 
-	getBohrNodeIdentifier(){
-		/*
-		let index = "";
-		new Uint8Array(this.buffer, this.offset, 8).forEach(digit => (index = index.concat(Number(digit).toString(16).padStart(2, "0"))));
-		this.offset+=8;
-		return index;
-		*/
-		let value = this.view.getUInt64(this.offset);
-		this.offset+=8;
-		return value;
-	}
 }

@@ -17,11 +17,11 @@ export class ByteOutflow {
 
 	/**
 	 * 
-	 * @param {ArrayBuffer} buffer 
+	 * @param {ArrayBuffer} arraybuffer 
 	 */
-	constructor(buffer){
-		this.buffer = buffer;
-		this.view = new DataView(buffer);
+	constructor(arraybuffer){
+		this.arraybuffer = arraybuffer;
+		this.view = new DataView(arraybuffer);
 		this.textEncoder_ASCII = new TextEncoder('ascii');
 		this.textEncoder_UTF8 = new TextEncoder('utf8');
 		this.offset = 0;
@@ -84,7 +84,7 @@ export class ByteOutflow {
 		let length = stringBuffer.length;
 		this.view.setUint8(this.offset, length);
 		this.offset+=1;
-		new Uint8Array(this.buffer).set(stringBuffer, this.offset);
+		new Uint8Array(this.arraybuffer).set(stringBuffer, this.offset);
 		this.offset+=length;
 	}
 
@@ -93,19 +93,8 @@ export class ByteOutflow {
 		let length = stringBuffer.length;
 		this.view.setUint32(this.offset, length);
 		this.offset+=4;
-		new Uint8Array(this.buffer).set(stringBuffer, this.offset);
+		new Uint8Array(this.arraybuffer).set(stringBuffer, this.offset);
 		this.offset+=length;
 	}
 
-	/**
-	 * 
-	 * @param {string} value 
-	 * @returns 
-	 */
-	putBohrHashCode(value){
-		for(let i=0; i<8; i++){
-			this.view.setUint8(this.offset, parseInt(value.substr(2*i,2),16));
-			this.offset++;
-		}
-	}
 }
