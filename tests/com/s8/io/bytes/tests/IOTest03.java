@@ -6,10 +6,10 @@ import java.nio.file.Paths;
 
 import com.s8.alpha.utilities.bytes.ByteInflow;
 import com.s8.blocks.bytes.demos.d0.FatDemoFile02;
-import com.s8.blocks.bytes.linked.LinkedByteInflow;
-import com.s8.blocks.bytes.linked.LinkedByteOutflow;
-import com.s8.blocks.bytes.linked.LinkedBytes;
-import com.s8.blocks.bytes.linked.LinkedBytesIO;
+import com.s8.blocks.helium.linked.LinkedByteInflow;
+import com.s8.blocks.helium.linked.LinkedByteOutflow;
+import com.s8.blocks.helium.linked.LinkedBytes;
+import com.s8.blocks.helium.linked.LinkedBytesIO;
 
 
 /**
