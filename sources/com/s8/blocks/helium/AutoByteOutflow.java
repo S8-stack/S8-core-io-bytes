@@ -198,6 +198,79 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 		}
 	}
 	
+	
+	@Override
+	public void putL8UInt(long value) throws IOException {
+		if((value & 0xffL) == value) { // single byte encoding
+			prepare(2);
+			buffer.put((byte) 0x01);
+			buffer.put((byte) (value & 0xffL));
+		}
+		else if((value & 0xffffL) == value) { // two bytes encoding
+			prepare(3);
+			buffer.put((byte) 0x02);
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else if((value & 0xffffffL) == value) { // three bytes encoding
+			prepare(4);
+			buffer.put((byte) 0x03);
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else if((value & 0xffffffffL) == value) { // four bytes encoding
+			prepare(5);
+			buffer.put((byte) 0x04);
+			buffer.put((byte) ((value >> 24) & 0xffL));
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else if((value & 0xffffffffffL) == value) { // five bytes encoding
+			prepare(6);
+			buffer.put((byte) 0x05);
+			buffer.put((byte) ((value >> 32) & 0xffL));
+			buffer.put((byte) ((value >> 24) & 0xffL));
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else if((value & 0xffffffffffffL) == value) { // six bytes encoding
+			prepare(7);
+			buffer.put((byte) 0x06);
+			buffer.put((byte) ((value >> 40) & 0xffL));
+			buffer.put((byte) ((value >> 32) & 0xffL));
+			buffer.put((byte) ((value >> 24) & 0xffL));
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else if((value & 0xffffffffffffffL) == value) { // seven bytes encoding
+			prepare(8);
+			buffer.put((byte) 0x07);
+			buffer.put((byte) ((value >> 48) & 0xffL));
+			buffer.put((byte) ((value >> 40) & 0xffL));
+			buffer.put((byte) ((value >> 32) & 0xffL));
+			buffer.put((byte) ((value >> 24) & 0xffL));
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else { // eight bytes encoding
+			prepare(9);
+			buffer.put((byte) 0x08);
+			buffer.put((byte) ((value >> 56) & 0xffL));
+			buffer.put((byte) ((value >> 48) & 0xffL));
+			buffer.put((byte) ((value >> 40) & 0xffL));
+			buffer.put((byte) ((value >> 32) & 0xffL));
+			buffer.put((byte) ((value >> 24) & 0xffL));
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+	}
+	
 
 
 	public void putFloat32(double value) throws IOException {

@@ -250,6 +250,84 @@ public class FileByteInflow implements ByteInflow {
 			return b;
 		}
 	}
+	
+	@Override
+	public long getL8UInt() throws IOException {
+		ensure(1);
+		byte b = buffer.get(); // first byte
+		int length = (b & 0xff);
+		if(length == 1) {
+			byte[] bytes = getByteArray(1);
+			return (long) (bytes[0] & 0xff);
+		}
+		else if(length == 2){
+			byte[] bytes = getByteArray(2);
+			return (long) (
+					(bytes[2] & 0xff) << 8 | 
+					(bytes[3] & 0xff));
+		}
+		else if(length == 3){
+			byte[] bytes = getByteArray(3);
+			return (long) (
+					(bytes[1] & 0xff) << 16 | 
+					(bytes[2] & 0xff) << 8 | 
+					(bytes[3] & 0xff));
+		}
+		else if(length == 4){
+			byte[] bytes = getByteArray(4);
+			return (long) (
+					(bytes[0] & 0xff) << 24 | 
+					(bytes[1] & 0xff) << 16 | 
+					(bytes[2] & 0xff) << 8 | 
+					(bytes[3] & 0xff));
+		}
+		else if(length == 5){
+			byte[] bytes = getByteArray(5);
+			return (long) (
+					(bytes[0] & 0xff) << 32 | 
+					(bytes[1] & 0xff) << 24 | 
+					(bytes[2] & 0xff) << 16 | 
+					(bytes[3] & 0xff) << 8 | 
+					(bytes[4] & 0xff));
+		}
+		else if(length == 6){
+			byte[] bytes = getByteArray(6);
+			return (long) (
+					(bytes[0] & 0xff) << 40 | 
+					(bytes[1] & 0xff) << 32 | 
+					(bytes[2] & 0xff) << 24 | 
+					(bytes[3] & 0xff) << 16 | 
+					(bytes[4] & 0xff) << 8 | 
+					(bytes[5] & 0xff));
+		}
+		else if(length == 7){
+			byte[] bytes = getByteArray(7);
+			return (long) (
+					(bytes[0] & 0xff) << 48 | 
+					(bytes[1] & 0xff) << 40 | 
+					(bytes[2] & 0xff) << 32 | 
+					(bytes[3] & 0xff) << 24 | 
+					(bytes[4] & 0xff) << 16 | 
+					(bytes[5] & 0xff) << 8 | 
+					(bytes[6] & 0xff));
+		}
+		else if(length == 8){
+			byte[] bytes = getByteArray(8);
+			return (long) (
+					(bytes[0] & 0xff) << 56 | 
+					(bytes[1] & 0xff) << 48 | 
+					(bytes[2] & 0xff) << 40 | 
+					(bytes[3] & 0xff) << 32 | 
+					(bytes[4] & 0xff) << 24 | 
+					(bytes[5] & 0xff) << 16 | 
+					(bytes[6] & 0xff) << 8 | 
+					(bytes[7] & 0xff));
+		}
+		else {
+			throw new IOException("Illegal L8UInt format: length"+length);
+		}
+		
+	}
 
 	/*
 	public void setUInt31(int index, int value) {

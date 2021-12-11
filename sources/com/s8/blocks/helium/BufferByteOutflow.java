@@ -117,7 +117,72 @@ public class BufferByteOutflow implements ByteOutflow {
 			buffer.put((byte) (value & 0x7f));
 		}
 	}
-
+	
+	@Override
+	public void putL8UInt(long value) throws IOException {
+		if((value & 0xffL) == value) { // single byte encoding
+			buffer.put((byte) 0x01);
+			buffer.put((byte) (value & 0xffL));
+		}
+		else if((value & 0xffffL) == value) { // two bytes encoding
+			buffer.put((byte) 0x02);
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else if((value & 0xffffffL) == value) { // three bytes encoding
+			buffer.put((byte) 0x03);
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else if((value & 0xffffffffL) == value) { // four bytes encoding
+			buffer.put((byte) 0x04);
+			buffer.put((byte) ((value >> 24) & 0xffL));
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else if((value & 0xffffffffffL) == value) { // five bytes encoding
+			buffer.put((byte) 0x05);
+			buffer.put((byte) ((value >> 32) & 0xffL));
+			buffer.put((byte) ((value >> 24) & 0xffL));
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else if((value & 0xffffffffffffL) == value) { // six bytes encoding
+			buffer.put((byte) 0x06);
+			buffer.put((byte) ((value >> 40) & 0xffL));
+			buffer.put((byte) ((value >> 32) & 0xffL));
+			buffer.put((byte) ((value >> 24) & 0xffL));
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else if((value & 0xffffffffffffffL) == value) { // seven bytes encoding
+			buffer.put((byte) 0x07);
+			buffer.put((byte) ((value >> 48) & 0xffL));
+			buffer.put((byte) ((value >> 40) & 0xffL));
+			buffer.put((byte) ((value >> 32) & 0xffL));
+			buffer.put((byte) ((value >> 24) & 0xffL));
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+		else { // eight bytes encoding
+			buffer.put((byte) 0x08);
+			buffer.put((byte) ((value >> 56) & 0xffL));
+			buffer.put((byte) ((value >> 48) & 0xffL));
+			buffer.put((byte) ((value >> 40) & 0xffL));
+			buffer.put((byte) ((value >> 32) & 0xffL));
+			buffer.put((byte) ((value >> 24) & 0xffL));
+			buffer.put((byte) ((value >> 16) & 0xffL));
+			buffer.put((byte) ((value >> 8) & 0xffL));
+			buffer.put((byte) (value & 0xff));
+		}
+	}
+	
+	
 
 	@Override
 	public void putInt64(long value){
