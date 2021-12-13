@@ -95,16 +95,14 @@ export class ByteInflow {
 		return value;
 	}
 
-	getL8UInt(){
-        let script = "";
-        let length = this.view.getUint8(this.offset);
-		this.offset += 1;
-        for(let i=0; i<length; i++){
-            let digit = this.view.getUint8(this.offset);
-            this.offset += 1;
-            script += digit > 0x0f ? digit.toString(16) : '0'+digit.toString(16);
-        }
-        return script;
+	getIndex(length){
+		let script = "";
+		for(let i=0; i<length; i++){
+			let digit = this.view.getUint8(this.offset);
+			this.offset += 1;
+			script += digit > 0x0f ? digit.toString(16) : '0'+digit.toString(16);
+		}
+		return script;
     }
 
 	getFloat32() {
