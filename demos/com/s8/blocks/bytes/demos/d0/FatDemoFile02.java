@@ -84,7 +84,7 @@ public class FatDemoFile02 {
 	 * @throws IOException 
 	 */
 	public static FatDemoFile02 deserialize(ByteInflow inflow) throws IOException {
-		int n = inflow.getUInt32();
+		int n = inflow.getUInt31();
 
 		int[] formats = new int[n];
 		long[] values = new long[n];

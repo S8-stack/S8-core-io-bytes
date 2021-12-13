@@ -123,4 +123,6 @@ public class LinkedByteOutflow extends AutoByteOutflow {
 	public int getSize() {
 		return bytecount;
 	}
+
+
 }

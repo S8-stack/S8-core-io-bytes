@@ -43,7 +43,7 @@ public class LinkedByteInflow extends AutoByteInflow {
 	}
 
 	@Override
-	public void prepare(int bytecount) throws IOException {
+	public void allocate(int bytecount) throws IOException {
 		
 		/* normal case */
 		if(buffer.remaining() < bytecount) {
@@ -86,6 +86,7 @@ public class LinkedByteInflow extends AutoByteInflow {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 
 

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-import com.s8.alpha.utilities.bytes.ByteInflow;
 import com.s8.alpha.utilities.bytes.ByteOutflow;
 
 /**
@@ -12,7 +11,7 @@ import com.s8.alpha.utilities.bytes.ByteOutflow;
  * @author pc
  *
  */
-public class BufferByteInflow implements ByteInflow {
+public class BufferByteInflow extends BaseByteInflow {
 
 	private ByteBuffer buffer;
 
@@ -114,23 +113,13 @@ public class BufferByteInflow implements ByteInflow {
 	@Override
 	public int[] getInt32Array() throws IOException {
 		// retrieve length
-		int length = getUInt32();
+		int length = getUInt31();
 
 		int[] array = new int[length];
 		for(int i=0; i<length; i++) {
 			array[i] = buffer.getInt();
 		}
 		return array;
-	}
-
-	@Override
-	public int getUInt32() throws IOException {
-		byte[] bytes = getByteArray(4);
-		return (int) (
-				(bytes[0] & 0x7f) << 24 | 
-				(bytes[1] & 0xff) << 16 | 
-				(bytes[2] & 0xff) << 8 | 
-				(bytes[3] & 0xff));
 	}
 
 
@@ -143,7 +132,7 @@ public class BufferByteInflow implements ByteInflow {
 	@Override
 	public long[] getInt64Array() throws IOException {
 		// retrieve length
-		int length = getUInt32();
+		int length = getUInt31();
 
 		long[] array = new long[length];
 		for(int i=0; i<length; i++) {
@@ -187,82 +176,7 @@ public class BufferByteInflow implements ByteInflow {
 		}
 	}
 	
-	@Override
-	public long getL8UInt() throws IOException {
-		byte b = buffer.get(); // first byte
-		int length = (b & 0xff);
-		if(length == 1) {
-			byte[] bytes = getByteArray(1);
-			return (long) (bytes[0] & 0xff);
-		}
-		else if(length == 2){
-			byte[] bytes = getByteArray(2);
-			return (long) (
-					(bytes[2] & 0xff) << 8 | 
-					(bytes[3] & 0xff));
-		}
-		else if(length == 3){
-			byte[] bytes = getByteArray(3);
-			return (long) (
-					(bytes[1] & 0xff) << 16 | 
-					(bytes[2] & 0xff) << 8 | 
-					(bytes[3] & 0xff));
-		}
-		else if(length == 4){
-			byte[] bytes = getByteArray(4);
-			return (long) (
-					(bytes[0] & 0xff) << 24 | 
-					(bytes[1] & 0xff) << 16 | 
-					(bytes[2] & 0xff) << 8 | 
-					(bytes[3] & 0xff));
-		}
-		else if(length == 5){
-			byte[] bytes = getByteArray(5);
-			return (long) (
-					(bytes[0] & 0xff) << 32 | 
-					(bytes[1] & 0xff) << 24 | 
-					(bytes[2] & 0xff) << 16 | 
-					(bytes[3] & 0xff) << 8 | 
-					(bytes[4] & 0xff));
-		}
-		else if(length == 6){
-			byte[] bytes = getByteArray(6);
-			return (long) (
-					(bytes[0] & 0xff) << 40 | 
-					(bytes[1] & 0xff) << 32 | 
-					(bytes[2] & 0xff) << 24 | 
-					(bytes[3] & 0xff) << 16 | 
-					(bytes[4] & 0xff) << 8 | 
-					(bytes[5] & 0xff));
-		}
-		else if(length == 7){
-			byte[] bytes = getByteArray(7);
-			return (long) (
-					(bytes[0] & 0xff) << 48 | 
-					(bytes[1] & 0xff) << 40 | 
-					(bytes[2] & 0xff) << 32 | 
-					(bytes[3] & 0xff) << 24 | 
-					(bytes[4] & 0xff) << 16 | 
-					(bytes[5] & 0xff) << 8 | 
-					(bytes[6] & 0xff));
-		}
-		else if(length == 8){
-			byte[] bytes = getByteArray(8);
-			return (long) (
-					(bytes[0] & 0xff) << 56 | 
-					(bytes[1] & 0xff) << 48 | 
-					(bytes[2] & 0xff) << 40 | 
-					(bytes[3] & 0xff) << 32 | 
-					(bytes[4] & 0xff) << 24 | 
-					(bytes[5] & 0xff) << 16 | 
-					(bytes[6] & 0xff) << 8 | 
-					(bytes[7] & 0xff));
-		}
-		else {
-			throw new IOException("Illegal L8UInt format: length"+length);
-		}
-		
-	}
+	
 
 
 	@Override
@@ -273,7 +187,7 @@ public class BufferByteInflow implements ByteInflow {
 
 	@Override
 	public float[] getFloat32Array() throws IOException {
-		int length = getUInt32();
+		int length = getUInt31();
 		float[] array = new float[length];
 		for(int i=0; i<length; i++) {
 			array[i] = buffer.getFloat();
@@ -290,7 +204,7 @@ public class BufferByteInflow implements ByteInflow {
 
 	@Override
 	public double[] getFloat64Array() throws IOException {
-		int length = getUInt32();
+		int length = getUInt31();
 		double[] array = new double[length];
 		for(int i=0; i<length; i++) {
 			array[i] = buffer.getDouble();

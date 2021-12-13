@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-import com.s8.alpha.utilities.bytes.ByteInflow;
-
 /**
  * 
  * @author pierreconvert
  *
  */
-public abstract class AutoByteInflow implements ByteInflow {
+public abstract class AutoByteInflow extends BaseByteInflow {
 
 
 	protected ByteBuffer buffer;
@@ -25,9 +23,10 @@ public abstract class AutoByteInflow implements ByteInflow {
 	}
 
 
-	public abstract void pull();
+	public abstract void allocate(int bytecount) throws IOException;
 
-	public abstract void prepare(int bytecount) throws IOException;
+
+	public abstract void pull() throws IOException;
 
 
 	@Override
@@ -63,20 +62,14 @@ public abstract class AutoByteInflow implements ByteInflow {
 
 	@Override
 	public byte getByte() throws IOException {
-		prepare(1);
+		allocate(1);
 		return buffer.get();
 	}
 
 
 	@Override
-	public int getUInt8() throws IOException {
-		prepare(1);
-		return buffer.get() & 0xff;
-	}
-
-	@Override
 	public boolean[] getFlags8() throws IOException {
-		prepare(1);
+		allocate(1);
 		boolean[] flags = new boolean[8];
 		byte b = buffer.get();
 		flags[0] = (b & 0x80) == 0x80;
@@ -122,50 +115,45 @@ public abstract class AutoByteInflow implements ByteInflow {
 		}
 		return bytes;
 	}
+	
 
+	@Override
+	public int getUInt8() throws IOException {
+		allocate(1);
+		return buffer.get() & 0xff;
+	}
 
 
 	@Override
 	public int getUInt16() throws IOException {
-		prepare(2);
+		allocate(2);
 		byte b0 = buffer.get();
 		byte b1 = buffer.get();
 		return ((b0 & 0xff) << 8 ) | (b1 & 0xff);
 	}
 
 
+
 	@Override
 	public short getInt16() throws IOException {
-		prepare(2);
+		allocate(2);
 		return buffer.getShort();
 	}
 
 
-
-	@Override
-	public int getUInt31() throws IOException {
-		byte[] bytes = getByteArray(4);
-		return (int) (
-				(bytes[0] & 0x7f) << 24 | 
-				(bytes[1] & 0xff) << 16 | 
-				(bytes[2] & 0xff) << 8 | 
-				(bytes[3] & 0xff));
-	}
-
 	@Override
 	public int getInt32() throws IOException {
-		prepare(4);
+		allocate(4);
 		return buffer.getInt();
 	}
-
 
 	@Override
 	public int[] getInt32Array() throws IOException {
 		// retrieve length
-		prepare(4);
-		int length = getUInt32();
+		allocate(4);
+		int length = (int) getUInt32();
 
-		prepare(4*length);
+		allocate(4*length);
 		int[] array = new int[length];
 		for(int i=0; i<length; i++) {
 			array[i] = buffer.getInt();
@@ -173,32 +161,23 @@ public abstract class AutoByteInflow implements ByteInflow {
 		return array;
 	}
 
-	@Override
-	public int getUInt32() throws IOException {
-		prepare(4);
-		byte[] bytes = getByteArray(4);
-		return (int) (
-				(bytes[0] & 0x7f) << 24 | 
-				(bytes[1] & 0xff) << 16 | 
-				(bytes[2] & 0xff) << 8 | 
-				(bytes[3] & 0xff));
-	}
-
+	
+	
 
 	@Override
 	public long getInt64() throws IOException {
-		prepare(8);
+		allocate(8);
 		return buffer.getLong();
 	}
 
 
 	@Override
 	public long[] getInt64Array() throws IOException {
-		prepare(4);
+		allocate(4);
 		// retrieve length
-		int length = getUInt32();
+		int length = getUInt31();
 
-		prepare(8*length);
+		allocate(8*length);
 		long[] array = new long[length];
 		for(int i=0; i<length; i++) {
 			array[i] = buffer.getLong();
@@ -209,30 +188,30 @@ public abstract class AutoByteInflow implements ByteInflow {
 
 	@Override
 	public int getUInt() throws IOException {
-		prepare(1);
+		allocate(1);
 		byte b = buffer.get(); // first byte
 
 		if((b & 0x80) == 0x80) {
 			int value = b & 0x7f;
 
-			prepare(1);
+			allocate(1);
 			b = buffer.get(); // second byte
 			if((b & 0x80) == 0x80) {
 				value = (value << 7) | (b & 0x7f);
 
-				prepare(1);
+				allocate(1);
 				b = buffer.get(); // third byte
 
 				if((b & 0x80) == 0x80) {
 					value = (value << 7) | (b & 0x7f);
 
-					prepare(1);
+					allocate(1);
 					b = buffer.get(); // fourth byte
 
 					if((b & 0x80) == 0x80) {
 						value = (value << 7) | (b & 0x7f);
 
-						prepare(1);
+						allocate(1);
 						b = buffer.get(); // fifth byte (final one)
 
 						return (value << 7) | (b & 0x7f);
@@ -255,98 +234,26 @@ public abstract class AutoByteInflow implements ByteInflow {
 	}
 	
 	
-	@Override
-	public long getL8UInt() throws IOException {
-		prepare(1);
-		byte b = buffer.get(); // first byte
-		int length = (b & 0xff);
-		if(length == 1) {
-			byte[] bytes = getByteArray(1);
-			return (long) (bytes[0] & 0xff);
-		}
-		else if(length == 2){
-			byte[] bytes = getByteArray(2);
-			return (long) (
-					(bytes[2] & 0xff) << 8 | 
-					(bytes[3] & 0xff));
-		}
-		else if(length == 3){
-			byte[] bytes = getByteArray(3);
-			return (long) (
-					(bytes[1] & 0xff) << 16 | 
-					(bytes[2] & 0xff) << 8 | 
-					(bytes[3] & 0xff));
-		}
-		else if(length == 4){
-			byte[] bytes = getByteArray(4);
-			return (long) (
-					(bytes[0] & 0xff) << 24 | 
-					(bytes[1] & 0xff) << 16 | 
-					(bytes[2] & 0xff) << 8 | 
-					(bytes[3] & 0xff));
-		}
-		else if(length == 5){
-			byte[] bytes = getByteArray(5);
-			return (long) (
-					(bytes[0] & 0xff) << 32 | 
-					(bytes[1] & 0xff) << 24 | 
-					(bytes[2] & 0xff) << 16 | 
-					(bytes[3] & 0xff) << 8 | 
-					(bytes[4] & 0xff));
-		}
-		else if(length == 6){
-			byte[] bytes = getByteArray(6);
-			return (long) (
-					(bytes[0] & 0xff) << 40 | 
-					(bytes[1] & 0xff) << 32 | 
-					(bytes[2] & 0xff) << 24 | 
-					(bytes[3] & 0xff) << 16 | 
-					(bytes[4] & 0xff) << 8 | 
-					(bytes[5] & 0xff));
-		}
-		else if(length == 7){
-			byte[] bytes = getByteArray(7);
-			return (long) (
-					(bytes[0] & 0xff) << 48 | 
-					(bytes[1] & 0xff) << 40 | 
-					(bytes[2] & 0xff) << 32 | 
-					(bytes[3] & 0xff) << 24 | 
-					(bytes[4] & 0xff) << 16 | 
-					(bytes[5] & 0xff) << 8 | 
-					(bytes[6] & 0xff));
-		}
-		else if(length == 8){
-			byte[] bytes = getByteArray(8);
-			return (long) (
-					(bytes[0] & 0xff) << 56 | 
-					(bytes[1] & 0xff) << 48 | 
-					(bytes[2] & 0xff) << 40 | 
-					(bytes[3] & 0xff) << 32 | 
-					(bytes[4] & 0xff) << 24 | 
-					(bytes[5] & 0xff) << 16 | 
-					(bytes[6] & 0xff) << 8 | 
-					(bytes[7] & 0xff));
-		}
-		else {
-			throw new IOException("Illegal L8UInt format: length"+length);
-		}
-		
-	}
+	
 
+
+
+
+	
 
 	@Override
 	public float getFloat32() throws IOException {
-		prepare(4);
+		allocate(4);
 		return buffer.getFloat();
 	}
 
 
 	@Override
 	public float[] getFloat32Array() throws IOException {
-		prepare(4);
-		int length = getUInt32();
+		allocate(4);
+		int length = getUInt31();
 
-		prepare(4*length);
+		allocate(4*length);
 		float[] array = new float[length];
 		for(int i=0; i<length; i++) {
 			array[i] = buffer.getFloat();
@@ -357,17 +264,17 @@ public abstract class AutoByteInflow implements ByteInflow {
 
 	@Override
 	public double getFloat64() throws IOException {
-		prepare(8);
+		allocate(8);
 		return buffer.getDouble();
 	}
 
 
 	@Override
 	public double[] getFloat64Array() throws IOException {
-		prepare(4);
-		int length = getUInt32();
+		allocate(4);
+		int length = getUInt31();
 
-		prepare(8*length);
+		allocate(8*length);
 		double[] array = new double[length];
 		for(int i=0; i<length; i++) {
 			array[i] = buffer.getDouble();
@@ -385,7 +292,7 @@ public abstract class AutoByteInflow implements ByteInflow {
 	public String getL32StringUTF8() throws IOException {
 
 		// read unsigned int
-		int bytecount = getUInt32();
+		int bytecount = (int) getUInt32();
 
 		// retrieve all bytes
 		byte[] bytes = getByteArray(bytecount);
