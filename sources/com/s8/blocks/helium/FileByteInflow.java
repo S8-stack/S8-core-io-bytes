@@ -10,8 +10,6 @@ import com.s8.alpha.utilities.bytes.ByteOutflow;
 public class FileByteInflow extends AutoByteInflow {
 
 	private FileChannel channel;
-
-	private ByteBuffer buffer;
 	
 	private ByteOutflow recorder = null;
 	

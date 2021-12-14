@@ -70,26 +70,7 @@ export class ByteOutflow {
 	}
 
 
-	putL8UInt(value) {
-		if(value != "NULL"){
-			// publish header
-			let header = 0x40 | ((length/2) & 0xff);
-			this.view.setUint8(this.offset, header);
-			this.offset += 1;
-
-			for (let i = 0; i < length; i += 2) {
-				this.view.setUint8(this.offset, parseInt(value.substring(i, i + 2), 16));
-				this.offset += 1;
-			}
-		}
-		else{
-			// publish length
-			this.view.setUint8(this.offset, 0x00);
-			this.offset += 1;
-		}
-		let length = value.length;
-
-	}
+	
 
 	putFloat32(value) {
 		this.view.setFloat32(this.offset, value);
