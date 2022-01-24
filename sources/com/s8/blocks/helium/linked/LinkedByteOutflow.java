@@ -14,6 +14,8 @@ import com.s8.blocks.helium.AutoByteOutflow;
 public class LinkedByteOutflow extends AutoByteOutflow {
 
 	
+	public final static int DEFAULT_CAPACITY = 1024;
+	
 	/** first node of the linked chain */
 	private LinkedBytes head;
 
@@ -31,6 +33,16 @@ public class LinkedByteOutflow extends AutoByteOutflow {
 	
 	private boolean isClosed;
 
+	
+	/**
+	 * 
+	 * @param capacity
+	 */
+	public LinkedByteOutflow() {
+		super();
+		initialize(0, DEFAULT_CAPACITY);
+	}
+	
 	
 	/**
 	 * 
@@ -80,6 +92,12 @@ public class LinkedByteOutflow extends AutoByteOutflow {
 		bytecount+=tail.length;
 
 		// create next tail link
+		
+		
+		/**
+		 * BIG trick: we increase capacity every time we re-feed -> auto-adaptative
+		 */
+		capacity *= 2;
 		LinkedBytes nextLink = new LinkedBytes(capacity);
 
 		// append to tail
