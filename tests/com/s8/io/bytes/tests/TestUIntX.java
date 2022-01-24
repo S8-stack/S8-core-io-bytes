@@ -9,21 +9,23 @@ import com.s8.blocks.helium.BufferByteOutflow;
 public class TestUIntX {
 
 	public static void main(String[] args) throws Exception {
+		
 		ByteBuffer buffer = java.nio.ByteBuffer.allocate(1024);
+		
 		BufferByteOutflow output = new BufferByteOutflow(buffer);
-		output.putUInt(12);
-		output.putUInt(1235);
-		output.putUInt(1235786876);
-		output.putUInt(12386876);
-		output.putUInt(65386);
+		output.putUInt7x(12);
+		output.putUInt7x(1235);
+		output.putUInt7x(1235786876);
+		output.putUInt7x(12386876);
+		output.putUInt7x(65386);
 
 		buffer.flip();
 		BufferByteInflow input = new BufferByteInflow(buffer);
-		System.out.println(input.getUInt());
-		System.out.println(input.getUInt());
-		System.out.println(input.getUInt());
-		System.out.println(input.getUInt());
-		System.out.println(input.getUInt());
+		System.out.println(input.getUInt7x());
+		System.out.println(input.getUInt7x());
+		System.out.println(input.getUInt7x());
+		System.out.println(input.getUInt7x());
+		System.out.println(input.getUInt7x());
 
 
 		testCorrectness();
@@ -51,7 +53,7 @@ public class TestUIntX {
 			index = offset;
 			output = new BufferByteOutflow(buffer);
 			for(int i=0; i<n; i++) {
-				output.putUInt(index++);
+				output.putUInt7x(index++);
 			}
 
 			// check
@@ -59,7 +61,7 @@ public class TestUIntX {
 			index = offset;
 			input = new BufferByteInflow(buffer);
 			for(int i=0; i<n; i++) {
-				if(input.getUInt()!=index++) {
+				if(input.getUInt7x()!=index++) {
 					throw new Exception("Bug with index="+index);
 				}
 			}
@@ -90,7 +92,7 @@ public class TestUIntX {
 		for(int k=0; k<1000; k++) {
 			output = new BufferByteOutflow(buffer);
 			for(int i=0; i<n; i++) {
-				output.putUInt(factor*i%8);
+				output.putUInt7x(factor*i%8);
 			}
 			buffer.clear();
 		}

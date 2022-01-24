@@ -1,20 +1,13 @@
 package com.s8.blocks.helium;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 
-import com.s8.alpha.utilities.bytes.ByteOutflow;
 
-public abstract class AutoByteOutflow implements ByteOutflow {
+public abstract class AutoByteOutflow extends BaseByteOutflow {
 
 
 	public final static int N_RETRIES = 8;
 	
-	/**
-	 * to be initialized by sub classes
-	 */
-	protected ByteBuffer buffer;
 
 	public AutoByteOutflow() {
 		super();
@@ -36,7 +29,8 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 	protected abstract boolean push() throws IOException;
 	
 	
-	private void prepare(int nBytes) throws IOException {
+	@Override
+	protected void prepare(int nBytes) throws IOException {
 		if(buffer.remaining()<nBytes) {
 			int iTry = 0;
 			boolean isPushSuccessful = false;
@@ -105,238 +99,8 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 	}
 	
 
-	@Override
-	public void putByte(byte b) throws IOException {
-		prepare(1);
-		buffer.put(b);
-	}
-
-	@Override
-	public void putUInt8(int value) throws IOException {
-		prepare(1);
-		buffer.put((byte) (value & 0xff));
-	}
-
-	@Override
-	public void putUInt16(int value) throws IOException{
-		prepare(2);
-		buffer.put((byte) ((value>>8) & 0xff));
-		buffer.put((byte) (value & 0xff));
-	}
-	
-	@Override
-	public void putUInt24(int value) throws IOException{
-		prepare(3);
-		buffer.put((byte) ((value>>16) & 0xff));
-		buffer.put((byte) ((value>>8) & 0xff));
-		buffer.put((byte) (value & 0xff));
-	}
 	
 
-	@Override
-	public void putUInt31(int value) throws IOException {
-		prepare(4);
-		buffer.putInt(value & 0x7fffffff);
-	}
-	
-	@Override
-	public void putUInt32(long value) throws IOException {
-		prepare(4);
-		buffer.put((byte) ((value >> 24) & 0xffL));
-		buffer.put((byte) ((value >> 16) & 0xffL));
-		buffer.put((byte) ((value >> 8) & 0xffL));
-		buffer.put((byte) (value & 0xffL));	
-	}
-
-
-	
-	@Override
-	public void putUInt40(long value) throws IOException {
-		prepare(5);
-		buffer.put((byte) ((value >> 32) & 0xffL));
-		buffer.put((byte) ((value >> 24) & 0xffL));
-		buffer.put((byte) ((value >> 16) & 0xffL));
-		buffer.put((byte) ((value >> 8) & 0xffL));
-		buffer.put((byte) (value & 0xff));
-	}
-	
-	
-	@Override
-	public void putUInt48(long value) throws IOException {
-		prepare(6);
-		buffer.put((byte) (0x40 | 0x06));
-		buffer.put((byte) ((value >> 40) & 0xffL));
-		buffer.put((byte) ((value >> 32) & 0xffL));
-		buffer.put((byte) ((value >> 24) & 0xffL));
-		buffer.put((byte) ((value >> 16) & 0xffL));
-		buffer.put((byte) ((value >> 8) & 0xffL));
-		buffer.put((byte) (value & 0xff));
-	}
-	
-
-	@Override
-	public void putUInt53(long value) throws IOException {
-		prepare(5);
-		buffer.put((byte) ((value>>48) & 0x1f)); // only 5 last bits
-		buffer.put((byte) ((value>>40) & 0xff));
-		buffer.put((byte) ((value>>32) & 0xff));
-		buffer.put((byte) ((value>>24) & 0xff));
-		buffer.put((byte) ((value>>16) & 0xff));
-		buffer.put((byte) ((value>>8) & 0xff));
-		buffer.put((byte) (value & 0xff));
-	}
-	
-	
-	@Override
-	public void putUInt56(long value) throws IOException {
-		prepare(7);
-		buffer.put((byte) ((value >> 48) & 0xffL));
-		buffer.put((byte) ((value >> 40) & 0xffL));
-		buffer.put((byte) ((value >> 32) & 0xffL));
-		buffer.put((byte) ((value >> 24) & 0xffL));
-		buffer.put((byte) ((value >> 16) & 0xffL));
-		buffer.put((byte) ((value >> 8) & 0xffL));
-		buffer.put((byte) (value & 0xff));
-	}
-	
-	
-	@Override
-	public void putUInt63(long value) throws IOException {
-		prepare(8);
-		buffer.put((byte) ((value >> 56) & 0x7fL));
-		buffer.put((byte) ((value >> 48) & 0xffL));
-		buffer.put((byte) ((value >> 40) & 0xffL));
-		buffer.put((byte) ((value >> 32) & 0xffL));
-		buffer.put((byte) ((value >> 24) & 0xffL));
-		buffer.put((byte) ((value >> 16) & 0xffL));
-		buffer.put((byte) ((value >> 8) & 0xffL));
-		buffer.put((byte) (value & 0xff));
-	}
-
-	
-	
-	@Override
-	public void putInt16(short value) throws IOException {
-		prepare(2);
-		buffer.putShort(value);
-	}
-
-
-
-	@Override
-	public void putInt32(int value) throws IOException {
-		prepare(4);
-		buffer.putInt((int) (value & 0x7fffffff));	
-	}
-
-
-	@Override
-	public void putInt64(long value) throws IOException {
-		prepare(8);
-		buffer.putLong(value);
-	}
-	
-
-	@Override
-	public void putUInt(int value) throws IOException {
-		if(value<0x80) { // single byte encoding
-			prepare(1);
-			buffer.put((byte) (value & 0x7f));
-		}
-		else if(value<0x4000) { // two bytes encoding
-			prepare(2);
-			buffer.put((byte) (((value>>7) & 0x7f) | 0x80));
-			buffer.put((byte) (value & 0x7f));
-		}
-		else if(value<0x200000) { // three bytes encoding
-			prepare(3);
-			buffer.put((byte) (((value>>14) & 0x7f) | 0x80));
-			buffer.put((byte) (((value>>7) & 0x7f) | 0x80));
-			buffer.put((byte) (value & 0x7f));
-		}
-		else if(value<0x10000000) { // four bytes encoding
-			prepare(4);
-			buffer.put((byte) (((value>>21) & 0x7f) | 0x80));
-			buffer.put((byte) (((value>>14) & 0x7f) | 0x80));
-			buffer.put((byte) (((value>>7) & 0x7f) | 0x80));
-			buffer.put((byte) (value & 0x7f));
-		}
-		else { // five bytes encoding
-			prepare(5);
-			buffer.put((byte) (((value>>28) & 0x07) | 0x80));
-			buffer.put((byte) (((value>>21) & 0x7f) | 0x80));
-			buffer.put((byte) (((value>>14) & 0x7f) | 0x80));
-			buffer.put((byte) (((value>>7) & 0x7f) | 0x80));
-			buffer.put((byte) (value & 0x7f));
-		}
-	}
-	
-	
-	public void putFloat32(double value) throws IOException {
-		putFloat32((float) value); 
-	}
-
-	@Override
-	public void putFloat32(float value) throws IOException {
-		prepare(4);
-		buffer.putFloat(value);
-	}
-
-	@Override
-	public void putFloat64(double value) throws IOException {
-		prepare(8);
-		buffer.putDouble(value);
-	}
-
-
-	/**
-	 * Default is UTF-8 (most compact solution).
-	 * @param value
-	 * @throws IOException
-	 */
-	@Override
-	public void putL32StringUTF8(String value) throws IOException {
-		if(value!=null){
-			byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
-			
-			// we skip the first two bytes, but add to pass our own length
-			int bytecount = bytes.length;
-			/*
-			if(length>2147483647){
-				throw new IOException("String arg size is exceeding 2^31-1 (length is encoded in 4 bytes).");
-			}
-			*/
-			putUInt32(bytecount);
-
-			putByteArray(bytes);
-		}
-		else{ // null
-			putUInt32(0); // empty string
-		}
-	}
-
-	
-
-	@Override
-	public void putL8StringASCII(String value) throws IOException{
-		if(value!=null){
-			byte[] bytes = value.getBytes(StandardCharsets.US_ASCII);
-
-			// we skip the first two bytes, but add to pass our own length
-			int bytecount = bytes.length;
-			if(bytecount>256){
-				throw new IOException("String arg size is exceeding 2^8 "
-						+ "(length is encoded in 1 byte max).");
-			}
-			putUInt8(bytecount);
-
-			putByteArray(bytes);
-		}
-		else{ // null
-			putUInt8(0); // empty string
-		}
-	}
-	
 
 
 	@Override
@@ -383,19 +147,4 @@ public abstract class AutoByteOutflow implements ByteOutflow {
 			}
 		}
 	}
-	
-	
-	@Override
-	public void putS8Index(long key) throws IOException {
-		buffer.put((byte) ((key>>56) & 0x7f)); // only 5 last bits
-		buffer.put((byte) ((key>>48) & 0xff)); // only 5 last bits
-		buffer.put((byte) ((key>>40) & 0xff));
-		buffer.put((byte) ((key>>32) & 0xff));
-		buffer.put((byte) ((key>>24) & 0xff));
-		buffer.put((byte) ((key>>16) & 0xff));
-		buffer.put((byte) ((key>>8) & 0xff));
-		buffer.put((byte) (key & 0xff));
-	}
-
-
 }
