@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
+import com.s8.alpha.models.S8Ref;
+import com.s8.alpha.models.graphs.S8Index;
+import com.s8.alpha.models.tables.S8Table;
 import com.s8.alpha.utilities.bytes.ByteOutflow;
 
 public abstract class BaseByteOutflow implements ByteOutflow {
@@ -13,15 +16,15 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 	 * to be initialized by sub classes
 	 */
 	protected ByteBuffer buffer;
-	
+
 	/**
 	 * 
 	 * @param bytecount
 	 * @throws IOException 
 	 */
 	protected abstract void prepare(int bytecount) throws IOException;
-	
-	
+
+
 	@Override
 	public void putByte(byte b) throws IOException {
 		prepare(1);
@@ -40,7 +43,7 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 		buffer.put((byte) ((value>>8) & 0xff));
 		buffer.put((byte) (value & 0xff));
 	}
-	
+
 	@Override
 	public void putUInt24(int value) throws IOException{
 		prepare(3);
@@ -48,14 +51,14 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 		buffer.put((byte) ((value>>8) & 0xff));
 		buffer.put((byte) (value & 0xff));
 	}
-	
+
 
 	@Override
 	public void putUInt31(int value) throws IOException {
 		prepare(4);
 		buffer.putInt(value & 0x7fffffff);
 	}
-	
+
 	@Override
 	public void putUInt32(long value) throws IOException {
 		prepare(4);
@@ -66,7 +69,7 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 	}
 
 
-	
+
 	@Override
 	public void putUInt40(long value) throws IOException {
 		prepare(5);
@@ -76,8 +79,8 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 		buffer.put((byte) ((value >> 8) & 0xffL));
 		buffer.put((byte) (value & 0xff));
 	}
-	
-	
+
+
 	@Override
 	public void putUInt48(long value) throws IOException {
 		prepare(6);
@@ -89,7 +92,7 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 		buffer.put((byte) ((value >> 8) & 0xffL));
 		buffer.put((byte) (value & 0xff));
 	}
-	
+
 
 	@Override
 	public void putUInt53(long value) throws IOException {
@@ -102,8 +105,8 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 		buffer.put((byte) ((value>>8) & 0xff));
 		buffer.put((byte) (value & 0xff));
 	}
-	
-	
+
+
 	@Override
 	public void putUInt56(long value) throws IOException {
 		prepare(7);
@@ -115,8 +118,8 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 		buffer.put((byte) ((value >> 8) & 0xffL));
 		buffer.put((byte) (value & 0xff));
 	}
-	
-	
+
+
 	@Override
 	public void putUInt64(long value) throws IOException {
 		prepare(8);
@@ -130,16 +133,16 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 		buffer.put((byte) (value & 0xff));
 	}
 
-	
-	
+
+
 
 	@Override
 	public void putInt8(byte value) throws IOException {
 		prepare(1);
 		buffer.put(value);
 	}
-	
-	
+
+
 	@Override
 	public void putInt16(short value) throws IOException {
 		prepare(2);
@@ -160,18 +163,18 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 		prepare(8);
 		buffer.putLong(value);
 	}
-	
+
 
 	@Override
 	public void putUInt7x(long value) throws IOException {
-		
-		
+
+
 		/*
 		 * 0x40: 01000000
 		 * 0x80: 10000000
 		 * 0xc0: 11000000
 		 */
-		
+
 		if(value < 0) {
 			if((value & 0x3f) == value) {
 				prepare(1);
@@ -184,24 +187,24 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 		else {
 			int b = (int) (value & 0x3fL);
 			value = value >> 6;
-			
-			while(value != 0x00L) {
-				
-				// push previous byte
-				prepare(1);
-				buffer.put((byte) (b | 0x80));
-				
-				// compute next byte
-				b = (int) (value & 0x7f);
-				value = value >> 7;
-			}	
-			// push final byte
+
+		while(value != 0x00L) {
+
+			// push previous byte
 			prepare(1);
-			buffer.put((byte) b);
+			buffer.put((byte) (b | 0x80));
+
+			// compute next byte
+			b = (int) (value & 0x7f);
+			value = value >> 7;
+		}	
+		// push final byte
+		prepare(1);
+		buffer.put((byte) b);
 		}
 	}
-	
-	
+
+
 	public void putFloat32(double value) throws IOException {
 		putFloat32((float) value); 
 	}
@@ -228,14 +231,14 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 	public void putStringUTF8(String value) throws IOException {
 		if(value!=null){
 			byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
-			
+
 			// we skip the first two bytes, but add to pass our own length
 			int bytecount = bytes.length;
 			/*
 			if(length>2147483647){
 				throw new IOException("String arg size is exceeding 2^31-1 (length is encoded in 4 bytes).");
 			}
-			*/
+			 */
 			putUInt7x(bytecount);
 
 			putByteArray(bytes);
@@ -244,5 +247,44 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 			putUInt7x(-1); // empty string
 		}
 	}
-	
+
+
+	@Override
+	public void putS8Index(S8Index index) throws IOException {
+		if(index != null) {
+			putUInt7x(index.branchId);
+			putUInt7x(index.objectId);	
+		}
+		else {
+			putUInt7x(-1);
+		}
+	}
+
+
+	@Override
+	public void putS8Ref(S8Ref<?> ref) throws IOException {
+		if(ref != null) {
+			putStringUTF8(ref.address);
+			putUInt7x(ref.branch);
+			putUInt7x(ref.version);
+			putUInt8(ref.port);
+		}
+		else {
+			putStringUTF8(null);
+		}
+	}
+
+
+
+
+	@Override
+	public void putS8Table(S8Table<?> table) throws IOException {
+		if(table != null) {
+			putStringUTF8(table.address);
+		}
+		else {
+			putStringUTF8(null);
+		}
+	}
+
 }

@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
+import com.s8.alpha.models.S8Ref;
+import com.s8.alpha.models.graphs.S8Index;
+import com.s8.alpha.models.graphs.S8Object;
+import com.s8.alpha.models.tables.S8Table;
 import com.s8.alpha.utilities.bytes.ByteInflow;
 
 public abstract class BaseByteInflow implements ByteInflow {
@@ -254,8 +258,48 @@ public abstract class BaseByteInflow implements ByteInflow {
 		else {
 			return null;
 		}
-		
 	}
+	
 
+	@Override
+	public S8Index getS8Index() throws IOException {
+		long branchId = getUInt7x();
+		if(branchId >= 0) {
+			long objectId = getUInt7x();
+			return new S8Index(branchId, objectId);
+		}
+		else {
+			return null;
+		}
+	}
+	
+
+
+	@Override
+	public <T extends S8Object> S8Ref<T> getS8Ref() throws IOException {
+		String address =getStringUTF8();
+		if(address != null) {
+			long branch = getUInt7x();
+			long version = getUInt7x();
+			int port = getUInt8();
+			return new S8Ref<T>(address, branch, version, port);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	
+
+	@Override
+	public <R> S8Table<R> getS8Table() throws IOException {
+		String address =getStringUTF8();
+		if(address != null) {
+			return new S8Table<R>(address);
+		}
+		else {
+			return null;
+		}
+	}
 
 }
