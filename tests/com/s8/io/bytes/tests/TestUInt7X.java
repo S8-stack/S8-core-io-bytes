@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 import com.s8.blocks.helium.BufferByteInflow;
 import com.s8.blocks.helium.BufferByteOutflow;
 
-public class TestUIntX {
+public class TestUInt7X {
 
 	public static void main(String[] args) throws Exception {
 		

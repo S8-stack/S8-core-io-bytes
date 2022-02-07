@@ -173,9 +173,11 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 		 * 0x40: 01000000
 		 * 0x80: 10000000
 		 * 0xc0: 11000000
+		 * 0x3f = 0b111111
 		 */
 
 		if(value < 0) {
+			value = - value; // take the opposite (so -1 is not 2^63+1 as in JAVA encoding)
 			if((value & 0x3f) == value) {
 				prepare(1);
 				buffer.put((byte) ((value & 0x3fL) | 0x40));
@@ -186,21 +188,21 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 		}
 		else {
 			int b = (int) (value & 0x3fL);
-			value = value >> 6;
+			value = (value >> 6);
 
-		while(value != 0x00L) {
+			while(value != 0x00L) {
 
-			// push previous byte
+				// push previous byte
+				prepare(1);
+				buffer.put((byte) (b | 0x80));
+
+				// compute next byte
+				b = (int) (value & 0x7f);
+				value = (value >> 7);
+			}	
+			// push final byte
 			prepare(1);
-			buffer.put((byte) (b | 0x80));
-
-			// compute next byte
-			b = (int) (value & 0x7f);
-			value = value >> 7;
-		}	
-		// push final byte
-		prepare(1);
-		buffer.put((byte) b);
+			buffer.put((byte) b);
 		}
 	}
 
