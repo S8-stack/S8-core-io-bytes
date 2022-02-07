@@ -24,7 +24,7 @@ public class BufferByteInflow extends BaseByteInflow {
 
 
 	@Override
-	public boolean isMatching(byte[] sequence) throws IOException {
+	public boolean matches(byte[] sequence) throws IOException {
 		int length = sequence.length;
 		if(buffer.remaining()>=length) {
 			byte[] bytes = new byte[length];

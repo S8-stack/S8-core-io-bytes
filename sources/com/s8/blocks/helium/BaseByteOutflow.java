@@ -254,7 +254,11 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 	@Override
 	public void putS8Index(S8Index index) throws IOException {
 		if(index != null) {
-			putUInt7x(index.branchId);
+			
+			// branch Id
+			putUInt7x(index.branchId.length);
+			putByteArray(index.branchId);
+			
 			putUInt7x(index.objectId);	
 		}
 		else {
@@ -267,8 +271,14 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 	public void putS8Ref(S8Ref<?> ref) throws IOException {
 		if(ref != null) {
 			putStringUTF8(ref.address);
-			putUInt7x(ref.branch);
+			
+			// branch
+			putStringUTF8(ref.branch);
+			
+			// version
 			putUInt7x(ref.version);
+			
+			// port
 			putUInt8(ref.port);
 		}
 		else {

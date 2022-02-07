@@ -263,8 +263,9 @@ public abstract class BaseByteInflow implements ByteInflow {
 
 	@Override
 	public S8Index getS8Index() throws IOException {
-		long branchId = getUInt7x();
-		if(branchId >= 0) {
+		long branchIdLength = getUInt7x();
+		if(branchIdLength >= 0) {
+			byte[] branchId = getByteArray((int) branchIdLength);
 			long objectId = getUInt7x();
 			return new S8Index(branchId, objectId);
 		}
@@ -279,7 +280,7 @@ public abstract class BaseByteInflow implements ByteInflow {
 	public <T extends S8Object> S8Ref<T> getS8Ref() throws IOException {
 		String address =getStringUTF8();
 		if(address != null) {
-			long branch = getUInt7x();
+			String branch = getStringUTF8();
 			long version = getUInt7x();
 			int port = getUInt8();
 			return new S8Ref<T>(address, branch, version, port);

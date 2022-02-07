@@ -27,7 +27,7 @@ public abstract class AutoByteInflow extends BaseByteInflow {
 
 
 	@Override
-	public boolean isMatching(byte[] sequence) throws IOException {
+	public boolean matches(byte[] sequence) throws IOException {
 		int length = sequence.length;
 		int offset = 0, remaining;
 		while(length > 0) {
