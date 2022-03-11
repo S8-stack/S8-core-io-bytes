@@ -143,4 +143,11 @@ public class LinkedByteOutflow extends AutoByteOutflow {
 	}
 
 
+	@Override
+	public void setCapacity(int capacity) {
+		// change capacity that will be used to build next link
+		this.capacity = capacity;
+	}
+
+
 }

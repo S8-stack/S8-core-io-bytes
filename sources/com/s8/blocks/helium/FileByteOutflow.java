@@ -74,4 +74,11 @@ public class FileByteOutflow extends AutoByteOutflow {
 		}
 		channel.close();
 	}
+
+
+	@Override
+	public void setCapacity(int capacity) {
+		// TODO Auto-generated method stub
+		
+	}
 }

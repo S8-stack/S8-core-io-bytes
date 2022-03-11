@@ -74,4 +74,11 @@ public class CompilableByteOutflow extends AutoByteOutflow {
 		}
 		return bytes;
 	}
+
+
+	@Override
+	public void setCapacity(int capacity) {
+		// TODO Auto-generated method stub
+		
+	}
 }
