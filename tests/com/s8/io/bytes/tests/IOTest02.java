@@ -5,10 +5,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.s8.alpha.utilities.bytes.ByteInflow;
-import com.s8.blocks.helium.linked.LinkedByteInflow;
-import com.s8.blocks.helium.linked.LinkedByteOutflow;
-import com.s8.blocks.helium.linked.LinkedBytes;
-import com.s8.blocks.helium.linked.LinkedBytesIO;
+import com.s8.io.bytes.linked.LinkedByteInflow;
+import com.s8.io.bytes.linked.LinkedByteOutflow;
+import com.s8.io.bytes.linked.LinkedBytes;
+import com.s8.io.bytes.linked.LinkedBytesIO;
 
 
 /**
