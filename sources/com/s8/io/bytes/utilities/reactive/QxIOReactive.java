@@ -12,7 +12,10 @@ import java.nio.ByteBuffer;
  * <p>
  * Note that is the responsability of the application to flip/clear/compact buffer
  * </p>
- * @author pc
+ * 
+ * 
+ * @author Pierre Convert
+ * Copyright (C) 2022, Pierre Convert. All rights reserved.
  *
  */
 public interface QxIOReactive {

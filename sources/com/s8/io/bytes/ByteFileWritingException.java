@@ -3,6 +3,15 @@ package com.s8.io.bytes;
 import java.io.IOException;
 import java.nio.file.Path;
 
+
+/**
+ * 
+ * 
+ * 
+ * @author Pierre Convert
+ * Copyright (C) 2022, Pierre Convert. All rights reserved.
+ * 
+ */
 public class ByteFileWritingException extends IOException {
 
 	/**

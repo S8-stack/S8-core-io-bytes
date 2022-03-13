@@ -1,5 +1,12 @@
 package com.s8.io.bytes.utilities.log;
 
+
+/**
+ * 
+ * @author Pierre Convert
+ * Copyright (C) 2022, Pierre Convert. All rights reserved.
+ * 
+ */
 public class ConsoleQxLog extends QxLog {
 
 	@Override

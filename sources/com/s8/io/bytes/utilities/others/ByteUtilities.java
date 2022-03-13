@@ -6,11 +6,10 @@ import java.nio.ByteOrder;
 
 /**
  * 
- * <b>Nodergy</b> Byte Utility class
- * Of key importance for TS
- * 
- * @author pc
  *
+ * 
+ * @author Pierre Convert
+ * Copyright (C) 2022, Pierre Convert. All rights reserved.
  */
 public class ByteUtilities {
 

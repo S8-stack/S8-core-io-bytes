@@ -8,8 +8,10 @@ import com.s8.io.bytes.AutoByteOutflow;
 
 /**
  * 
- * @author pierreconvert
  *
+ * @author Pierre Convert
+ * Copyright (C) 2022, Pierre Convert. All rights reserved.
+ * 
  */
 public class LinkedByteOutflow extends AutoByteOutflow {
 

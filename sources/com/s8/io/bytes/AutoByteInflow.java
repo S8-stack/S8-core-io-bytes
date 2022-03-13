@@ -4,8 +4,11 @@ import java.io.IOException;
 
 /**
  * 
- * @author pierreconvert
  *
+ *
+ * @author Pierre Convert
+ * Copyright (C) 2022, Pierre Convert. All rights reserved.
+ * 
  */
 public abstract class AutoByteInflow extends BaseByteInflow {
 

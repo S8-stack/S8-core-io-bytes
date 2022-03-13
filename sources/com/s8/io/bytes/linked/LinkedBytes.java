@@ -14,8 +14,10 @@ import java.nio.charset.StandardCharsets;
  * }
  * </pre>
  * 
- * @author pc
  *
+ * @author Pierre Convert
+ * Copyright (C) 2022, Pierre Convert. All rights reserved.
+ * 
  */
 public class LinkedBytes {
 

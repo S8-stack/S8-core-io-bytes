@@ -1,8 +1,8 @@
 /**
  * 
- */
-/**
- * @author pc
+ * 
+ * @author Pierre Convert
+ * Copyright (C) 2022, Pierre Convert. All rights reserved.
  *
  */
 module com.s8.io.bytes {
@@ -26,9 +26,7 @@ module com.s8.io.bytes {
 	
 	
 	/*
-	 * dependencies: XML
+	 * dependencies: none
 	 */
-	requires transitive com.s8.alpha;
-	requires transitive com.s8.blocks.xml;
 
 }

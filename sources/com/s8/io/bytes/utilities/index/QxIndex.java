@@ -7,11 +7,10 @@ import com.s8.io.bytes.alpha.ByteOutflow;
 
 /**
  * 
- * General purpose index. Fully adaptable size.
  *
+ * @author Pierre Convert
+ * Copyright (C) 2022, Pierre Convert. All rights reserved.
  * 
- * @author pc
- *
  */
 public class QxIndex {
 

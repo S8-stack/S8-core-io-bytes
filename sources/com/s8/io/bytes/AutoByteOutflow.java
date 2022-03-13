@@ -3,6 +3,15 @@ package com.s8.io.bytes;
 import java.io.IOException;
 
 
+
+/**
+ * 
+ * 
+ * 
+ * @author Pierre Convert
+ * Copyright (C) 2022, Pierre Convert. All rights reserved.
+ * 
+ */
 public abstract class AutoByteOutflow extends BaseByteOutflow {
 
 

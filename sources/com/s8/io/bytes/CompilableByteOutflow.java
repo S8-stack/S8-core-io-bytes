@@ -7,8 +7,10 @@ import java.util.List;
 
 /**
  * 
- * @author pc
  *
+ * @author Pierre Convert
+ * Copyright (C) 2022, Pierre Convert. All rights reserved.
+ * 
  */
 public class CompilableByteOutflow extends AutoByteOutflow {
 
