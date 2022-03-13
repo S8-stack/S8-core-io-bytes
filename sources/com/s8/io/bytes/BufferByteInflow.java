@@ -3,7 +3,7 @@ package com.s8.io.bytes;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import com.s8.alpha.utilities.bytes.ByteOutflow;
+import com.s8.io.bytes.alpha.ByteOutflow;
 
 /**
  * <code>ByteBuffer</code>-based <code>ByteInflow</code>

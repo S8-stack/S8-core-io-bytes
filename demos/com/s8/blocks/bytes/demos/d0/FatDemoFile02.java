@@ -2,8 +2,8 @@ package com.s8.blocks.bytes.demos.d0;
 
 import java.io.IOException;
 
-import com.s8.alpha.utilities.bytes.ByteInflow;
-import com.s8.alpha.utilities.bytes.ByteOutflow;
+import com.s8.io.bytes.alpha.ByteInflow;
+import com.s8.io.bytes.alpha.ByteOutflow;
 
 public class FatDemoFile02 {
 

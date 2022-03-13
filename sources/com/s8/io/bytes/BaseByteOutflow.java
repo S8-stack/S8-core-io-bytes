@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-import com.s8.alpha.models.S8Ref;
-import com.s8.alpha.models.graphs.S8Index;
-import com.s8.alpha.models.tables.S8Table;
-import com.s8.alpha.utilities.bytes.ByteOutflow;
+import com.s8.io.bytes.alpha.ByteOutflow;
 
 public abstract class BaseByteOutflow implements ByteOutflow {
 
@@ -251,52 +248,5 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 	}
 
 
-	@Override
-	public void putS8Index(S8Index index) throws IOException {
-		if(index != null) {
-			
-			// branch Id
-			putUInt7x(index.branchId.length);
-			putByteArray(index.branchId);
-			
-			putUInt7x(index.objectId);	
-		}
-		else {
-			putUInt7x(-1);
-		}
-	}
-
-
-	@Override
-	public void putS8Ref(S8Ref<?> ref) throws IOException {
-		if(ref != null) {
-			putStringUTF8(ref.address);
-			
-			// branch
-			putStringUTF8(ref.branch);
-			
-			// version
-			putUInt7x(ref.version);
-			
-			// port
-			putUInt8(ref.port);
-		}
-		else {
-			putStringUTF8(null);
-		}
-	}
-
-
-
-
-	@Override
-	public void putS8Table(S8Table<?> table) throws IOException {
-		if(table != null) {
-			putStringUTF8(table.address);
-		}
-		else {
-			putStringUTF8(null);
-		}
-	}
 
 }
