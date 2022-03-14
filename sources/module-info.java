@@ -11,7 +11,6 @@ module com.s8.io.bytes {
 	exports com.s8.io.bytes;
 	
 	exports com.s8.io.bytes.alpha;
-
 	
 	exports com.s8.blocks.bytes.demos.d0;
 	
@@ -19,6 +18,7 @@ module com.s8.io.bytes {
 	
 	
 	// others
+	exports com.s8.io.bytes.utilities.base64;
 	exports com.s8.io.bytes.utilities.index;
 	exports com.s8.io.bytes.utilities.reactive;
 	exports com.s8.io.bytes.utilities.log;

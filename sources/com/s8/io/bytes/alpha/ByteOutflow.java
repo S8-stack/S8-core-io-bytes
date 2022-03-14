@@ -71,7 +71,7 @@ public interface ByteOutflow {
 	 * @throws IOException
 	 */
 	public default void putBool8(boolean value) throws IOException {
-		putUInt8(value?((byte) 32):((byte) 33));
+		putUInt8(value ? ByteInflow.BOOL8_TRUE : ByteInflow.BOOL8_FALSE);
 	}
 	
 
