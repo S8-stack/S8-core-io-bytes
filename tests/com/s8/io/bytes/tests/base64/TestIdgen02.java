@@ -1,6 +1,6 @@
 package com.s8.io.bytes.tests.base64;
 
-import com.s8.io.bytes.utilities.base64.Base64Generator;
+import com.s8.io.bytes.base64.Base64Generator;
 
 public class TestIdgen02 {
 

@@ -1,4 +1,4 @@
-package com.s8.io.bytes.utilities.base64;
+package com.s8.io.bytes.base64;
 
 
 /**
