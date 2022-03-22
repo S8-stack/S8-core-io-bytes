@@ -13,6 +13,15 @@
  * @author pc
  *
  */
+
+
+export const Bytes = {
+	
+	BOOL8_FALSE : 0x37,
+	BOOL8_TRUE : 0x53,
+};
+
+
 export class ByteInflow {
 
 	/**
@@ -38,6 +47,55 @@ export class ByteInflow {
 		return value;
 	}
 
+	/**
+	 * @return next byte
+	 * @throws IOException 
+	 */
+	getBool8() {
+		switch(this.getUInt8()) {
+		case Bytes.BOOL8_FALSE : return false;
+		case Bytes.BOOL8_TRUE : return true;
+		}
+	}
+
+
+	/**
+	 * 
+	 * @returns 
+	 */
+	getUInt7x() {
+		/*
+		 * 0x40: 01000000
+		 * 0x80: 10000000
+		 * 0xc0: 11000000
+		 */
+		
+		// pull first byte
+		let b = this.getUInt8();
+		
+		if((b & 0x40) == 0x40) {
+			return  -(b & 0x3f); // no shift
+		}
+		else {
+			// compute value
+			
+			let value = b & 0x3f; // no shift
+			let shift = 6;
+			
+			while((b & 0x80) == 0x80) {
+				
+				// pull next byte
+				b = this.getUInt8();
+				
+				// recompute value
+				
+				value = ((b & 0x7f) << shift) | value;
+				shift += 7;
+			}
+			return value;
+		}
+	}
+	
 
 	/**
 	 * 
@@ -65,30 +123,61 @@ export class ByteInflow {
 	 * 
 	 * @returns 
 	 */
-	getInt16() {
-		let value = this.view.getInt16(this.offset);
-		this.offset += 2;
-		return value;
-	}
-
 	getUInt32() {
 		let value = this.view.getUint32(this.offset);
 		this.offset += 4;
 		return value;
 	}
 
-	getInt32() {
-		let value = this.view.getInt32(this.offset);
-		this.offset += 4;
-		return value;
-	}
 
+	/**
+	 * 
+	 * @returns 
+	 */
 	getUInt64() {
 		let value = this.view.getUInt64(this.offset);
 		this.offset += 8;
 		return value;
 	}
 
+
+	/**
+	 * 
+	 * @returns 
+	 */
+	getInt8() {
+		let value = this.view.getInt8(this.offset);
+		this.offset += 1;
+		return value;
+	}
+
+
+	/**
+	 * 
+	 * @returns 
+	 */
+	getInt16() {
+		let value = this.view.getInt16(this.offset);
+		this.offset += 2;
+		return value;
+	}
+
+
+	/**
+	 * 
+	 * @returns 
+	 */
+	getInt32() {
+		let value = this.view.getInt32(this.offset);
+		this.offset += 4;
+		return value;
+	}
+
+
+	/**
+	 * 
+	 * @returns 
+	 */
 	getInt64() {
 		let value = this.view.getInt64(this.offset);
 		this.offset += 8;
@@ -108,16 +197,8 @@ export class ByteInflow {
 		return value;
 	}
 
-	getL8StringASCII() {
-		let length = this.getUInt8();
-		let stringView = new Uint8Array(this.arraybuffer, this.offset, length);
-		let value = this.textDecoder_ASCII.decode(stringView);
-		this.offset += length;
-		return value;
-	}
-
-	getL32StringUTF8() {
-		let length = this.getUInt32();
+	getStringUTF8() {
+		let length = this.getUInt7x();
 		let stringView = new Uint8Array(this.arraybuffer, this.offset, length);
 		let value = this.textDecoder_UTF8.decode(stringView);
 		this.offset += length;
