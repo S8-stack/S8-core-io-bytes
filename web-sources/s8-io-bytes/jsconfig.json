@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "s8-io-bytes/*": [ "./*" ]
+      "/s8-io-bytes/*": [ "./*" ]
     }
   }
 }
