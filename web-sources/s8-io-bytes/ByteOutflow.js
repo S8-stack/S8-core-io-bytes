@@ -27,14 +27,20 @@ export class ByteOutflow {
 		this.offset = 0;
 	}
 
+	allocate(bytecount){
+		// TODO
+	}
+
 
 	putByte(value) {
+		this.allocate(1);
 		this.view.setUint8(this.offset, value);
 		this.offset += 1;
 	}
 
 
 	putBool8(value){
+		this.allocate(1);
 		this.putUInt8(value ? ByteInflow.BOOL8_TRUE : ByteInflow.BOOL8_FALSE);
 	}
 
@@ -50,8 +56,7 @@ export class ByteOutflow {
 		if(value < 0) {
 			value = - value; // take the opposite (so -1 is not 2^63+1 as in JAVA encoding)
 			if((value & 0x3f) == value) {
-				prepare(1);
-				buffer.putUInt8((value & 0x3f) | 0x40);
+				this.putUInt8((value & 0x3f) | 0x40);
 			}
 			else {
 				throw "This code is not defined";
@@ -64,32 +69,33 @@ export class ByteOutflow {
 			while(value != 0x00) {
 
 				// push previous byte
-				prepare(1);
-				buffer.putUInt8(b | 0x80);
+				this.putUInt8(b | 0x80);
 
 				// compute next byte
 				b = value & 0x7f;
 				value = (value >> 7);
 			}	
 			// push final byte
-			prepare(1);
-			buffer.putUInt8(b & 0xff);
+			this.putUInt8(b & 0xff);
 		}
 	}
 
 
 	putUInt8(value) {
+		this.allocate(1);
 		this.view.setUint8(this.offset, value);
 		this.offset += 1;
 	}
 
 	putUInt16(value) {
+		this.allocate(2);
 		this.view.setUint16(this.offset, value);
 		this.offset += 2;
 	}
 
 
 	putUInt32(value) {
+		this.allocate(4);
 		this.view.setUInt32(this.offset, value);
 		this.offset += 4;
 	}
@@ -99,8 +105,21 @@ export class ByteOutflow {
 	 * @param {*} value 
 	 */
 	putUInt64(value) {
+		this.allocate(8);
 		this.view.setUInt64(this.offset, value);
 		this.offset += 8;
+	}
+
+
+
+	/**
+	 * 
+	 * @param {*} value 
+	 */
+	putInt8(value) {
+		this.allocate(1);
+		this.view.setInt8(this.offset, value);
+		this.offset += 1;
 	}
 
 
@@ -108,7 +127,8 @@ export class ByteOutflow {
 	 * 
 	 * @param {*} value 
 	 */
-	getInt16(value) {
+	putInt16(value) {
+		this.allocate(2);
 		this.view.setInt16(this.offset, value);
 		this.offset += 2;
 	}
@@ -119,6 +139,7 @@ export class ByteOutflow {
 	 * @param {*} value 
 	 */
 	putInt32(value) {
+		this.allocate(4);
 		this.view.setInt32(this.offset, value);
 		this.offset += 4;
 	}
@@ -129,6 +150,7 @@ export class ByteOutflow {
 	 * @param {*} value 
 	 */
 	putInt64(value) {
+		this.allocate(8);
 		this.view.setInt64(this.offset, value);
 		this.offset += 8;
 	}
@@ -139,6 +161,7 @@ export class ByteOutflow {
 	 * @param {*} value 
 	 */
 	putFloat32(value) {
+		this.allocate(4);
 		this.view.setFloat32(this.offset, value);
 		this.offset += 4;
 	}
@@ -149,6 +172,7 @@ export class ByteOutflow {
 	 * @param {*} value 
 	 */
 	putFloat64(value) {
+		this.allocate(8);
 		this.view.setFloat64(this.offset, value);
 		this.offset += 8;
 	}
@@ -172,10 +196,11 @@ export class ByteOutflow {
 	 * 
 	 * @param {*} value 
 	 */
-	putL32StringUTF8(value) {
+	putStringUTF8(value) {
 		let stringBuffer = this.textEncoder_UTF8.encode(value);
 		let length = stringBuffer.length;
 		this.putUInt7x(length);
+		this.allocate(length);
 		new Uint8Array(this.arraybuffer).set(stringBuffer, this.offset);
 		this.offset += length;
 	}
