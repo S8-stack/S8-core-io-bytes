@@ -199,10 +199,18 @@ export class ByteInflow {
 
 	getStringUTF8() {
 		let length = this.getUInt7x();
-		let stringView = new Uint8Array(this.arraybuffer, this.offset, length);
-		let value = this.textDecoder_UTF8.decode(stringView);
-		this.offset += length;
-		return value;
+		if(length > 0){
+			let stringView = new Uint8Array(this.arraybuffer, this.offset, length);
+			let value = this.textDecoder_UTF8.decode(stringView);
+			this.offset += length;
+			return value;
+		}
+		else if(length == 0){
+			return "";
+		}
+		else{
+			return null;
+		}
 	}
 
 
