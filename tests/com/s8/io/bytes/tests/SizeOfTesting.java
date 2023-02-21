@@ -55,7 +55,7 @@ public class SizeOfTesting {
 		// using several method calls:
 		for (int r = 0; r < 4; ++ r) _runGC ();
 	}
-	@SuppressWarnings("static-access")
+	@SuppressWarnings({ "static-access", "removal" })
 	private static void _runGC () throws Exception
 	{
 		long usedMem1 = usedMemory (), usedMem2 = Long.MAX_VALUE;

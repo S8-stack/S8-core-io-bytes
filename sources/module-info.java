@@ -9,11 +9,7 @@ module com.s8.io.bytes {
 	
 
 	exports com.s8.io.bytes;
-	
-	exports com.s8.io.bytes.alpha;
-	
-	exports com.s8.blocks.bytes.demos.d0;
-	
+	exports com.s8.io.bytes.alpha;	
 	exports com.s8.io.bytes.linked;
 	
 	
