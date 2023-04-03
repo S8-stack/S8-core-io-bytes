@@ -24,5 +24,7 @@ module com.s8.io.bytes {
 	/*
 	 * dependencies: none
 	 */
+	
+	exports com.s8.blocks.bytes.demos.d0;
 
 }
