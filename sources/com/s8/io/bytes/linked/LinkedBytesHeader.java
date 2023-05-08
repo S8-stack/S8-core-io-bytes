@@ -5,7 +5,14 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 
-public class LinkedBytesHeader {
+
+/**
+ * Only for I/O parsing 
+ * 
+ * @author pierreconvert
+ *
+ */
+class LinkedBytesHeader {
 	
 
 
