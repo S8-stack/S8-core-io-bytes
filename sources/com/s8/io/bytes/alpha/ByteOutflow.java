@@ -186,6 +186,16 @@ public interface ByteOutflow {
 	 * @throws IOException
 	 */
 	public void putInt32(int value) throws IOException;
+	
+	
+	public default void putInt32Array(int[] value) throws IOException {
+		if(value != null) {
+			int n = value.length;
+			putInt32(n);
+			for(int i = 0; i < n; i++) { putInt32(value[i]); }
+		}
+		else { putInt32(-1); } // null
+	}
 
 
 	/**
@@ -195,6 +205,21 @@ public interface ByteOutflow {
 	 */
 	public void putInt64(long value) throws IOException;
 	
+
+	/**
+	 * 
+	 * @param value
+	 * @throws IOException
+	 */
+	public default void putInt64Array(long[] value) throws IOException {
+		if(value != null) {
+			int n = value.length;
+			putInt32(n);
+			for(int i = 0; i < n; i++) { putInt64(value[i]); }
+		}
+		else { putInt32(-1); } // null
+	}
+
 
 
 	/**
@@ -206,6 +231,20 @@ public interface ByteOutflow {
 
 
 
+	/**
+	 * 
+	 * @param value
+	 * @throws IOException
+	 */
+	public default void putFloat32Array(float[] value) throws IOException {
+		if(value != null) {
+			int n = value.length;
+			putInt32(n);
+			for(int i = 0; i < n; i++) { putFloat32(value[i]); }
+		}
+		else { putInt32(-1); } // null
+	}
+
 
 	/**
 	 * Auto-feed underlying ByteBuffer as necessary.
@@ -213,6 +252,22 @@ public interface ByteOutflow {
 	 * @throws IOException
 	 */
 	public void putFloat64(double value) throws IOException;
+	
+
+	
+	/**
+	 * 
+	 * @param value
+	 * @throws IOException
+	 */
+	public default void putFloat64Array(double[] value) throws IOException {
+		if(value != null) {
+			int n = value.length;
+			putInt32(n);
+			for(int i = 0; i < n; i++) { putFloat64(value[i]); }
+		}
+		else { putInt32(-1); } // null
+	}
 
 
 

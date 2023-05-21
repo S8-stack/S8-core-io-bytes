@@ -181,6 +181,22 @@ public interface ByteInflow {
 	 * @throws IOException
 	 */
 	public int getInt32() throws IOException;
+	
+	
+	/**
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	public default int[] getInt32Array() throws IOException {
+		int n = getInt32();
+		if(n >= 0) {
+			int[] values = new int[n];
+			for(int i = 0; i < n; i++) { values[i] = getInt32(); }
+			return values;
+		}
+		else { return null; } // null
+	}
 
 
 	/**
@@ -202,6 +218,22 @@ public interface ByteInflow {
 	 * @throws IOException
 	 */
 	public double getFloat64() throws IOException;
+	
+
+	/**
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	public default double[] getFloat64Array() throws IOException {
+		int n = getInt32();
+		if(n >= 0) {
+			double[] values = new double[n];
+			for(int i = 0; i < n; i++) { values[i] = getFloat64(); }
+			return values;
+		}
+		else { return null; } // null
+	}
 
 
 
