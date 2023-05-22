@@ -162,7 +162,7 @@ public abstract class BaseByteOutflow implements ByteOutflow {
 	@Override
 	public void putInt32(int value) throws IOException {
 		prepare(4);
-		buffer.putInt((int) (value & 0x7fffffff));	
+		buffer.putInt(value);	
 	}
 
 
