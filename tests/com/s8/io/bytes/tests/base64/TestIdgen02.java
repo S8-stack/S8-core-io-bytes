@@ -2,13 +2,13 @@ package com.s8.io.bytes.tests.base64;
 
 import java.util.HashSet;
 
-import com.s8.io.bytes.base64.Base64Generator;
+import com.s8.io.bytes.base64.Base64Composer;
 
 public class TestIdgen02 {
 
 	public static void main(String[] args) {
 
-		Base64Generator generator = new Base64Generator("main:");
+		Base64Composer generator = new Base64Composer("main:");
 		System.out.println(generator.generate(12));
 		System.out.println(generator.generate(1860));
 		System.out.println(generator.generate(1809808909860L));
