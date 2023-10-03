@@ -9,7 +9,6 @@ module com.s8.io.bytes {
 	
 
 	exports com.s8.io.bytes;
-	exports com.s8.io.bytes.alpha;	
 	exports com.s8.io.bytes.linked;
 	
 	
@@ -26,5 +25,8 @@ module com.s8.io.bytes {
 	 */
 	
 	exports com.s8.blocks.bytes.demos.d0;
+	
+	
+	requires transitive com.s8.api;
 
 }

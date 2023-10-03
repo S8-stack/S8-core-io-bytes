@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.s8.api.bytes.ByteInflow;
 import com.s8.blocks.bytes.demos.d0.FatDemoFile02;
-import com.s8.io.bytes.alpha.ByteInflow;
 import com.s8.io.bytes.linked.LinkedByteInflow;
 import com.s8.io.bytes.linked.LinkedByteOutflow;
 import com.s8.io.bytes.linked.LinkedBytes;

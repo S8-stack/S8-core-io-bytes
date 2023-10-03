@@ -2,8 +2,8 @@ package com.s8.io.bytes.linked;
 
 import java.io.IOException;
 
+import com.s8.api.bytes.ByteOutflow;
 import com.s8.io.bytes.AutoByteInflow;
-import com.s8.io.bytes.alpha.ByteOutflow;
 
 
 
