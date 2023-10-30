@@ -1,6 +1,6 @@
 package com.s8.io.bytes.tests;
 
-import com.s8.io.bytes.utilities.index.QxIndex;
+import com.s8.core.io.bytes.utilities.index.QxIndex;
 
 public class TestIndex02 {
 

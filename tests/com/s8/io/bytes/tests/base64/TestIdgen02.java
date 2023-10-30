@@ -2,7 +2,7 @@ package com.s8.io.bytes.tests.base64;
 
 import java.util.HashSet;
 
-import com.s8.io.bytes.base64.Base64Composer;
+import com.s8.core.io.bytes.base64.Base64Composer;
 
 public class TestIdgen02 {
 

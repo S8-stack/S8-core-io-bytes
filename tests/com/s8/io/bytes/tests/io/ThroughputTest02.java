@@ -3,8 +3,8 @@ package com.s8.io.bytes.tests.io;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import com.s8.io.bytes.linked.LinkedBytes;
-import com.s8.io.bytes.linked.LinkedBytesIO;
+import com.s8.core.io.bytes.linked.LinkedBytes;
+import com.s8.core.io.bytes.linked.LinkedBytesIO;
 
 public class ThroughputTest02 {
 

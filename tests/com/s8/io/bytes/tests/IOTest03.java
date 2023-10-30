@@ -6,10 +6,10 @@ import java.nio.file.Paths;
 
 import com.s8.api.bytes.ByteInflow;
 import com.s8.blocks.bytes.demos.d0.FatDemoFile02;
-import com.s8.io.bytes.linked.LinkedByteInflow;
-import com.s8.io.bytes.linked.LinkedByteOutflow;
-import com.s8.io.bytes.linked.LinkedBytes;
-import com.s8.io.bytes.linked.LinkedBytesIO;
+import com.s8.core.io.bytes.linked.LinkedByteInflow;
+import com.s8.core.io.bytes.linked.LinkedByteOutflow;
+import com.s8.core.io.bytes.linked.LinkedBytes;
+import com.s8.core.io.bytes.linked.LinkedBytesIO;
 
 
 /**
