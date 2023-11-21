@@ -135,9 +135,9 @@ export class ByteInflow {
 	 * @returns 
 	 */
 	getUInt64() {
-		let value = this.view.getUInt64(this.offset);
-		this.offset += 8;
-		return value;
+		let block0 = this.view.getUint32(this.offset); this.offset += 4;
+		let block1 = this.view.getUint32(this.offset); this.offset += 4;
+		return ((block0 & 0xffff) << 32) | block1;
 	}
 
 
@@ -179,9 +179,9 @@ export class ByteInflow {
 	 * @returns 
 	 */
 	getInt64() {
-		let value = this.view.getInt64(this.offset);
-		this.offset += 8;
-		return value;
+		let block0 = this.view.getUint32(this.offset); this.offset += 4;
+		let block1 = this.view.getUint32(this.offset); this.offset += 4;
+		return ((block0 & 0xffff) << 32) | block1;
 	}
 
 
