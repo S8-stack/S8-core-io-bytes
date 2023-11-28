@@ -6,10 +6,8 @@
  *
  */
 
-import com.s8.api.meta.S8Dependency;
 
 
-@S8Dependency(jar = "")
 module com.s8.core.io.bytes {
 
 
