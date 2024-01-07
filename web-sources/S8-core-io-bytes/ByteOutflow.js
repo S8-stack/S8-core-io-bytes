@@ -219,4 +219,8 @@ export class ByteOutflow {
 		return compactedArrayBuffer;
 	}
 
+	toRequestArray(){
+		return new Uint8Array(this.arraybuffer, 0, this.offset);
+	}
+
 }
