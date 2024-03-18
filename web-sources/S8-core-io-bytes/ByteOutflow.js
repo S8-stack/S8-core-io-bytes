@@ -1,3 +1,4 @@
+import { Bytes } from "/S8-core-io-bytes/ByteInflow.js";
 
 
 /**
@@ -41,7 +42,7 @@ export class ByteOutflow {
 
 	putBool8(value){
 		this.allocate(1);
-		this.putUInt8(value ? ByteInflow.BOOL8_TRUE : ByteInflow.BOOL8_FALSE);
+		this.putUInt8(value ? Bytes.BOOL8_TRUE : Bytes.BOOL8_FALSE);
 	}
 
 
