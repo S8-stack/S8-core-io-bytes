@@ -2,6 +2,7 @@ package com.s8.io.bytes.tests;
 
 public class SizeOfTesting {
 
+	/*
 	public static void main (String [] args) throws Exception
 	{
 		// Warm up all classes/methods we will use
@@ -73,7 +74,8 @@ public class SizeOfTesting {
 	{
 		return s_runtime.totalMemory () - s_runtime.freeMemory ();
 	}
+	*/
 
-	private static final Runtime s_runtime = Runtime.getRuntime ();
+	//private static final Runtime s_runtime = Runtime.getRuntime ();
 } // End of class
 

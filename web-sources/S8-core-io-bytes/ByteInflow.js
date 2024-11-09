@@ -135,9 +135,9 @@ export class ByteInflow {
 	 * @returns 
 	 */
 	getUInt64() {
-		let block0 = this.view.getUint32(this.offset); this.offset += 4;
-		let block1 = this.view.getUint32(this.offset); this.offset += 4;
-		return ((block0 & 0xffff) << 32) | block1;
+		let block0 = BigInt(this.view.getUint32(this.offset)); this.offset += 4;
+		let block1 = BigInt(this.view.getUint32(this.offset)); this.offset += 4;
+		return Number(((block0 & 0x00ffffffn) << 32n) | block1);
 	}
 
 
